@@ -15,7 +15,7 @@ describe('AuthorID', () => {
     it('throws AuthorError when incorrect string given', () => {
       expect.assertions(1);
 
-      const id: string = 'surfnir';
+      const id: string = 'souffrir';
 
       expect(() => {
         AuthorID.ofString(id);
@@ -45,7 +45,7 @@ describe('AuthorID', () => {
     it('returns false when incorrect string given', () => {
       expect.assertions(1);
 
-      const id: string = 'surfnir';
+      const id: string = 'souffrir';
 
       expect(AuthorID.validate(id)).toBe(false);
     });
