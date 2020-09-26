@@ -1,5 +1,6 @@
 import { MockValueObject } from '@jamashita/publikum-object';
 import { AuthorName } from '../AuthorName';
+import { AuthorError } from '../Error/AuthorError';
 
 describe('AuthorName', () => {
   describe('of', () => {
@@ -18,6 +19,26 @@ describe('AuthorName', () => {
       const str: string = '​souf​frir​';
 
       expect(AuthorName.of(str).get()).toBe('souf frir');
+    });
+
+    it('throws AuthorError when empty string given', () => {
+      expect.assertions(1);
+
+      const str: string = '';
+
+      expect(() => {
+        AuthorName.of(str);
+      }).toThrow(AuthorError);
+    });
+
+    it('throws AuthorError when the given string is going to be empty when it will be trimmed', () => {
+      expect.assertions(1);
+
+      const str: string = '  ';
+
+      expect(() => {
+        AuthorName.of(str);
+      }).toThrow(AuthorError);
     });
   });
 
