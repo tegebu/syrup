@@ -1,0 +1,9 @@
+.github/
+.idea/
+src/**/__tests__/
+.editorconfig
+.eslintignore
+.eslintrc
+.huskyrc
+.lintstagedrc
+jest.config.cjs
