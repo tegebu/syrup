@@ -455,10 +455,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@jamashita/eslint-config@1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.2.1.tgz#326d0a9d5d970e76f851a8b9a61659a1ab1556cc"
-  integrity sha512-t3qKAQ0dy1/QWOJGwfE0vpj/RT7zq7Dwg21P5NmDDiQDr0MbnKBILyVJPmgxs1EbikLQhvWqK+6cBU2etR8Ivg==
+"@jamashita/eslint-config@1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@jamashita/eslint-config/-/eslint-config-1.2.2.tgz#d98948797e12a1cfe45fdab96178a01c31fc4636"
+  integrity sha512-s5mdzm7/vu2NTr9X9VAw+5wDWUAeYDT9Bu8zGmf3UQ6ii5hSjMvtz+QxDh/sAGc5l+bMvX7qgywc0VBWI1rOVw==
 
 "@jamashita/publikum-collection@2.14.3":
   version "2.14.3"
