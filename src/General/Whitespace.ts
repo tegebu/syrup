@@ -22,8 +22,8 @@
 const whitespaces: RegExp = /[\u00A0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202f\u205f\u200B\u2800\u3000\ufeff]/ug;
 
 export class Whitespace {
-  public static remove(str: string): string {
-    return str.replace(whitespaces, '');
+  public static replace(str: string): string {
+    return str.replace(whitespaces, ' ');
   }
 
   private constructor() {

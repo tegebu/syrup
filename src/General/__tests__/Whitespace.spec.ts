@@ -2,93 +2,93 @@
 import { Whitespace } from '../Whitespace';
 
 describe('Whitespace', () => {
-  describe('remove', () => {
-    it('can remove zero-width space', () => {
+  describe('replace', () => {
+    it('can replace zero-width space', () => {
       expect.assertions(1);
 
       const str: string = '​a​b​c​d​e​';
 
-      expect(Whitespace.remove(str)).toBe('abcde');
+      expect(Whitespace.replace(str)).toBe(' a b c d e ');
     });
 
-    it('can remove hair space', () => {
+    it('can replace hair space', () => {
       expect.assertions(1);
 
       const str: string = ' a b c d e ';
 
-      expect(Whitespace.remove(str)).toBe('abcde');
+      expect(Whitespace.replace(str)).toBe(' a b c d e ');
     });
 
-    it('can remove six-per-em space', () => {
+    it('can replace six-per-em space', () => {
       expect.assertions(1);
 
       const str: string = ' a b c d e ';
 
-      expect(Whitespace.remove(str)).toBe('abcde');
+      expect(Whitespace.replace(str)).toBe(' a b c d e ');
     });
 
-    it('can remove thin space', () => {
+    it('can replace thin space', () => {
       expect.assertions(1);
 
       const str: string = ' a b c d e ';
 
-      expect(Whitespace.remove(str)).toBe('abcde');
+      expect(Whitespace.replace(str)).toBe(' a b c d e ');
     });
 
-    it('can remove punctuation space', () => {
+    it('can replace punctuation space', () => {
       expect.assertions(1);
 
       const str: string = ' a b c d e ';
 
-      expect(Whitespace.remove(str)).toBe('abcde');
+      expect(Whitespace.replace(str)).toBe(' a b c d e ');
     });
 
-    it('can remove four-per-em space', () => {
+    it('can replace four-per-em space', () => {
       expect.assertions(1);
 
       const str: string = ' a b c d e ';
 
-      expect(Whitespace.remove(str)).toBe('abcde');
+      expect(Whitespace.replace(str)).toBe(' a b c d e ');
     });
 
-    it('can remove three-per-em space', () => {
+    it('can replace three-per-em space', () => {
       expect.assertions(1);
 
       const str: string = ' a b c d e ';
 
-      expect(Whitespace.remove(str)).toBe('abcde');
+      expect(Whitespace.replace(str)).toBe(' a b c d e ');
     });
 
-    it('can remove figure space', () => {
+    it('can replace figure space', () => {
       expect.assertions(1);
 
       const str: string = ' a b c d e ';
 
-      expect(Whitespace.remove(str)).toBe('abcde');
+      expect(Whitespace.replace(str)).toBe(' a b c d e ');
     });
 
-    it('can remove en space', () => {
+    it('can replace en space', () => {
       expect.assertions(1);
 
       const str: string = ' a b c d e ';
 
-      expect(Whitespace.remove(str)).toBe('abcde');
+      expect(Whitespace.replace(str)).toBe(' a b c d e ');
     });
 
-    it('can remove em space', () => {
+    it('can replace em space', () => {
       expect.assertions(1);
 
       const str: string = ' a b c d e ';
 
-      expect(Whitespace.remove(str)).toBe('abcde');
+      expect(Whitespace.replace(str)).toBe(' a b c d e ');
     });
 
-    it('can remove braille blank', () => {
+    it('can replace braille blank', () => {
       expect.assertions(1);
 
       const str: string = '⠀a⠀b⠀c⠀d⠀e⠀';
 
-      expect(Whitespace.remove(str)).toBe('abcde');
+      expect(Whitespace.replace(str)).toBe(' a b c d e ');
     });
   });
 });
