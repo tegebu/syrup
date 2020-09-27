@@ -3,22 +3,25 @@ import { UUID } from '@jamashita/publikum-uuid';
 import { PublisherError } from '../Error/PublisherError';
 import { MockPublisherID } from '../Mock/MockPublisherID';
 import { MockPublisherName } from '../Mock/MockPublisherName';
+import { MockPublisherURL } from '../Mock/MockPublisherURL';
 import { Publisher, PublisherJSON } from '../Publisher';
 
 describe('Publisher', () => {
   describe('ofJSON', () => {
     it('returns true', () => {
-      expect.assertions(2);
+      expect.assertions(3);
 
       const json: PublisherJSON = {
         id: '08101fd3-eee2-4a4d-a076-3a84a80d21ea',
-        name: 'author name'
+        name: 'publisher name',
+        url: 'https://publisher.url'
       };
 
-      const author: Publisher = Publisher.ofJSON(json);
+      const publisher: Publisher = Publisher.ofJSON(json);
 
-      expect(author.getPublisherID().get().get()).toBe(json.id);
-      expect(author.getPublisherName().get()).toBe(json.name);
+      expect(publisher.getPublisherID().get().get()).toBe(json.id);
+      expect(publisher.getPublisherName().get()).toBe(json.name);
+      expect(publisher.getPublisherURL().get()).toBe(json.url);
     });
 
     it('throws PublisherError when incorrect uuid format id given', () => {
@@ -26,7 +29,22 @@ describe('Publisher', () => {
 
       const json: PublisherJSON = {
         id: 'incorrect',
-        name: 'author name'
+        name: 'publisher name',
+        url: 'https://publisher.url'
+      };
+
+      expect(() => {
+        Publisher.ofJSON(json);
+      }).toThrow(PublisherError);
+    });
+
+    it('throws PublisherError when url contains space', () => {
+      expect.assertions(1);
+
+      const json: PublisherJSON = {
+        id: '08101fd3-eee2-4a4d-a076-3a84a80d21ea',
+        name: 'publisher name',
+        url: 'https:// publisher.url'
       };
 
       expect(() => {
@@ -41,7 +59,8 @@ describe('Publisher', () => {
 
       const n: unknown = {
         id: 'f6ebe9da-cbcd-4807-854f-8d7906527a7d',
-        name: 'author name'
+        name: 'publisher name',
+        url: 'https://publisher.url'
       };
 
       expect(Publisher.validate(n)).toBe(true);
@@ -65,7 +84,8 @@ describe('Publisher', () => {
 
       const n: unknown = {
         id: 'incorrect',
-        name: 'author name'
+        name: 'publisher name',
+        url: 'https://publisher.url'
       };
 
       expect(Publisher.validate(n)).toBe(false);
@@ -75,7 +95,8 @@ describe('Publisher', () => {
       expect.assertions(1);
 
       const n: unknown = {
-        name: 'author name'
+        name: 'publisher name',
+        url: 'https://publisher.url'
       };
 
       expect(Publisher.validate(n)).toBe(false);
@@ -86,7 +107,8 @@ describe('Publisher', () => {
 
       const n: unknown = {
         id: -9,
-        name: 'author name'
+        name: 'publisher name',
+        url: 'https://publisher.url'
       };
 
       expect(Publisher.validate(n)).toBe(false);
@@ -96,7 +118,8 @@ describe('Publisher', () => {
       expect.assertions(1);
 
       const n: unknown = {
-        id: 'f6ebe9da-cbcd-4807-854f-8d7906527a7d'
+        id: 'f6ebe9da-cbcd-4807-854f-8d7906527a7d',
+        url: 'https://publisher.url'
       };
 
       expect(Publisher.validate(n)).toBe(false);
@@ -107,7 +130,31 @@ describe('Publisher', () => {
 
       const n: unknown = {
         id: 'f6ebe9da-cbcd-4807-854f-8d7906527a7d',
-        name: true
+        name: true,
+        url: 'https://publisher.url'
+      };
+
+      expect(Publisher.validate(n)).toBe(false);
+    });
+
+    it('returns false when url is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: 'f6ebe9da-cbcd-4807-854f-8d7906527a7d',
+        name: 'publisher name'
+      };
+
+      expect(Publisher.validate(n)).toBe(false);
+    });
+
+    it('returns false when url is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: 'f6ebe9da-cbcd-4807-854f-8d7906527a7d',
+        name: 'publisher name',
+        url: 12
       };
 
       expect(Publisher.validate(n)).toBe(false);
@@ -118,35 +165,39 @@ describe('Publisher', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);
 
-      const author: Publisher = Publisher.of(new MockPublisherID(), new MockPublisherName());
+      const publisher: Publisher = Publisher.of(new MockPublisherID(), new MockPublisherName(), new MockPublisherURL());
 
-      expect(author.equals(author)).toBe(true);
+      expect(publisher.equals(publisher)).toBe(true);
     });
 
     it('returns false when the different class instance given', () => {
       expect.assertions(1);
 
-      const author: Publisher = Publisher.of(new MockPublisherID(), new MockPublisherName());
+      const publisher: Publisher = Publisher.of(new MockPublisherID(), new MockPublisherName(), new MockPublisherURL());
 
-      expect(author.equals(new MockValueObject('mock'))).toBe(false);
+      expect(publisher.equals(new MockValueObject('mock'))).toBe(false);
     });
 
     it('returns true if all the properties are the same', () => {
-      expect.assertions(3);
+      expect.assertions(4);
 
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
-      const name1: string = 'author name 1';
-      const name2: string = 'author name 2';
+      const name1: string = 'publisher name 1';
+      const name2: string = 'publisher name 2';
+      const url1: string = 'https://pulisher.url1';
+      const url2: string = 'https://pulisher.url2';
 
-      const author1: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name1));
-      const author2: Publisher = Publisher.of(new MockPublisherID(uuid2), new MockPublisherName(name1));
-      const author3: Publisher = Publisher.of(new MockPublisherID(uuid2), new MockPublisherName(name2));
-      const author4: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name1));
+      const publisher1: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name1), new MockPublisherURL(url1));
+      const publisher2: Publisher = Publisher.of(new MockPublisherID(uuid2), new MockPublisherName(name1), new MockPublisherURL(url1));
+      const publisher3: Publisher = Publisher.of(new MockPublisherID(uuid2), new MockPublisherName(name2), new MockPublisherURL(url1));
+      const publisher4: Publisher = Publisher.of(new MockPublisherID(uuid2), new MockPublisherName(name1), new MockPublisherURL(url2));
+      const publisher5: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name1), new MockPublisherURL(url1));
 
-      expect(author1.equals(author2)).toBe(false);
-      expect(author1.equals(author3)).toBe(false);
-      expect(author1.equals(author4)).toBe(true);
+      expect(publisher1.equals(publisher2)).toBe(false);
+      expect(publisher1.equals(publisher3)).toBe(false);
+      expect(publisher1.equals(publisher4)).toBe(false);
+      expect(publisher1.equals(publisher5)).toBe(true);
     });
   });
 
@@ -155,11 +206,12 @@ describe('Publisher', () => {
       expect.assertions(1);
 
       const uuid: UUID = UUID.v4();
-      const name: string = 'author name 1';
+      const name: string = 'publisher name';
+      const url: string = 'https://pulisher.url';
 
-      const author: Publisher = Publisher.of(new MockPublisherID(uuid), new MockPublisherName(name));
+      const publisher: Publisher = Publisher.of(new MockPublisherID(uuid), new MockPublisherName(name), new MockPublisherURL(url));
 
-      expect(author.toString()).toBe(`${uuid.toString()}, ${name}`);
+      expect(publisher.toString()).toBe(`${uuid.toString()}, ${name}, ${url}`);
     });
   });
 
@@ -168,13 +220,15 @@ describe('Publisher', () => {
       expect.assertions(1);
 
       const uuid: UUID = UUID.v4();
-      const name: string = 'author name 1';
+      const name: string = 'publisher name';
+      const url: string = 'https://pulisher.url';
 
-      const author: Publisher = Publisher.of(new MockPublisherID(uuid), new MockPublisherName(name));
+      const publisher: Publisher = Publisher.of(new MockPublisherID(uuid), new MockPublisherName(name), new MockPublisherURL(url));
 
-      expect(author.toJSON()).toStrictEqual({
+      expect(publisher.toJSON()).toStrictEqual({
         id: uuid.toString(),
-        name
+        name,
+        url
       });
     });
   });

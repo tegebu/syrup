@@ -70,9 +70,9 @@ describe('PublisherID', () => {
 
       const id: string = 'a0d46d7b-945d-4993-93a0-3f547f0f7d7e';
 
-      const authorID: PublisherID = PublisherID.ofString(id);
+      const publisherID: PublisherID = PublisherID.ofString(id);
 
-      expect(authorID.equals(authorID)).toBe(true);
+      expect(publisherID.equals(publisherID)).toBe(true);
     });
 
     it('returns false when the different class instance given', () => {
@@ -80,9 +80,9 @@ describe('PublisherID', () => {
 
       const id: string = 'a0d46d7b-945d-4993-93a0-3f547f0f7d7e';
 
-      const authorID: PublisherID = PublisherID.ofString(id);
+      const publisherID: PublisherID = PublisherID.ofString(id);
 
-      expect(authorID.equals(new MockValueObject('mock'))).toBe(false);
+      expect(publisherID.equals(new MockValueObject('mock'))).toBe(false);
     });
 
     it('returns true when the all properties are the same', () => {
@@ -92,12 +92,12 @@ describe('PublisherID', () => {
       const id2: string = '652656a3-0f51-4cdd-80cf-52752fac9341';
       const id3: string = 'a0d46d7b-945d-4993-93a0-3f547f0f7d7e';
 
-      const authorID1: PublisherID = PublisherID.ofString(id1);
-      const authorID2: PublisherID = PublisherID.ofString(id2);
-      const authorID3: PublisherID = PublisherID.ofString(id3);
+      const publisherID1: PublisherID = PublisherID.ofString(id1);
+      const publisherID2: PublisherID = PublisherID.ofString(id2);
+      const publisherID3: PublisherID = PublisherID.ofString(id3);
 
-      expect(authorID1.equals(authorID2)).toBe(false);
-      expect(authorID1.equals(authorID3)).toBe(true);
+      expect(publisherID1.equals(publisherID2)).toBe(false);
+      expect(publisherID1.equals(publisherID3)).toBe(true);
     });
   });
 

@@ -3,25 +3,29 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 import { PublisherID } from './PublisherID';
 import { PublisherName } from './PublisherName';
+import { PublisherURL } from './PublisherURL';
 
 export type PublisherJSON = Readonly<{
   id: string;
   name: string;
+  url: string;
 }>;
 
 export class Publisher extends ValueObject<'Publisher'> implements JSONable<PublisherJSON> {
   public readonly noun: 'Publisher' = 'Publisher';
   private readonly id: PublisherID;
   private readonly name: PublisherName;
+  private readonly url: PublisherURL;
 
-  public static of(id: PublisherID, name: PublisherName): Publisher {
-    return new Publisher(id, name);
+  public static of(id: PublisherID, name: PublisherName, url: PublisherURL): Publisher {
+    return new Publisher(id, name, url);
   }
 
   public static ofJSON(json: PublisherJSON): Publisher {
     return Publisher.of(
       PublisherID.ofString(json.id),
-      PublisherName.of(json.name)
+      PublisherName.of(json.name),
+      PublisherURL.of(json.url)
     );
   }
 
@@ -35,14 +39,18 @@ export class Publisher extends ValueObject<'Publisher'> implements JSONable<Publ
     if (!PublisherName.validate(n.name)) {
       return false;
     }
+    if (!PublisherURL.validate(n.url)) {
+      return false;
+    }
 
     return true;
   }
 
-  protected constructor(id: PublisherID, name: PublisherName) {
+  protected constructor(id: PublisherID, name: PublisherName, url: PublisherURL) {
     super();
     this.id = id;
     this.name = name;
+    this.url = url;
   }
 
   public equals(other: unknown): boolean {
@@ -58,6 +66,9 @@ export class Publisher extends ValueObject<'Publisher'> implements JSONable<Publ
     if (!this.name.equals(other.name)) {
       return false;
     }
+    if (!this.url.equals(other.url)) {
+      return false;
+    }
 
     return true;
   }
@@ -67,6 +78,7 @@ export class Publisher extends ValueObject<'Publisher'> implements JSONable<Publ
 
     properties.push(this.id.toString());
     properties.push(this.name.toString());
+    properties.push(this.url.toString());
 
     return properties.join(', ');
   }
@@ -74,7 +86,8 @@ export class Publisher extends ValueObject<'Publisher'> implements JSONable<Publ
   public toJSON(): PublisherJSON {
     return {
       id: this.id.get().get(),
-      name: this.name.get()
+      name: this.name.get(),
+      url: this.url.get()
     };
   }
 
@@ -84,5 +97,9 @@ export class Publisher extends ValueObject<'Publisher'> implements JSONable<Publ
 
   public getPublisherName(): PublisherName {
     return this.name;
+  }
+
+  public getPublisherURL(): PublisherURL {
+    return this.url;
   }
 }
