@@ -7,7 +7,7 @@ import { MockAuthorName } from '../Mock/MockAuthorName';
 
 describe('Author', () => {
   describe('ofJSON', () => {
-    it('returns true', () => {
+    it('forges the instance', () => {
       expect.assertions(2);
 
       const json: AuthorJSON = {
@@ -31,6 +31,39 @@ describe('Author', () => {
 
       expect(() => {
         Author.ofJSON(json);
+      }).toThrow(AuthorError);
+    });
+
+    it('throws AuthorError when empty name given', () => {
+      expect.assertions(1);
+
+      const json: AuthorJSON = {
+        id: '08101fd3-eee2-4a4d-a076-3a84a80d21ea',
+        name: ''
+      };
+
+      expect(() => {
+        Author.ofJSON(json);
+      }).toThrow(AuthorError);
+    });
+  });
+
+  describe('generate', () => {
+    it('forges the instance', () => {
+      expect.assertions(1);
+
+      const name: string = 'author name';
+
+      const author: Author = Author.generate(name);
+
+      expect(author.getAuthorName().get()).toBe(name);
+    });
+
+    it('throws AuthorError when empty name given', () => {
+      expect.assertions(1);
+
+      expect(() => {
+        Author.generate('');
       }).toThrow(AuthorError);
     });
   });

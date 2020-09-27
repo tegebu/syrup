@@ -25,6 +25,13 @@ export class Author extends ValueObject<'Author'> implements JSONable<AuthorJSON
     );
   }
 
+  public static generate(name: string): Author {
+    return Author.of(
+      AuthorID.generate(),
+      AuthorName.of(name)
+    );
+  }
+
   public static validate(n: unknown): n is AuthorJSON {
     if (!Kind.isObject<AuthorJSON>(n)) {
       return false;
