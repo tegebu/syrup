@@ -29,6 +29,14 @@ export class Publisher extends ValueObject<'Publisher'> implements JSONable<Publ
     );
   }
 
+  public static generate(name: string, url: string): Publisher {
+    return Publisher.of(
+      PublisherID.generate(),
+      PublisherName.of(name),
+      PublisherURL.of(url)
+    );
+  }
+
   public static validate(n: unknown): n is PublisherJSON {
     if (!Kind.isObject<PublisherJSON>(n)) {
       return false;

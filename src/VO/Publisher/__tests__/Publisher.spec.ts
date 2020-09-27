@@ -8,7 +8,7 @@ import { Publisher, PublisherJSON } from '../Publisher';
 
 describe('Publisher', () => {
   describe('ofJSON', () => {
-    it('returns true', () => {
+    it('forges its instance', () => {
       expect.assertions(3);
 
       const json: PublisherJSON = {
@@ -38,6 +38,20 @@ describe('Publisher', () => {
       }).toThrow(PublisherError);
     });
 
+    it('throws PublisherError when empty name given', () => {
+      expect.assertions(1);
+
+      const json: PublisherJSON = {
+        id: '08101fd3-eee2-4a4d-a076-3a84a80d21ea',
+        name: '',
+        url: 'https:// publisher.url'
+      };
+
+      expect(() => {
+        Publisher.ofJSON(json);
+      }).toThrow(PublisherError);
+    });
+
     it('throws PublisherError when url contains space', () => {
       expect.assertions(1);
 
@@ -49,6 +63,36 @@ describe('Publisher', () => {
 
       expect(() => {
         Publisher.ofJSON(json);
+      }).toThrow(PublisherError);
+    });
+  });
+
+  describe('generate', () => {
+    it('forges its instance', () => {
+      expect.assertions(2);
+
+      const name: string = 'publisher name';
+      const url: string = 'https://publisher.url';
+
+      const publisher: Publisher = Publisher.generate(name, url);
+
+      expect(publisher.getPublisherName().get()).toBe(name);
+      expect(publisher.getPublisherURL().get()).toBe(url);
+    });
+
+    it('throws PublisherError when empty name given', () => {
+      expect.assertions(1);
+
+      expect(() => {
+        Publisher.generate('', 'https://publisher.url');
+      }).toThrow(PublisherError);
+    });
+
+    it('throws PublisherError when url contains space', () => {
+      expect.assertions(1);
+
+      expect(() => {
+        Publisher.generate('publisher name', 'https:// publisher.url');
       }).toThrow(PublisherError);
     });
   });
