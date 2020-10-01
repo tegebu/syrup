@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.21)
 # Database: syrup
-# Generation Time: 2020-10-01 08:18:19 +0000
+# Generation Time: 2020-10-01 08:26:26 +0000
 # ************************************************************
 
 
@@ -30,6 +30,21 @@ CREATE TABLE `auhtors` (
   `author_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `author_name` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`author_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+
+
+# Dump of table publishers
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `publishers`;
+
+CREATE TABLE `publishers` (
+  `publisher_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `publisher_name` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `publisher_url` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`publisher_id`),
+  UNIQUE KEY `publisher_url` (`publisher_url`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
