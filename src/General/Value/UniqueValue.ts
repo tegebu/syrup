@@ -2,7 +2,6 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { DisplayValue } from './DisplayValue';
 import { IntegerValue } from './IntegerValue';
 
-// TODO TESTS
 export class UniqueValue extends ValueObject<'UniqueValue'> implements DisplayValue<'unique', 'UniqueValue'> {
   public readonly noun: 'UniqueValue' = 'UniqueValue';
   public readonly type: 'unique' = 'unique';

@@ -24,13 +24,13 @@ describe('UniqueValue', () => {
       const value3: number = 1.0902099;
 
       expect(() => {
-        UniqueValue.of(value1).get();
+        UniqueValue.of(value1);
       }).toThrow(ValueError);
       expect(() => {
-        UniqueValue.of(value2).get();
+        UniqueValue.of(value2);
       }).toThrow(ValueError);
       expect(() => {
-        UniqueValue.of(value3).get();
+        UniqueValue.of(value3);
       }).toThrow(ValueError);
     });
 
@@ -42,13 +42,13 @@ describe('UniqueValue', () => {
       const value3: number = NaN;
 
       expect(() => {
-        UniqueValue.of(value1).get();
+        UniqueValue.of(value1);
       }).toThrow(ValueError);
       expect(() => {
-        UniqueValue.of(value2).get();
+        UniqueValue.of(value2);
       }).toThrow(ValueError);
       expect(() => {
-        UniqueValue.of(value3).get();
+        UniqueValue.of(value3);
       }).toThrow(ValueError);
     });
   });
