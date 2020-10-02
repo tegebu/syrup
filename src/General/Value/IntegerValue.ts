@@ -1,8 +1,9 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 import { ValueError } from './Error/ValueError';
+import { NumericalValue } from './NumericalValue';
 
-export class IntegerValue extends ValueObject<'IntegerValue'> {
+export class IntegerValue extends ValueObject<'IntegerValue'> implements NumericalValue<'IntegerValue'> {
   public readonly noun: 'IntegerValue' = 'IntegerValue';
   private readonly value: number;
 
