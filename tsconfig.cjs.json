@@ -3,5 +3,10 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "dist/cjs"
-  }
+  },
+  "exclude": [
+    "src/**/__tests__",
+    "dist",
+    "node_modules"
+  ]
 }
