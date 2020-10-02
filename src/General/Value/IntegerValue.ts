@@ -1,21 +1,26 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
+import { BareValue } from './BareValue';
 import { ValueError } from './Error/ValueError';
 import { NumericalValue } from './NumericalValue';
 
 export class IntegerValue extends ValueObject<'IntegerValue'> implements NumericalValue<'IntegerValue'> {
   public readonly noun: 'IntegerValue' = 'IntegerValue';
-  private readonly value: number;
+  private readonly value: NumericalValue;
 
-  public static of(value: number): IntegerValue {
-    if (Kind.isInteger(value)) {
+  public static of(value: NumericalValue): IntegerValue {
+    if (Kind.isInteger(value.get())) {
       return new IntegerValue(value);
     }
 
-    throw new ValueError(`GIVEN VALUE IS NOT INTEGER. GIVEN: ${value}`);
+    throw new ValueError(`GIVEN VALUE IS NOT INTEGER. GIVEN: ${value.get()}`);
   }
 
-  protected constructor(value: number) {
+  public static ofNumber(num: number): IntegerValue {
+    return IntegerValue.of(BareValue.of(num));
+  }
+
+  protected constructor(value: NumericalValue) {
     super();
     this.value = value;
   }
@@ -27,18 +32,15 @@ export class IntegerValue extends ValueObject<'IntegerValue'> implements Numeric
     if (!(other instanceof IntegerValue)) {
       return false;
     }
-    if (this.value === other.value) {
-      return true;
-    }
 
-    return false;
+    return this.value.equals(other.value);
   }
 
   public serialize(): string {
-    return `${this.value}`;
+    return this.value.toString();
   }
 
   public get(): number {
-    return this.value;
+    return this.value.get();
   }
 }
