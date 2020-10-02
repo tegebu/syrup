@@ -1,26 +1,30 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { ValueError } from '../Value/Error/ValueError';
+import { IntegerValue } from '../Value/IntegerValue';
+import { NumericalValue } from '../Value/NumericalValue';
 import { DisplayValue } from './DisplayValue';
-import { ValueError } from './Error/ValueError';
-import { IntegerValue } from './IntegerValue';
 
 export class RangeValue extends ValueObject<'RangeValue'> implements DisplayValue<'range', 'RangeValue'> {
   public readonly noun: 'RangeValue' = 'RangeValue';
   public readonly type: 'range' = 'range';
-  private readonly min: IntegerValue;
-  private readonly max: IntegerValue;
+  private readonly min: NumericalValue;
+  private readonly max: NumericalValue;
 
-  public static of(min: number, max: number): RangeValue {
-    if (min === max) {
-      throw new ValueError(`min === max. GIVEN: min = ${min}, max = ${max}`);
+  public static of(min: NumericalValue, max: NumericalValue): RangeValue {
+    const minimum: number = min.get();
+    const maximum: number = max.get();
+
+    if (minimum === maximum) {
+      throw new ValueError(`min === max. GIVEN: min = ${minimum}, max = ${maximum}`);
     }
-    if (min > max) {
-      throw new ValueError(`min > max. GIVEN: min = ${min}, max = ${max}`);
+    if (minimum > maximum) {
+      throw new ValueError(`min > max. GIVEN: min = ${minimum}, max = ${maximum}`);
     }
 
     return new RangeValue(IntegerValue.of(min), IntegerValue.of(max));
   }
 
-  protected constructor(min: IntegerValue, max: IntegerValue) {
+  protected constructor(min: NumericalValue, max: NumericalValue) {
     super();
     this.min = min;
     this.max = max;

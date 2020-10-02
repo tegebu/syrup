@@ -1,17 +1,17 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { NumericalValue } from '../Value/NumericalValue';
 import { DisplayValue } from './DisplayValue';
-import { IntegerValue } from './IntegerValue';
 
 export class UniqueValue extends ValueObject<'UniqueValue'> implements DisplayValue<'unique', 'UniqueValue'> {
   public readonly noun: 'UniqueValue' = 'UniqueValue';
   public readonly type: 'unique' = 'unique';
-  private readonly value: IntegerValue;
+  private readonly value: NumericalValue;
 
-  public static of(value: number): UniqueValue {
-    return new UniqueValue(IntegerValue.of(value));
+  public static of(value: NumericalValue): UniqueValue {
+    return new UniqueValue(value);
   }
 
-  protected constructor(value: IntegerValue) {
+  protected constructor(value: NumericalValue) {
     super();
     this.value = value;
   }
