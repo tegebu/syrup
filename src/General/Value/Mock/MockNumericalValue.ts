@@ -5,6 +5,10 @@ import { NumericalValue } from '../NumericalValue';
 export class MockNumericalValue extends ValueObject<'MockNumericalValue'> implements NumericalValue<'MockNumericalValue'> {
   public readonly noun: 'MockNumericalValue' = 'MockNumericalValue';
 
+  public constructor() {
+    super();
+  }
+
   public equals(): boolean {
     throw new UnimplementedError();
   }
