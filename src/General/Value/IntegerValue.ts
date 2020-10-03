@@ -4,11 +4,11 @@ import { BareValue } from './BareValue';
 import { ValueError } from './Error/ValueError';
 import { NumericalValue } from './NumericalValue';
 
-export class IntegerValue<V extends BareValue = BareValue> extends ValueObject<'IntegerValue'> implements NumericalValue<'IntegerValue'> {
+export class IntegerValue<V extends NumericalValue = NumericalValue> extends ValueObject<'IntegerValue'> implements NumericalValue<'IntegerValue'> {
   public readonly noun: 'IntegerValue' = 'IntegerValue';
   private readonly value: V;
 
-  public static of<VT extends BareValue>(value: VT): IntegerValue {
+  public static of<VT extends NumericalValue>(value: VT): IntegerValue {
     if (Kind.isInteger(value.get())) {
       return new IntegerValue(value);
     }

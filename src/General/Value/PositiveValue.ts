@@ -3,11 +3,11 @@ import { BareValue } from './BareValue';
 import { ValueError } from './Error/ValueError';
 import { NumericalValue } from './NumericalValue';
 
-export class PositiveValue<V extends BareValue = BareValue> extends ValueObject<'PositiveValue'> implements NumericalValue<'PositiveValue'> {
+export class PositiveValue<V extends NumericalValue = NumericalValue> extends ValueObject<'PositiveValue'> implements NumericalValue<'PositiveValue'> {
   public readonly noun: 'PositiveValue' = 'PositiveValue';
   private readonly value: V;
 
-  public static of<VT extends BareValue>(value: VT): PositiveValue {
+  public static of<VT extends NumericalValue>(value: VT): PositiveValue {
     if (value.get() > 0) {
       return new PositiveValue(value);
     }
