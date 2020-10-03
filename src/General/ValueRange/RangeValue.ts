@@ -1,8 +1,7 @@
 import { ValueObject } from '@jamashita/publikum-object';
-import { ValueError } from '../Value/Error/ValueError';
-import { IntegerValue } from '../Value/IntegerValue';
 import { NumericalValue } from '../Value/NumericalValue';
 import { DisplayValue } from './DisplayValue';
+import { ValueRangeError } from './Error/ValueRangeError';
 
 export class RangeValue extends ValueObject<'RangeValue'> implements DisplayValue<'range', 'RangeValue'> {
   public readonly noun: 'RangeValue' = 'RangeValue';
@@ -15,13 +14,13 @@ export class RangeValue extends ValueObject<'RangeValue'> implements DisplayValu
     const maximum: number = max.get();
 
     if (minimum === maximum) {
-      throw new ValueError(`min === max. GIVEN: min = ${minimum}, max = ${maximum}`);
+      throw new ValueRangeError(`min === max. GIVEN: min = ${minimum}, max = ${maximum}`);
     }
     if (minimum > maximum) {
-      throw new ValueError(`min > max. GIVEN: min = ${minimum}, max = ${maximum}`);
+      throw new ValueRangeError(`min > max. GIVEN: min = ${minimum}, max = ${maximum}`);
     }
 
-    return new RangeValue(IntegerValue.of(min), IntegerValue.of(max));
+    return new RangeValue(min, max);
   }
 
   protected constructor(min: NumericalValue, max: NumericalValue) {

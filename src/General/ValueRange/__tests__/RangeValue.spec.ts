@@ -1,5 +1,5 @@
 import { MockValueObject } from '@jamashita/publikum-object';
-import { ValueError } from '../Error/ValueError';
+import { ValueError } from '../../Value/Error/ValueError';
 import { RangeValue } from '../RangeValue';
 
 describe('RangeValue', () => {
