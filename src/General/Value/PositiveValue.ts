@@ -3,11 +3,11 @@ import { BareValue } from './BareValue';
 import { ValueError } from './Error/ValueError';
 import { NumericalValue } from './NumericalValue';
 
-export class PositiveValue extends ValueObject<'PositiveValue'> implements NumericalValue<'PositiveValue'> {
+export class PositiveValue<V extends BareValue = BareValue> extends ValueObject<'PositiveValue'> implements NumericalValue<'PositiveValue'> {
   public readonly noun: 'PositiveValue' = 'PositiveValue';
-  private readonly value: NumericalValue;
+  private readonly value: V;
 
-  public static of(value: NumericalValue): PositiveValue {
+  public static of<VT extends BareValue>(value: VT): PositiveValue {
     if (value.get() > 0) {
       return new PositiveValue(value);
     }
@@ -16,10 +16,10 @@ export class PositiveValue extends ValueObject<'PositiveValue'> implements Numer
   }
 
   public static ofNumber(num: number): PositiveValue {
-    return PositiveValue.of(BareValue.of(num));
+    return PositiveValue.of<BareValue>(BareValue.of(num));
   }
 
-  protected constructor(value: NumericalValue) {
+  protected constructor(value: V) {
     super();
     this.value = value;
   }

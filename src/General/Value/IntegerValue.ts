@@ -4,11 +4,11 @@ import { BareValue } from './BareValue';
 import { ValueError } from './Error/ValueError';
 import { NumericalValue } from './NumericalValue';
 
-export class IntegerValue extends ValueObject<'IntegerValue'> implements NumericalValue<'IntegerValue'> {
+export class IntegerValue<V extends BareValue = BareValue> extends ValueObject<'IntegerValue'> implements NumericalValue<'IntegerValue'> {
   public readonly noun: 'IntegerValue' = 'IntegerValue';
-  private readonly value: NumericalValue;
+  private readonly value: V;
 
-  public static of(value: NumericalValue): IntegerValue {
+  public static of<VT extends BareValue>(value: VT): IntegerValue {
     if (Kind.isInteger(value.get())) {
       return new IntegerValue(value);
     }
@@ -17,10 +17,10 @@ export class IntegerValue extends ValueObject<'IntegerValue'> implements Numeric
   }
 
   public static ofNumber(num: number): IntegerValue {
-    return IntegerValue.of(BareValue.of(num));
+    return IntegerValue.of<BareValue>(BareValue.of(num));
   }
 
-  protected constructor(value: NumericalValue) {
+  protected constructor(value: V) {
     super();
     this.value = value;
   }
