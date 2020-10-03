@@ -3,19 +3,19 @@ import { BareValue } from '../Value/BareValue';
 import { NumericalValue } from '../Value/NumericalValue';
 import { DisplayValue } from './DisplayValue';
 
-export class UniqueValue extends ValueObject<'UniqueValue'> implements DisplayValue<'UniqueValue'> {
+export class UniqueValue<V extends NumericalValue = NumericalValue> extends ValueObject<'UniqueValue'> implements DisplayValue<'UniqueValue'> {
   public readonly noun: 'UniqueValue' = 'UniqueValue';
-  private readonly value: NumericalValue;
+  private readonly value: V;
 
-  public static of(value: NumericalValue): UniqueValue {
+  public static of<VT extends NumericalValue>(value: VT): UniqueValue<VT> {
     return new UniqueValue(value);
   }
 
-  public static ofNumber(value: number): UniqueValue {
-    return UniqueValue.of(BareValue.of(value));
+  public static ofNumber(value: number): UniqueValue<BareValue> {
+    return UniqueValue.of<BareValue>(BareValue.of(value));
   }
 
-  protected constructor(value: NumericalValue) {
+  protected constructor(value: V) {
     super();
     this.value = value;
   }

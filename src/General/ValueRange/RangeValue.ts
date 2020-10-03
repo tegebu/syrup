@@ -4,12 +4,12 @@ import { NumericalValue } from '../Value/NumericalValue';
 import { DisplayValue } from './DisplayValue';
 import { ValueRangeError } from './Error/ValueRangeError';
 
-export class RangeValue extends ValueObject<'RangeValue'> implements DisplayValue<'RangeValue'> {
+export class RangeValue<V extends NumericalValue = NumericalValue> extends ValueObject<'RangeValue'> implements DisplayValue<'RangeValue'> {
   public readonly noun: 'RangeValue' = 'RangeValue';
-  private readonly min: NumericalValue;
-  private readonly max: NumericalValue;
+  private readonly min: V;
+  private readonly max: V;
 
-  public static of(min: NumericalValue, max: NumericalValue): RangeValue {
+  public static of<VT extends NumericalValue>(min: VT, max: VT): RangeValue<VT> {
     const minimum: number = min.get();
     const maximum: number = max.get();
 
@@ -23,11 +23,11 @@ export class RangeValue extends ValueObject<'RangeValue'> implements DisplayValu
     return new RangeValue(min, max);
   }
 
-  public static ofNumber(min: number, max: number): RangeValue {
-    return RangeValue.of(BareValue.of(min), BareValue.of(max));
+  public static ofNumber(min: number, max: number): RangeValue<BareValue> {
+    return RangeValue.of<BareValue>(BareValue.of(min), BareValue.of(max));
   }
 
-  protected constructor(min: NumericalValue, max: NumericalValue) {
+  protected constructor(min: V, max: V) {
     super();
     this.min = min;
     this.max = max;
