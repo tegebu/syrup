@@ -1,4 +1,5 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { BareValue } from '../Value/BareValue';
 import { NumericalValue } from '../Value/NumericalValue';
 import { DisplayValue } from './DisplayValue';
 
@@ -8,6 +9,10 @@ export class UniqueValue extends ValueObject<'UniqueValue'> implements DisplayVa
 
   public static of(value: NumericalValue): UniqueValue {
     return new UniqueValue(value);
+  }
+
+  public static ofNumber(value: number): UniqueValue {
+    return UniqueValue.of(BareValue.of(value));
   }
 
   protected constructor(value: NumericalValue) {

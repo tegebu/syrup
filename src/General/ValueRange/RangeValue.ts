@@ -1,4 +1,5 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { BareValue } from '../Value/BareValue';
 import { NumericalValue } from '../Value/NumericalValue';
 import { DisplayValue } from './DisplayValue';
 import { ValueRangeError } from './Error/ValueRangeError';
@@ -20,6 +21,10 @@ export class RangeValue extends ValueObject<'RangeValue'> implements DisplayValu
     }
 
     return new RangeValue(min, max);
+  }
+
+  public static ofNumber(min: number, max: number): RangeValue {
+    return RangeValue.of(BareValue.of(min), BareValue.of(max));
   }
 
   protected constructor(min: NumericalValue, max: NumericalValue) {
