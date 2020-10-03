@@ -2,9 +2,8 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { NumericalValue } from '../Value/NumericalValue';
 import { DisplayValue } from './DisplayValue';
 
-export class UniqueValue extends ValueObject<'UniqueValue'> implements DisplayValue<'unique', 'UniqueValue'> {
+export class UniqueValue extends ValueObject<'UniqueValue'> implements DisplayValue<'UniqueValue'> {
   public readonly noun: 'UniqueValue' = 'UniqueValue';
-  public readonly type: 'unique' = 'unique';
   private readonly value: NumericalValue;
 
   public static of(value: NumericalValue): UniqueValue {

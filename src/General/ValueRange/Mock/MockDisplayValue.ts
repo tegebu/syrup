@@ -2,9 +2,8 @@ import { UnimplementedError } from '@jamashita/publikum-error';
 import { ValueObject } from '@jamashita/publikum-object';
 import { DisplayValue } from '../DisplayValue';
 
-export class MockDisplayValue extends ValueObject<'MockDisplayValue'> implements DisplayValue<'none', 'MockDisplayValue'> {
+export class MockDisplayValue extends ValueObject<'MockDisplayValue'> implements DisplayValue<'MockDisplayValue'> {
   public readonly noun: 'MockDisplayValue' = 'MockDisplayValue';
-  public readonly type: 'none' = 'none';
 
   public constructor() {
     super();

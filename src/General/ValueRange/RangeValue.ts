@@ -3,9 +3,8 @@ import { NumericalValue } from '../Value/NumericalValue';
 import { DisplayValue } from './DisplayValue';
 import { ValueRangeError } from './Error/ValueRangeError';
 
-export class RangeValue extends ValueObject<'RangeValue'> implements DisplayValue<'range', 'RangeValue'> {
+export class RangeValue extends ValueObject<'RangeValue'> implements DisplayValue<'RangeValue'> {
   public readonly noun: 'RangeValue' = 'RangeValue';
-  public readonly type: 'range' = 'range';
   private readonly min: NumericalValue;
   private readonly max: NumericalValue;
 
