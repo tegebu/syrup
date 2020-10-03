@@ -1,8 +1,8 @@
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { MockDisplayValue } from '../../../General/Value/Mock/MockDisplayValue';
-import { RangeValue } from '../../../General/Value/RangeValue';
-import { UniqueValue } from '../../../General/Value/UniqueValue';
+import { MockDisplayValue } from '../../../General/ValueRange/Mock/MockDisplayValue';
+import { RangeValue } from '../../../General/ValueRange/RangeValue';
+import { UniqueValue } from '../../../General/ValueRange/UniqueValue';
 import { TegeError } from '../Error/TegeError';
 import { TegePlayers, TegePlayersJSON } from '../TegePlayers';
 
@@ -87,8 +87,8 @@ describe('TegePlayers', () => {
     it('returns false when the different Players class instance given', () => {
       expect.assertions(1);
 
-      const players1: TegePlayers = TegePlayers.of(UniqueValue.of(2));
-      const players2: TegePlayers = TegePlayers.of(RangeValue.of(2, 3));
+      const players1: TegePlayers = TegePlayers.of(UniqueValue.ofNumber(2));
+      const players2: TegePlayers = TegePlayers.of(RangeValue.ofNumber(2, 3));
 
       expect(players1.equals(players2)).toBe(false);
     });
@@ -131,7 +131,7 @@ describe('TegePlayers', () => {
 
       const value: number = 2;
 
-      const players: TegePlayers = TegePlayers.of(UniqueValue.of(value));
+      const players: TegePlayers = TegePlayers.of(UniqueValue.ofNumber(value));
 
       expect(players.toJSON()).toStrictEqual({
         type: 'unique',
@@ -145,7 +145,7 @@ describe('TegePlayers', () => {
       const min: number = 2;
       const max: number = 3;
 
-      const players: TegePlayers = TegePlayers.of(RangeValue.of(min, max));
+      const players: TegePlayers = TegePlayers.of(RangeValue.ofNumber(min, max));
 
       expect(players.toJSON()).toStrictEqual({
         type: 'range',

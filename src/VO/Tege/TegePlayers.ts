@@ -1,9 +1,9 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
-import { Displayable } from '../../General/Value/Displayable';
-import { DisplayValue } from '../../General/Value/DisplayValue';
-import { RangeValue } from '../../General/Value/RangeValue';
-import { UniqueValue } from '../../General/Value/UniqueValue';
+import { Displayable } from '../../General/ValueRange/Displayable';
+import { DisplayValue } from '../../General/ValueRange/DisplayValue';
+import { RangeValue } from '../../General/ValueRange/RangeValue';
+import { UniqueValue } from '../../General/ValueRange/UniqueValue';
 import { TegeError } from './Error/TegeError';
 
 type UniquePlayerJSON = Readonly<{
@@ -42,11 +42,11 @@ export class TegePlayers extends ValueObject<'TegePlayer'> implements Displayabl
   }
 
   private static ofUniqueJSON(json: UniquePlayerJSON): TegePlayers {
-    return TegePlayers.of(UniqueValue.of(json.value));
+    return TegePlayers.of(UniqueValue.ofNumber(json.value));
   }
 
   private static ofRangeJSON(json: RangePlayerJSON): TegePlayers {
-    return TegePlayers.of(RangeValue.of(json.min, json.max));
+    return TegePlayers.of(RangeValue.ofNumber(json.min, json.max));
   }
 
   protected constructor(players: DisplayValue) {
@@ -61,11 +61,8 @@ export class TegePlayers extends ValueObject<'TegePlayer'> implements Displayabl
     if (!(other instanceof TegePlayers)) {
       return false;
     }
-    if (this.players.equals(other.players)) {
-      return true;
-    }
 
-    return false;
+    return this.players.equals(other.players);
   }
 
   public serialize(): string {
@@ -73,28 +70,21 @@ export class TegePlayers extends ValueObject<'TegePlayer'> implements Displayabl
   }
 
   public toJSON(): TegePlayersJSON {
-    switch (this.players.type) {
-      case 'unique': {
-        const u: UniqueValue = this.players as UniqueValue;
-
-        return {
-          type: 'unique',
-          value: u.get()
-        };
-      }
-      case 'range': {
-        const r: RangeValue = this.players as RangeValue;
-
-        return {
-          type: 'range',
-          min: r.getMin(),
-          max: r.getMax()
-        };
-      }
-      default: {
-        throw new TegeError(`UNEXPECTED TYPE SPECIFIED: GIVEN ${this.players.type as string}`);
-      }
+    if (this.players instanceof UniqueValue) {
+      return {
+        type: 'unique',
+        value: this.players.get()
+      };
     }
+    if (this.players instanceof RangeValue) {
+      return {
+        type: 'range',
+        min: this.players.getMin(),
+        max: this.players.getMax()
+      };
+    }
+
+    throw new TegeError(`THIS IN UNEXPECTED INSTANCE. GIVEN: ${this.toString()}`);
   }
 
   public display(): string {
