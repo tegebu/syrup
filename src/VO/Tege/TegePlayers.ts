@@ -1,5 +1,8 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { ValueError } from '../../General/Value/Error/ValueError';
+import { IntegerValue } from '../../General/Value/IntegerValue';
+import { PositiveValue } from '../../General/Value/PositiveValue';
 import { Displayable } from '../../General/ValueRange/Displayable';
 import { DisplayValue } from '../../General/ValueRange/DisplayValue';
 import { RangeValue } from '../../General/ValueRange/RangeValue';
@@ -21,9 +24,9 @@ export type TegePlayersJSON = UniquePlayerJSON | RangePlayerJSON;
 
 export class TegePlayers extends ValueObject<'TegePlayer'> implements Displayable, JSONable<TegePlayersJSON> {
   public readonly noun: 'TegePlayer' = 'TegePlayer';
-  private readonly players: DisplayValue;
+  private readonly players: UniqueValue<IntegerValue<PositiveValue>> | RangeValue<IntegerValue<PositiveValue>>;
 
-  public static of(players: DisplayValue): TegePlayers {
+  public static of(players: UniqueValue<IntegerValue<PositiveValue>> | RangeValue<IntegerValue<PositiveValue>>): TegePlayers {
     return new TegePlayers(players);
   }
 
@@ -42,14 +45,37 @@ export class TegePlayers extends ValueObject<'TegePlayer'> implements Displayabl
   }
 
   private static ofUniqueJSON(json: UniquePlayerJSON): TegePlayers {
-    return TegePlayers.of(UniqueValue.ofNumber(json.value));
+    try {
+      const value: IntegerValue<PositiveValue> = IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(json.value));
+
+      return TegePlayers.of(UniqueValue.of<IntegerValue<PositiveValue>>(value));
+    }
+    catch (err: unknown) {
+      if (err instanceof ValueError) {
+        throw new TegeError(err.message, err);
+      }
+
+      throw err;
+    }
   }
 
   private static ofRangeJSON(json: RangePlayerJSON): TegePlayers {
-    return TegePlayers.of(RangeValue.ofNumber(json.min, json.max));
+    try {
+      const min: IntegerValue<PositiveValue> = IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(json.min));
+      const max: IntegerValue<PositiveValue> = IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(json.max));
+
+      return TegePlayers.of(RangeValue.of<IntegerValue<PositiveValue>>(min, max));
+    }
+    catch (err: unknown) {
+      if (err instanceof ValueError) {
+        throw new TegeError(err.message, err);
+      }
+
+      throw err;
+    }
   }
 
-  protected constructor(players: DisplayValue) {
+  protected constructor(players: UniqueValue<IntegerValue<PositiveValue>> | RangeValue<IntegerValue<PositiveValue>>) {
     super();
     this.players = players;
   }

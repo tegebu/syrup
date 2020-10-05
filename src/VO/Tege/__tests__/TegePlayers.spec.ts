@@ -1,6 +1,7 @@
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
-import { MockDisplayValue } from '../../../General/ValueRange/Mock/MockDisplayValue';
+import { IntegerValue } from '../../../General/Value/IntegerValue';
+import { PositiveValue } from '../../../General/Value/PositiveValue';
 import { RangeValue } from '../../../General/ValueRange/RangeValue';
 import { UniqueValue } from '../../../General/ValueRange/UniqueValue';
 import { TegeError } from '../Error/TegeError';
@@ -11,7 +12,7 @@ describe('TegePlayers', () => {
     it('returns instance', () => {
       expect.assertions(1);
 
-      const value: MockDisplayValue = new MockDisplayValue();
+      const value: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
 
       const players: TegePlayers = TegePlayers.of(value);
 
@@ -71,7 +72,8 @@ describe('TegePlayers', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);
 
-      const players: TegePlayers = TegePlayers.of(new MockDisplayValue());
+      const value: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
+      const players: TegePlayers = TegePlayers.of(value);
 
       expect(players.equals(players)).toBe(true);
     });
@@ -79,7 +81,8 @@ describe('TegePlayers', () => {
     it('returns false when the different class instance given', () => {
       expect.assertions(1);
 
-      const players: TegePlayers = TegePlayers.of(new MockDisplayValue());
+      const value: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
+      const players: TegePlayers = TegePlayers.of(value);
 
       expect(players.equals(new MockValueObject('mock'))).toBe(false);
     });
@@ -87,8 +90,13 @@ describe('TegePlayers', () => {
     it('returns false when the different Players class instance given', () => {
       expect.assertions(1);
 
-      const players1: TegePlayers = TegePlayers.of(UniqueValue.ofNumber(2));
-      const players2: TegePlayers = TegePlayers.of(RangeValue.ofNumber(2, 3));
+      const unique: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
+      const range: RangeValue<IntegerValue<PositiveValue>> = RangeValue.of<IntegerValue<PositiveValue>>(
+        IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)),
+        IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(3))
+      );
+      const players1: TegePlayers = TegePlayers.of(unique);
+      const players2: TegePlayers = TegePlayers.of(range);
 
       expect(players1.equals(players2)).toBe(false);
     });
@@ -96,8 +104,9 @@ describe('TegePlayers', () => {
     it('returns true when all the properties are the same', () => {
       expect.assertions(1);
 
-      const value1: MockDisplayValue = new MockDisplayValue();
-      const value2: MockDisplayValue = new MockDisplayValue();
+      const value1: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
+      const value2: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
+
       const stub: SinonStub = sinon.stub();
       value1.equals = stub;
       stub.returns(true);
@@ -113,7 +122,7 @@ describe('TegePlayers', () => {
     it('delegates its inner member', () => {
       expect.assertions(1);
 
-      const value: MockDisplayValue = new MockDisplayValue();
+      const value: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
       const spy: SinonSpy = sinon.spy();
       value.toString = spy;
 
@@ -129,28 +138,28 @@ describe('TegePlayers', () => {
     it('type: unique', () => {
       expect.assertions(1);
 
-      const value: number = 2;
-
-      const players: TegePlayers = TegePlayers.of(UniqueValue.ofNumber(value));
+      const value: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
+      const players: TegePlayers = TegePlayers.of(value);
 
       expect(players.toJSON()).toStrictEqual({
         type: 'unique',
-        value
+        value: value.get()
       });
     });
 
     it('type: range', () => {
       expect.assertions(1);
 
-      const min: number = 2;
-      const max: number = 3;
-
-      const players: TegePlayers = TegePlayers.of(RangeValue.ofNumber(min, max));
+      const value: RangeValue<IntegerValue<PositiveValue>> = RangeValue.of<IntegerValue<PositiveValue>>(
+        IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)),
+        IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(3))
+      );
+      const players: TegePlayers = TegePlayers.of(value);
 
       expect(players.toJSON()).toStrictEqual({
         type: 'range',
-        min,
-        max
+        min: value.getMin(),
+        max: value.getMax()
       });
     });
   });
@@ -159,7 +168,7 @@ describe('TegePlayers', () => {
     it('delegates its inner member', () => {
       expect.assertions(1);
 
-      const value: MockDisplayValue = new MockDisplayValue();
+      const value: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
       const spy: SinonSpy = sinon.spy();
       value.display = spy;
 
