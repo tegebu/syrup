@@ -19,7 +19,6 @@ type TegeArgs = Partial<Readonly<{
 }>>;
 
 export class MockTege extends Tege {
-
   public constructor({
     name = new MockTegeName(),
     time = new MockTegePlayingTime(),
