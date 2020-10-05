@@ -1,5 +1,6 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind, Vague } from '@jamashita/publikum-type';
 import { ValueError } from '../../General/Value/Error/ValueError';
 import { IntegerValue } from '../../General/Value/IntegerValue';
 import { PositiveValue } from '../../General/Value/PositiveValue';
@@ -73,6 +74,39 @@ export class TegePlayers extends ValueObject<'TegePlayer'> implements Displayabl
 
       throw err;
     }
+  }
+
+  public static validate(n: unknown): n is TegePlayersJSON {
+    if (!Kind.isObject<TegePlayersJSON>(n)) {
+      return false;
+    }
+
+    switch (n.type) {
+      case 'range': {
+        return TegePlayers.validateRange(n as Vague<RangePlayerJSON>);
+      }
+      case 'unique': {
+        return TegePlayers.validateUnique(n as Vague<UniquePlayerJSON>);
+      }
+      default: {
+        return false;
+      }
+    }
+  }
+
+  private static validateRange(n: Vague<RangePlayerJSON>): n is RangePlayerJSON {
+    if (!Kind.isNumber(n.min)) {
+      return false;
+    }
+    if (!Kind.isNumber(n.max)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private static validateUnique(n: Vague<UniquePlayerJSON>): n is UniquePlayerJSON {
+    return Kind.isNumber(n.value);
   }
 
   protected constructor(players: UniqueValue<IntegerValue<PositiveValue>> | RangeValue<IntegerValue<PositiveValue>>) {

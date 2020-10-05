@@ -68,6 +68,121 @@ describe('TegePlayers', () => {
     });
   });
 
+  describe('validate', () => {
+    it('returns true: unique', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        type: 'unique',
+        value: 9
+      };
+
+      expect(TegePlayers.validate(n)).toBe(true);
+    });
+
+    it('returns true: range', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        type: 'range',
+        min: 7,
+        max: 9
+      };
+
+      expect(TegePlayers.validate(n)).toBe(true);
+    });
+
+    it('returns false when non-object given', () => {
+      expect.assertions(8);
+
+      expect(TegePlayers.validate(undefined)).toBe(false);
+      expect(TegePlayers.validate(null)).toBe(false);
+      expect(TegePlayers.validate(true)).toBe(false);
+      expect(TegePlayers.validate(102)).toBe(false);
+      expect(TegePlayers.validate('')).toBe(false);
+      expect(TegePlayers.validate(Symbol())).toBe(false);
+      expect(TegePlayers.validate(102n)).toBe(false);
+      expect(TegePlayers.validate([])).toBe(false);
+    });
+
+    it('returns false when incorrect type given', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        type: 'soy paste'
+      };
+
+      expect(TegePlayers.validate(n)).toBe(false);
+    });
+
+    it('returns false when value is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        type: 'unique'
+      };
+
+      expect(TegePlayers.validate(n)).toBe(false);
+    });
+
+    it('returns false when value is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        type: 'unique',
+        value: false
+      };
+
+      expect(TegePlayers.validate(n)).toBe(false);
+    });
+
+    it('returns false when min is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        type: 'range',
+        max: 9
+      };
+
+      expect(TegePlayers.validate(n)).toBe(false);
+    });
+
+    it('returns false when min is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        type: 'range',
+        min: '8',
+        max: 9
+      };
+
+      expect(TegePlayers.validate(n)).toBe(false);
+    });
+
+    it('returns false when max is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        type: 'range',
+        min: 7
+      };
+
+      expect(TegePlayers.validate(n)).toBe(false);
+    });
+
+    it('returns false when max is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        type: 'range',
+        min: 8,
+        max: '9'
+      };
+
+      expect(TegePlayers.validate(n)).toBe(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);
