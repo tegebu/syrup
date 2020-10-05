@@ -1,4 +1,5 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 import { Displayable } from '../../General/ValueRange/Displayable';
 import { Whitespace } from '../../General/Whitespace/Whitespace';
 import { TegeError } from './Error/TegeError';
@@ -15,6 +16,10 @@ export class TegeImagePath extends ValueObject<'TegeImagePath'> implements Displ
     }
 
     return new TegeImagePath(trimmed);
+  }
+
+  public static validate(n: unknown): n is string {
+    return Kind.isString(n);
   }
 
   protected constructor(path: string) {

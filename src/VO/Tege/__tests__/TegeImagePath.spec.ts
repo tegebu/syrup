@@ -42,6 +42,27 @@ describe('TegeImagePath', () => {
     });
   });
 
+  describe('validate', () => {
+    it('returns true when string given', () => {
+      expect.assertions(1);
+
+      expect(TegeImagePath.validate('')).toBe(true);
+    });
+
+    it('returns false when others given', () => {
+      expect.assertions(8);
+
+      expect(TegeImagePath.validate(undefined)).toBe(false);
+      expect(TegeImagePath.validate(null)).toBe(false);
+      expect(TegeImagePath.validate(true)).toBe(false);
+      expect(TegeImagePath.validate(102)).toBe(false);
+      expect(TegeImagePath.validate(Symbol())).toBe(false);
+      expect(TegeImagePath.validate(102n)).toBe(false);
+      expect(TegeImagePath.validate({})).toBe(false);
+      expect(TegeImagePath.validate([])).toBe(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);
