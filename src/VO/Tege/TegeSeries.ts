@@ -6,19 +6,39 @@ import {
   ReadonlySequence
 } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
 import { Tege, TegeJSON } from './Tege';
 
 export class TegeSeries extends Quantity<number, Tege, 'TegeSeries'> implements JSONable<ReadonlyArray<TegeJSON>> {
   public readonly noun: 'TegeSeries' = 'TegeSeries';
   private readonly teges: ImmutableSequence<Tege>;
 
+  private static readonly EMPTY: TegeSeries = new TegeSeries(ImmutableSequence.empty<Tege>());
+
   public static of(teges: ReadonlySequence<Tege>): TegeSeries {
     return TegeSeries.ofArray(teges.toArray());
   }
 
   public static ofArray(teges: ReadonlyArray<Tege>): TegeSeries {
+    if (teges.length === 0) {
+      return TegeSeries.empty();
+    }
+
     return new TegeSeries(ImmutableSequence.ofArray<Tege>(teges));
+  }
+
+  public static empty(): TegeSeries {
+    return TegeSeries.EMPTY;
+  }
+
+  public static validate(n: unknown): n is ReadonlyArray<TegeJSON> {
+    if (!Kind.isArray(n)) {
+      return false;
+    }
+
+    return n.every((o: unknown) => {
+      return Tege.validate(o);
+    });
   }
 
   protected constructor(teges: ImmutableSequence<Tege>) {
