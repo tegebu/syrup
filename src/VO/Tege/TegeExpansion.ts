@@ -40,4 +40,8 @@ export class TegeExpansion extends ValueObject<'TegeExpansion'> implements Displ
   public display(): string {
     return `${this.expansion}`;
   }
+
+  public get(): boolean {
+    return this.expansion;
+  }
 }

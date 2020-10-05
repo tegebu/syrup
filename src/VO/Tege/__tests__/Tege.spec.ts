@@ -1,5 +1,6 @@
 import { MockValueObject } from '@jamashita/publikum-object';
 import { Tege } from '../Tege';
+import { TegeExpansion } from '../TegeExpansion';
 import { TegeImagePath } from '../TegeImagePath';
 import { TegeMinAge } from '../TegeMinAge';
 import { TegeName } from '../TegeName';
@@ -19,7 +20,8 @@ describe('Tege', () => {
           value: 30
         },
         minAge: 8,
-        imagePath: '/'
+        imagePath: '/',
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(true);
@@ -49,7 +51,8 @@ describe('Tege', () => {
           value: 30
         },
         minAge: 8,
-        imagePath: '/'
+        imagePath: '/',
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -66,7 +69,8 @@ describe('Tege', () => {
           value: 30
         },
         minAge: 8,
-        imagePath: '/'
+        imagePath: '/',
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -82,7 +86,8 @@ describe('Tege', () => {
           value: 30
         },
         minAge: 8,
-        imagePath: '/'
+        imagePath: '/',
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -99,7 +104,8 @@ describe('Tege', () => {
           value: 30
         },
         minAge: 8,
-        imagePath: '/'
+        imagePath: '/',
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -112,7 +118,8 @@ describe('Tege', () => {
         name: 'te',
         playingTime: 20,
         minAge: 8,
-        imagePath: '/'
+        imagePath: '/',
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -126,7 +133,8 @@ describe('Tege', () => {
         playingTime: 20,
         players: null,
         minAge: 8,
-        imagePath: '/'
+        imagePath: '/',
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -142,7 +150,8 @@ describe('Tege', () => {
           type: 'unique',
           value: 30
         },
-        imagePath: '/'
+        imagePath: '/',
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -159,7 +168,8 @@ describe('Tege', () => {
           value: 30
         },
         minAge: false,
-        imagePath: '/'
+        imagePath: '/',
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -175,7 +185,8 @@ describe('Tege', () => {
           type: 'unique',
           value: 30
         },
-        minAge: 8
+        minAge: 8,
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -192,7 +203,43 @@ describe('Tege', () => {
           value: 30
         },
         minAge: 8,
-        imagePath: 9
+        imagePath: 9,
+        expansion: true
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when expansion is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/'
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when expansion is not boolean', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: null
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -208,13 +255,15 @@ describe('Tege', () => {
       const players: TegePlayers = TegePlayers.ofUnique(30);
       const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
       const imagePath: TegeImagePath = TegeImagePath.of('/');
+      const expansion: TegeExpansion = TegeExpansion.of(false);
 
       const tege: Tege = Tege.of(
         name,
         time,
         players,
         minAge,
-        imagePath
+        imagePath,
+        expansion
       );
 
       expect(tege.equals(tege)).toBe(true);
@@ -228,20 +277,22 @@ describe('Tege', () => {
       const players: TegePlayers = TegePlayers.ofUnique(30);
       const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
       const imagePath: TegeImagePath = TegeImagePath.of('/');
+      const expansion: TegeExpansion = TegeExpansion.of(false);
 
       const tege: Tege = Tege.of(
         name,
         time,
         players,
         minAge,
-        imagePath
+        imagePath,
+        expansion
       );
 
       expect(tege.equals(new MockValueObject('mock'))).toBe(false);
     });
 
     it('returns treu if all the properties are the same', () => {
-      expect.assertions(6);
+      expect.assertions(7);
 
       const name1: TegeName = TegeName.of('te1');
       const name2: TegeName = TegeName.of('te2');
@@ -253,21 +304,25 @@ describe('Tege', () => {
       const minAge2: TegeMinAge = TegeMinAge.ofNumber(9);
       const imagePath1: TegeImagePath = TegeImagePath.of('/1');
       const imagePath2: TegeImagePath = TegeImagePath.of('/2');
+      const expansion1: TegeExpansion = TegeExpansion.of(false);
+      const expansion2: TegeExpansion = TegeExpansion.of(true);
 
-      const tege01: Tege = Tege.of(name1, time1, players1, minAge1, imagePath1);
-      const tege02: Tege = Tege.of(name2, time1, players1, minAge1, imagePath1);
-      const tege03: Tege = Tege.of(name1, time2, players1, minAge1, imagePath1);
-      const tege04: Tege = Tege.of(name1, time1, players2, minAge1, imagePath1);
-      const tege05: Tege = Tege.of(name1, time1, players1, minAge2, imagePath1);
-      const tege06: Tege = Tege.of(name1, time1, players1, minAge1, imagePath2);
-      const tege07: Tege = Tege.of(name1, time1, players1, minAge1, imagePath1);
+      const tege01: Tege = Tege.of(name1, time1, players1, minAge1, imagePath1, expansion1);
+      const tege02: Tege = Tege.of(name2, time1, players1, minAge1, imagePath1, expansion1);
+      const tege03: Tege = Tege.of(name1, time2, players1, minAge1, imagePath1, expansion1);
+      const tege04: Tege = Tege.of(name1, time1, players2, minAge1, imagePath1, expansion1);
+      const tege05: Tege = Tege.of(name1, time1, players1, minAge2, imagePath1, expansion1);
+      const tege06: Tege = Tege.of(name1, time1, players1, minAge1, imagePath2, expansion1);
+      const tege07: Tege = Tege.of(name1, time1, players1, minAge1, imagePath1, expansion2);
+      const tege08: Tege = Tege.of(name1, time1, players1, minAge1, imagePath1, expansion1);
 
       expect(tege01.equals(tege02)).toBe(false);
       expect(tege01.equals(tege03)).toBe(false);
       expect(tege01.equals(tege04)).toBe(false);
       expect(tege01.equals(tege05)).toBe(false);
       expect(tege01.equals(tege06)).toBe(false);
-      expect(tege01.equals(tege07)).toBe(true);
+      expect(tege01.equals(tege07)).toBe(false);
+      expect(tege01.equals(tege08)).toBe(true);
     });
   });
 
@@ -280,16 +335,18 @@ describe('Tege', () => {
       const players: TegePlayers = TegePlayers.ofUnique(30);
       const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
       const imagePath: TegeImagePath = TegeImagePath.of('/');
+      const expansion: TegeExpansion = TegeExpansion.of(false);
 
       const tege: Tege = Tege.of(
         name,
         time,
         players,
         minAge,
-        imagePath
+        imagePath,
+        expansion
       );
 
-      expect(tege.toString()).toBe('te, 20, 30, 8, /');
+      expect(tege.toString()).toBe('te, 20, 30, 8, /, false');
     });
   });
 
@@ -302,13 +359,15 @@ describe('Tege', () => {
       const players: TegePlayers = TegePlayers.ofUnique(30);
       const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
       const imagePath: TegeImagePath = TegeImagePath.of('/');
+      const expansion: TegeExpansion = TegeExpansion.of(false);
 
       const tege: Tege = Tege.of(
         name,
         time,
         players,
         minAge,
-        imagePath
+        imagePath,
+        expansion
       );
 
       expect(tege.toJSON()).toStrictEqual({
@@ -320,7 +379,8 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: []
+        expansion: false,
+        series: []
       });
     });
   });
