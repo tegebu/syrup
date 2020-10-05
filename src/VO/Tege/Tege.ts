@@ -41,7 +41,15 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     expansion: TegeExpansion,
     series: TegeSeries
   ): Tege {
-    return new Tege(name, time, players, minAge, imagePath, expansion, series);
+    return new Tege(
+      name,
+      time,
+      players,
+      minAge,
+      imagePath,
+      expansion,
+      series
+    );
   }
 
   public static validate(n: unknown): n is TegeJSON {
@@ -178,5 +186,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     return this.series;
   }
 
-  // TODO hasExpansions
+  public hasSeries(): boolean {
+    return !this.series.isEmpty();
+  }
 }

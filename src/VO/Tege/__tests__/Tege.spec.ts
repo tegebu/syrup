@@ -409,4 +409,54 @@ describe('Tege', () => {
       });
     });
   });
+
+  describe('hasSeries', () => {
+    it('returns true if it has more one or more than 1 series', () => {
+      expect.assertions(1);
+
+      const name: TegeName = TegeName.of('te');
+      const time: TegePlayingTime = TegePlayingTime.ofNumber(20);
+      const players: TegePlayers = TegePlayers.ofUnique(30);
+      const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
+      const imagePath: TegeImagePath = TegeImagePath.of('/');
+      const expansion: TegeExpansion = TegeExpansion.of(false);
+      const series: TegeSeries = TegeSeries.ofArray([new MockTege()]);
+
+      const tege: Tege = Tege.of(
+        name,
+        time,
+        players,
+        minAge,
+        imagePath,
+        expansion,
+        series
+      );
+
+      expect(tege.hasSeries()).toBe(true);
+    });
+
+    it('returns false if it has no series', () => {
+      expect.assertions(1);
+
+      const name: TegeName = TegeName.of('te');
+      const time: TegePlayingTime = TegePlayingTime.ofNumber(20);
+      const players: TegePlayers = TegePlayers.ofUnique(30);
+      const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
+      const imagePath: TegeImagePath = TegeImagePath.of('/');
+      const expansion: TegeExpansion = TegeExpansion.of(false);
+      const series: TegeSeries = TegeSeries.empty();
+
+      const tege: Tege = Tege.of(
+        name,
+        time,
+        players,
+        minAge,
+        imagePath,
+        expansion,
+        series
+      );
+
+      expect(tege.hasSeries()).toBe(false);
+    });
+  });
 });
