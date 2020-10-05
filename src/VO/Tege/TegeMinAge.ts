@@ -1,4 +1,5 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 import { IntegerValue } from '../../General/Value/IntegerValue';
 import { PositiveValue } from '../../General/Value/PositiveValue';
 import { Displayable } from '../../General/ValueRange/Displayable';
@@ -14,6 +15,10 @@ export class TegeMinAge extends ValueObject<'TegeMinAge'> implements Displayable
 
   public static ofNumber(age: number): TegeMinAge {
     return TegeMinAge.of(UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(age))));
+  }
+
+  public static validate(n: unknown): n is number {
+    return Kind.isNumber(n);
   }
 
   protected constructor(age: UniqueValue<IntegerValue<PositiveValue>>) {

@@ -53,6 +53,27 @@ describe('TegeMinAge', () => {
     });
   });
 
+  describe('validate', () => {
+    it('returns true when number given', () => {
+      expect.assertions(1);
+
+      expect(TegeMinAge.validate(0)).toBe(true);
+    });
+
+    it('returns false when others given', () => {
+      expect.assertions(8);
+
+      expect(TegeMinAge.validate(undefined)).toBe(false);
+      expect(TegeMinAge.validate(null)).toBe(false);
+      expect(TegeMinAge.validate(true)).toBe(false);
+      expect(TegeMinAge.validate('')).toBe(false);
+      expect(TegeMinAge.validate(Symbol())).toBe(false);
+      expect(TegeMinAge.validate(102n)).toBe(false);
+      expect(TegeMinAge.validate({})).toBe(false);
+      expect(TegeMinAge.validate([])).toBe(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);
