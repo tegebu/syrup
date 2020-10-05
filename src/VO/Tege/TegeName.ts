@@ -1,20 +1,21 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
+import { Displayable } from '../../General/ValueRange/Displayable';
 import { Whitespace } from '../../General/Whitespace/Whitespace';
-import { AuthorError } from './Error/AuthorError';
+import { TegeError } from './Error/TegeError';
 
-export class AuthorName extends ValueObject<'AuthorName'> {
-  public readonly noun: 'AuthorName' = 'AuthorName';
+export class TegeName extends ValueObject<'TegeName'> implements Displayable {
+  public readonly noun: 'TegeName' = 'TegeName';
   private readonly name: string;
 
-  public static of(name: string): AuthorName {
+  public static of(name: string): TegeName {
     const trimmed: string = Whitespace.replace(name).trim();
 
     if (trimmed.length === 0) {
-      throw new AuthorError('AUTHOR NAME IS EMPTY');
+      throw new TegeError('NAME IS EMPTY');
     }
 
-    return new AuthorName(trimmed);
+    return new TegeName(trimmed);
   }
 
   public static validate(n: unknown): n is string {
@@ -30,7 +31,7 @@ export class AuthorName extends ValueObject<'AuthorName'> {
     if (this === other) {
       return true;
     }
-    if (!(other instanceof AuthorName)) {
+    if (!(other instanceof TegeName)) {
       return false;
     }
     if (this.name === other.name) {
@@ -41,6 +42,10 @@ export class AuthorName extends ValueObject<'AuthorName'> {
   }
 
   public serialize(): string {
+    return this.name;
+  }
+
+  public display(): string {
     return this.name;
   }
 

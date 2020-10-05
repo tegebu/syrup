@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
-import { Whitespace } from '../../General/Whitespace';
+import { Whitespace } from '../../General/Whitespace/Whitespace';
 import { PublisherError } from './Error/PublisherError';
 
 // TODO Nullable?

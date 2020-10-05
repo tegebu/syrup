@@ -1,0 +1,13 @@
+version: '3'
+services:
+  syrup_mysql:
+    container_name: 'syrup_mysql'
+    image: 'mysql:8.0'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'syrup'
+      MYSQL_DATABASE: 'syrup'
+    volumes:
+      - './mysql/cnf:/etc/mysql/conf.d:ro'
+      - './mysql/initdata:/docker-entrypoint-initdb.d:ro'
+    ports:
+      - '3310:3306'
