@@ -2,6 +2,7 @@ import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 import { TegeExpansion } from './TegeExpansion';
+import { TegeID } from './TegeID';
 import { TegeImagePath } from './TegeImagePath';
 import { TegeMinAge } from './TegeMinAge';
 import { TegeName } from './TegeName';
@@ -10,6 +11,7 @@ import { TegePlayingTime } from './TegePlayingTime';
 import { TegeSeries } from './TegeSeries';
 
 export type TegeJSON = Readonly<{
+  id: string;
   name: string;
   // TODO
   //   publishers: Array<string>;
@@ -24,6 +26,7 @@ export type TegeJSON = Readonly<{
 
 export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
   public readonly noun: 'Tege' = 'Tege';
+  private readonly id: TegeID;
   private readonly name: TegeName;
   private readonly time: TegePlayingTime;
   private readonly players: TegePlayers;
@@ -33,6 +36,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
   private readonly series: TegeSeries;
 
   public static of(
+    id: TegeID,
     name: TegeName,
     time: TegePlayingTime,
     players: TegePlayers,
@@ -42,6 +46,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     series: TegeSeries
   ): Tege {
     return new Tege(
+      id,
       name,
       time,
       players,
@@ -54,6 +59,9 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
 
   public static validate(n: unknown): n is TegeJSON {
     if (!Kind.isObject<TegeJSON>(n)) {
+      return false;
+    }
+    if (!TegeID.validate(n.id)) {
       return false;
     }
     if (!TegeName.validate(n.name)) {
@@ -82,6 +90,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
   }
 
   protected constructor(
+    id: TegeID,
     name: TegeName,
     time: TegePlayingTime,
     players: TegePlayers,
@@ -91,6 +100,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     series: TegeSeries
   ) {
     super();
+    this.id = id;
     this.name = name;
     this.time = time;
     this.players = players;
@@ -105,6 +115,9 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
       return true;
     }
     if (!(other instanceof Tege)) {
+      return false;
+    }
+    if (!this.id.equals(other.id)) {
       return false;
     }
     if (!this.name.equals(other.name)) {
@@ -135,6 +148,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
   public serialize(): string {
     const properties: Array<string> = [];
 
+    properties.push(this.id.toString());
     properties.push(this.name.toString());
     properties.push(this.time.toString());
     properties.push(this.players.toString());
@@ -148,6 +162,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
 
   public toJSON(): TegeJSON {
     return {
+      id: this.id.get(),
       name: this.name.get(),
       playingTime: this.time.get(),
       players: this.players.toJSON(),
@@ -156,6 +171,10 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
       expansion: this.expansion.get(),
       series: this.series.toJSON()
     };
+  }
+
+  public getID(): TegeID {
+    return this.id;
   }
 
   public getName(): TegeName {
