@@ -38,8 +38,7 @@
     "@jamashita/publikum-object": "2.25.0",
     "@jamashita/publikum-type": "2.25.0",
     "@jamashita/publikum-uuid": "2.25.0",
-    "@jamashita/publikum-zeit": "2.25.0",
-    "tslog": "2.9.0"
+    "@jamashita/publikum-zeit": "2.25.0"
   },
   "devDependencies": {
     "@commitlint/cli": "11.0.0",
