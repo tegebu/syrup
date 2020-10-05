@@ -9,16 +9,16 @@ import { JSONable } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 import { Tege, TegeJSON } from './Tege';
 
-export class TegeExpansions extends Quantity<number, Tege, 'TegeExpansions'> implements JSONable<ReadonlyArray<TegeJSON>> {
-  public readonly noun: 'TegeExpansions' = 'TegeExpansions';
+export class TegeSeries extends Quantity<number, Tege, 'TegeSeries'> implements JSONable<ReadonlyArray<TegeJSON>> {
+  public readonly noun: 'TegeSeries' = 'TegeSeries';
   private readonly teges: ImmutableSequence<Tege>;
 
-  public static of(teges: ReadonlySequence<Tege>): TegeExpansions {
-    return TegeExpansions.ofArray(teges.toArray());
+  public static of(teges: ReadonlySequence<Tege>): TegeSeries {
+    return TegeSeries.ofArray(teges.toArray());
   }
 
-  public static ofArray(teges: ReadonlyArray<Tege>): TegeExpansions {
-    return new TegeExpansions(ImmutableSequence.ofArray<Tege>(teges));
+  public static ofArray(teges: ReadonlyArray<Tege>): TegeSeries {
+    return new TegeSeries(ImmutableSequence.ofArray<Tege>(teges));
   }
 
   protected constructor(teges: ImmutableSequence<Tege>) {
@@ -38,7 +38,7 @@ export class TegeExpansions extends Quantity<number, Tege, 'TegeExpansions'> imp
     if (this === other) {
       return true;
     }
-    if (!(other instanceof TegeExpansions)) {
+    if (!(other instanceof TegeSeries)) {
       return false;
     }
 

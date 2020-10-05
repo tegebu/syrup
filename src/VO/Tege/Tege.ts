@@ -16,7 +16,7 @@ export type TegeJSON = Readonly<{
   players: TegePlayersJSON;
   minAge: number;
   imagePath: string;
-  expansion: ReadonlyArray<TegeJSON>;
+  series: ReadonlyArray<TegeJSON>;
 }>;
 
 export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
@@ -122,7 +122,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
       players: this.players.toJSON(),
       minAge: this.minAge.get(),
       imagePath: this.imagePath.get(),
-      expansion: []
+      series: []
     };
   }
 
@@ -145,4 +145,6 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
   public getImagePath(): TegeImagePath {
     return this.imagePath;
   }
+
+  // TODO hasExpansions
 }

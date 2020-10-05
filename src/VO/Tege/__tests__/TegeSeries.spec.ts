@@ -3,14 +3,14 @@ import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { MockTege } from '../Mock/MockTege';
 import { Tege } from '../Tege';
-import { TegeExpansions } from '../TegeExpansions';
 import { TegeImagePath } from '../TegeImagePath';
 import { TegeMinAge } from '../TegeMinAge';
 import { TegeName } from '../TegeName';
 import { TegePlayers } from '../TegePlayers';
 import { TegePlayingTime } from '../TegePlayingTime';
+import { TegeSeries } from '../TegeSeries';
 
-describe('TegeExpansions', () => {
+describe('TegeSeries', () => {
   describe('contains', () => {
     it('delegates its inner collection object', () => {
       expect.assertions(1);
@@ -20,7 +20,7 @@ describe('TegeExpansions', () => {
 
       sequence.contains = spy;
 
-      const expansions: TegeExpansions = TegeExpansions.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.ofArray([]);
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -86,7 +86,7 @@ describe('TegeExpansions', () => {
 
       sequence.contains = spy;
 
-      const expansions: TegeExpansions = TegeExpansions.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.ofArray([]);
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -105,7 +105,7 @@ describe('TegeExpansions', () => {
 
       sequence.every = spy;
 
-      const expansions: TegeExpansions = TegeExpansions.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.ofArray([]);
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -126,7 +126,7 @@ describe('TegeExpansions', () => {
 
       sequence.forEach = spy;
 
-      const expansions: TegeExpansions = TegeExpansions.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.ofArray([]);
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -147,7 +147,7 @@ describe('TegeExpansions', () => {
 
       sequence.get = spy;
 
-      const expansions: TegeExpansions = TegeExpansions.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.ofArray([]);
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -166,7 +166,7 @@ describe('TegeExpansions', () => {
 
       sequence.isEmpty = spy;
 
-      const expansions: TegeExpansions = TegeExpansions.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.ofArray([]);
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -185,7 +185,7 @@ describe('TegeExpansions', () => {
 
       sequence.toString = spy;
 
-      const expansions: TegeExpansions = TegeExpansions.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.ofArray([]);
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -204,7 +204,7 @@ describe('TegeExpansions', () => {
 
       sequence.size = spy;
 
-      const expansions: TegeExpansions = TegeExpansions.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.ofArray([]);
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -223,7 +223,7 @@ describe('TegeExpansions', () => {
 
       sequence.some = spy;
 
-      const expansions: TegeExpansions = TegeExpansions.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.ofArray([]);
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -244,7 +244,7 @@ describe('TegeExpansions', () => {
 
       sequence.values = spy;
 
-      const expansions: TegeExpansions = TegeExpansions.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.ofArray([]);
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -272,7 +272,7 @@ describe('TegeExpansions', () => {
       const tege01: Tege = Tege.of(name1, time1, players1, minAge1, imagePath1);
       const tege02: Tege = Tege.of(name2, time2, players2, minAge2, imagePath2);
 
-      const expansions: TegeExpansions = TegeExpansions.ofArray([tege01, tege02]);
+      const expansions: TegeSeries = TegeSeries.ofArray([tege01, tege02]);
 
       expect(expansions.toJSON()).toStrictEqual([
         {
@@ -284,7 +284,7 @@ describe('TegeExpansions', () => {
           },
           minAge: 8,
           imagePath: '/1',
-          expansion: []
+          series: []
         },
         {
           name: 'te2',
@@ -295,7 +295,7 @@ describe('TegeExpansions', () => {
           },
           minAge: 9,
           imagePath: '/2',
-          expansion: []
+          series: []
         }
       ]);
     });
