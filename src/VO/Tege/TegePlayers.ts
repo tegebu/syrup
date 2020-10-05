@@ -76,6 +76,19 @@ export class TegePlayers extends ValueObject<'TegePlayer'> implements Displayabl
     }
   }
 
+  public static ofUnique(value: number): TegePlayers {
+    return TegePlayers.of(UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(value))));
+  }
+
+  public static ofRange(min: number, max: number): TegePlayers {
+    return TegePlayers.of(
+      RangeValue.of<IntegerValue<PositiveValue>>(
+        IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(min)),
+        IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(max))
+      )
+    );
+  }
+
   public static validate(n: unknown): n is TegePlayersJSON {
     if (!Kind.isObject<TegePlayersJSON>(n)) {
       return false;

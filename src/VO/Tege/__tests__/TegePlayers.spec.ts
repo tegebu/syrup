@@ -68,6 +68,32 @@ describe('TegePlayers', () => {
     });
   });
 
+  describe('ofUnique', () => {
+    it('returns instance', () => {
+      expect.assertions(1);
+
+      const value: number = 2;
+      const unique: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(value)));
+
+      expect(TegePlayers.ofUnique(value).get().equals(unique)).toBe(true);
+    });
+  });
+
+  describe('ofRange', () => {
+    it('returns instance', () => {
+      expect.assertions(1);
+
+      const min: number = 2;
+      const max: number = 4;
+      const range: RangeValue<IntegerValue<PositiveValue>> = RangeValue.of<IntegerValue<PositiveValue>>(
+        IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(min)),
+        IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(max))
+      );
+
+      expect(TegePlayers.ofRange(min, max).get().equals(range)).toBe(true);
+    });
+  });
+
   describe('validate', () => {
     it('returns true: unique', () => {
       expect.assertions(1);
