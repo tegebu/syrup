@@ -25,13 +25,13 @@ describe('PositiveValue', () => {
       const value3: BareValue = BareValue.of(-1.0902099);
 
       expect(() => {
-        PositiveValue.of(value1).get();
+        PositiveValue.of(value1);
       }).toThrow(ValueError);
       expect(() => {
-        PositiveValue.of(value2).get();
+        PositiveValue.of(value2);
       }).toThrow(ValueError);
       expect(() => {
-        PositiveValue.of(value3).get();
+        PositiveValue.of(value3);
       }).toThrow(ValueError);
     });
   });
@@ -49,7 +49,7 @@ describe('PositiveValue', () => {
       expect(PositiveValue.ofNumber(value3).get()).toBe(value3);
     });
 
-    it('throws ValueError when decimal number given', () => {
+    it('throws ValueError when negative number or 0 given', () => {
       expect.assertions(3);
 
       const value1: number = -1;
@@ -57,13 +57,13 @@ describe('PositiveValue', () => {
       const value3: number = -1.0902099;
 
       expect(() => {
-        PositiveValue.ofNumber(value1).get();
+        PositiveValue.ofNumber(value1);
       }).toThrow(ValueError);
       expect(() => {
-        PositiveValue.ofNumber(value2).get();
+        PositiveValue.ofNumber(value2);
       }).toThrow(ValueError);
       expect(() => {
-        PositiveValue.ofNumber(value3).get();
+        PositiveValue.ofNumber(value3);
       }).toThrow(ValueError);
     });
   });

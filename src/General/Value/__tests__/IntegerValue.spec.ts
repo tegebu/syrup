@@ -25,13 +25,13 @@ describe('IntegerValue', () => {
       const value3: BareValue = BareValue.of(1.0902099);
 
       expect(() => {
-        IntegerValue.of(value1).get();
+        IntegerValue.of(value1);
       }).toThrow(ValueError);
       expect(() => {
-        IntegerValue.of(value2).get();
+        IntegerValue.of(value2);
       }).toThrow(ValueError);
       expect(() => {
-        IntegerValue.of(value3).get();
+        IntegerValue.of(value3);
       }).toThrow(ValueError);
     });
 
@@ -43,13 +43,13 @@ describe('IntegerValue', () => {
       const value3: BareValue = BareValue.of(NaN);
 
       expect(() => {
-        IntegerValue.of(value1).get();
+        IntegerValue.of(value1);
       }).toThrow(ValueError);
       expect(() => {
-        IntegerValue.of(value2).get();
+        IntegerValue.of(value2);
       }).toThrow(ValueError);
       expect(() => {
-        IntegerValue.of(value3).get();
+        IntegerValue.of(value3);
       }).toThrow(ValueError);
     });
   });
