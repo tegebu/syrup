@@ -4,6 +4,7 @@ import sinon, { SinonSpy } from 'sinon';
 import { MockTege } from '../Mock/MockTege';
 import { Tege } from '../Tege';
 import { TegeExpansion } from '../TegeExpansion';
+import { TegeID } from '../TegeID';
 import { TegeImagePath } from '../TegeImagePath';
 import { TegeMinAge } from '../TegeMinAge';
 import { TegeName } from '../TegeName';
@@ -34,6 +35,7 @@ describe('TegeSeries', () => {
 
       const n: unknown = [
         {
+          id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
           name: 'te1',
           playingTime: 21,
           players: {
@@ -42,9 +44,11 @@ describe('TegeSeries', () => {
           },
           minAge: 8,
           imagePath: '/1',
-          expansion: true
+          expansion: true,
+          series: []
         },
         {
+          id: 'f8b1852c-9f7a-4435-9f42-33367debe504',
           name: 'te2',
           playingTime: 22,
           players: {
@@ -53,7 +57,8 @@ describe('TegeSeries', () => {
           },
           minAge: 9,
           imagePath: '/2',
-          expansion: false
+          expansion: false,
+          series: []
         }
       ];
 
@@ -97,6 +102,7 @@ describe('TegeSeries', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);
 
+      const id: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
       const name: TegeName = TegeName.of('te');
       const time: TegePlayingTime = TegePlayingTime.ofNumber(20);
       const players: TegePlayers = TegePlayers.ofUnique(30);
@@ -106,6 +112,7 @@ describe('TegeSeries', () => {
       const series: TegeSeries = TegeSeries.empty();
 
       const tege1: Tege = Tege.of(
+        id,
         name,
         time,
         players,
@@ -115,6 +122,7 @@ describe('TegeSeries', () => {
         series
       );
       const tege2: Tege = Tege.of(
+        id,
         name,
         time,
         players,
@@ -130,6 +138,7 @@ describe('TegeSeries', () => {
     it('return false when the different class instance given', () => {
       expect.assertions(1);
 
+      const id: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
       const name: TegeName = TegeName.of('te');
       const time: TegePlayingTime = TegePlayingTime.ofNumber(20);
       const players: TegePlayers = TegePlayers.ofUnique(30);
@@ -139,6 +148,7 @@ describe('TegeSeries', () => {
       const series: TegeSeries = TegeSeries.empty();
 
       const tege: Tege = Tege.of(
+        id,
         name,
         time,
         players,
@@ -331,6 +341,8 @@ describe('TegeSeries', () => {
     it('returns ReadonlyArray<TegeJSON>', () => {
       expect.assertions(1);
 
+      const id1: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
+      const id2: TegeID = TegeID.ofString('f8b1852c-9f7a-4435-9f42-33367debe504');
       const name1: TegeName = TegeName.of('te1');
       const name2: TegeName = TegeName.of('te2');
       const time1: TegePlayingTime = TegePlayingTime.ofNumber(20);
@@ -346,13 +358,14 @@ describe('TegeSeries', () => {
       const series1: TegeSeries = TegeSeries.empty();
       const series2: TegeSeries = TegeSeries.empty();
 
-      const tege01: Tege = Tege.of(name1, time1, players1, minAge1, imagePath1, expansion1, series1);
-      const tege02: Tege = Tege.of(name2, time2, players2, minAge2, imagePath2, expansion2, series2);
+      const tege01: Tege = Tege.of(id1, name1, time1, players1, minAge1, imagePath1, expansion1, series1);
+      const tege02: Tege = Tege.of(id2, name2, time2, players2, minAge2, imagePath2, expansion2, series2);
 
       const expansions: TegeSeries = TegeSeries.ofArray([tege01, tege02]);
 
       expect(expansions.toJSON()).toStrictEqual([
         {
+          id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
           name: 'te1',
           playingTime: 20,
           players: {
@@ -365,6 +378,7 @@ describe('TegeSeries', () => {
           series: []
         },
         {
+          id: 'f8b1852c-9f7a-4435-9f42-33367debe504',
           name: 'te2',
           playingTime: 30,
           players: {
