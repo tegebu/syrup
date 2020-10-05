@@ -25,7 +25,7 @@ describe('Tege', () => {
       expect(Tege.validate(n)).toBe(true);
     });
 
-    it('returns false when others given', () => {
+    it('returns false when no-object given', () => {
       expect.assertions(9);
 
       expect(Tege.validate(undefined)).toBe(false);
@@ -37,6 +37,165 @@ describe('Tege', () => {
       expect(Tege.validate(102n)).toBe(false);
       expect(Tege.validate({})).toBe(false);
       expect(Tege.validate([])).toBe(false);
+    });
+
+    it('returns false when name is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/'
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when name is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 201,
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/'
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when playingTime is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 'te',
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/'
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when playingTime is not number', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 'te',
+        playingTime: 'maybe',
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/'
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when players is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 'te',
+        playingTime: 20,
+        minAge: 8,
+        imagePath: '/'
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when players is not object', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 'te',
+        playingTime: 20,
+        players: null,
+        minAge: 8,
+        imagePath: '/'
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when minAge is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        imagePath: '/'
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when minAge is not number', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: false,
+        imagePath: '/'
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when imagePath is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when imagePath is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: 9
+      };
+
+      expect(Tege.validate(n)).toBe(false);
     });
   });
 
