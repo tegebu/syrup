@@ -7,7 +7,7 @@ export class PositiveValue<V extends NumericalValue = NumericalValue> extends Va
   public readonly noun: 'PositiveValue' = 'PositiveValue';
   private readonly value: V;
 
-  public static of<VT extends NumericalValue>(value: VT): PositiveValue {
+  public static of<VT extends NumericalValue>(value: VT): PositiveValue<VT> {
     if (value.get() > 0) {
       return new PositiveValue(value);
     }

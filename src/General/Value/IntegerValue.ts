@@ -8,7 +8,7 @@ export class IntegerValue<V extends NumericalValue = NumericalValue> extends Val
   public readonly noun: 'IntegerValue' = 'IntegerValue';
   private readonly value: V;
 
-  public static of<VT extends NumericalValue>(value: VT): IntegerValue {
+  public static of<VT extends NumericalValue>(value: VT): IntegerValue<VT> {
     if (Kind.isInteger(value.get())) {
       return new IntegerValue(value);
     }
