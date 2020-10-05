@@ -7,6 +7,7 @@ import { TegeMinAge } from './TegeMinAge';
 import { TegeName } from './TegeName';
 import { TegePlayers, TegePlayersJSON } from './TegePlayers';
 import { TegePlayingTime } from './TegePlayingTime';
+import { TegeSeries } from './TegeSeries';
 
 export type TegeJSON = Readonly<{
   name: string;
@@ -29,8 +30,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
   private readonly minAge: TegeMinAge;
   private readonly imagePath: TegeImagePath;
   private readonly expansion: TegeExpansion;
-
-  // private readonly series: TegeSeries;
+  private readonly series: TegeSeries;
 
   public static of(
     name: TegeName,
@@ -38,9 +38,10 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     players: TegePlayers,
     minAge: TegeMinAge,
     imagePath: TegeImagePath,
-    expansion: TegeExpansion
+    expansion: TegeExpansion,
+    series: TegeSeries
   ): Tege {
-    return new Tege(name, time, players, minAge, imagePath, expansion);
+    return new Tege(name, time, players, minAge, imagePath, expansion, series);
   }
 
   public static validate(n: unknown): n is TegeJSON {
@@ -65,8 +66,9 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     if (!TegeExpansion.validate(n.expansion)) {
       return false;
     }
-    // TODO SEREIES VALIDATE
-    // if (!TegeSeries.)
+    if (!TegeSeries.validate(n.series)) {
+      return false;
+    }
 
     return true;
   }
@@ -77,7 +79,8 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     players: TegePlayers,
     minAge: TegeMinAge,
     imagePath: TegeImagePath,
-    expansion: TegeExpansion
+    expansion: TegeExpansion,
+    series: TegeSeries
   ) {
     super();
     this.name = name;
@@ -86,6 +89,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     this.minAge = minAge;
     this.imagePath = imagePath;
     this.expansion = expansion;
+    this.series = series;
   }
 
   public equals(other: unknown): boolean {
@@ -113,6 +117,9 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     if (!this.expansion.equals(other.expansion)) {
       return false;
     }
+    if (!this.series.equals(other.series)) {
+      return false;
+    }
 
     return true;
   }
@@ -126,6 +133,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     properties.push(this.minAge.toString());
     properties.push(this.imagePath.toString());
     properties.push(this.expansion.toString());
+    properties.push(this.series.toString());
 
     return properties.join(', ');
   }
@@ -138,7 +146,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
       minAge: this.minAge.get(),
       imagePath: this.imagePath.get(),
       expansion: this.expansion.get(),
-      series: []
+      series: this.series.toJSON()
     };
   }
 
@@ -164,6 +172,10 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
 
   public isExpansion(): boolean {
     return this.expansion.get();
+  }
+
+  public getSeries(): TegeSeries {
+    return this.series;
   }
 
   // TODO hasExpansions
