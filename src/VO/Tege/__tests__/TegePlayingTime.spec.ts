@@ -87,6 +87,7 @@ describe('TegePlayingTime', () => {
       expect.assertions(1);
 
       const value: number = 2;
+
       const time: TegePlayingTime = TegePlayingTime.ofNumber(value);
 
       expect(time.toString()).toBe(`${value}`);
@@ -98,6 +99,7 @@ describe('TegePlayingTime', () => {
       expect.assertions(1);
 
       const value: number = 2;
+
       const time: TegePlayingTime = TegePlayingTime.ofNumber(value);
 
       expect(time.display()).toBe(`${value}`);

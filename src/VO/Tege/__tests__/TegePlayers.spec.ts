@@ -108,6 +108,7 @@ describe('TegePlayers', () => {
       const value2: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
 
       const stub: SinonStub = sinon.stub();
+
       value1.equals = stub;
       stub.returns(true);
 
@@ -124,6 +125,7 @@ describe('TegePlayers', () => {
 
       const value: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
       const spy: SinonSpy = sinon.spy();
+
       value.toString = spy;
 
       const players: TegePlayers = TegePlayers.of(value);
@@ -170,6 +172,7 @@ describe('TegePlayers', () => {
 
       const value: UniqueValue<IntegerValue<PositiveValue>> = UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(2)));
       const spy: SinonSpy = sinon.spy();
+
       value.display = spy;
 
       const players: TegePlayers = TegePlayers.of(value);

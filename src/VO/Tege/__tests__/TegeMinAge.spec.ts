@@ -98,6 +98,7 @@ describe('TegeMinAge', () => {
       expect.assertions(1);
 
       const value: number = 2;
+
       const time: TegeMinAge = TegeMinAge.ofNumber(value);
 
       expect(time.display()).toBe(`${value} -`);
