@@ -53,6 +53,27 @@ describe('TegePlayingTime', () => {
     });
   });
 
+  describe('validate', () => {
+    it('returns true when number given', () => {
+      expect.assertions(1);
+
+      expect(TegePlayingTime.validate(0)).toBe(true);
+    });
+
+    it('returns false when others given', () => {
+      expect.assertions(8);
+
+      expect(TegePlayingTime.validate(undefined)).toBe(false);
+      expect(TegePlayingTime.validate(null)).toBe(false);
+      expect(TegePlayingTime.validate(true)).toBe(false);
+      expect(TegePlayingTime.validate('')).toBe(false);
+      expect(TegePlayingTime.validate(Symbol())).toBe(false);
+      expect(TegePlayingTime.validate(102n)).toBe(false);
+      expect(TegePlayingTime.validate({})).toBe(false);
+      expect(TegePlayingTime.validate([])).toBe(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);

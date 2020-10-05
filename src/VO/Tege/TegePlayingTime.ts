@@ -1,4 +1,5 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 import { IntegerValue } from '../../General/Value/IntegerValue';
 import { PositiveValue } from '../../General/Value/PositiveValue';
 import { Displayable } from '../../General/ValueRange/Displayable';
@@ -14,6 +15,10 @@ export class TegePlayingTime extends ValueObject<'TegePlayingTime'> implements D
 
   public static ofNumber(time: number): TegePlayingTime {
     return TegePlayingTime.of(UniqueValue.of<IntegerValue<PositiveValue>>(IntegerValue.of<PositiveValue>(PositiveValue.ofNumber(time))));
+  }
+
+  public static validate(n: unknown): n is number {
+    return Kind.isNumber(n);
   }
 
   protected constructor(time: UniqueValue<IntegerValue<PositiveValue>>) {
