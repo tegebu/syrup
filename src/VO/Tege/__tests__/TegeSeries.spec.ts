@@ -25,7 +25,7 @@ describe('TegeSeries', () => {
     it('returns singleton if 0 length array given', () => {
       expect.assertions(1);
 
-      expect(TegeSeries.ofArray([])).toBe(TegeSeries.ofArray([]));
+      expect(TegeSeries.empty()).toBe(TegeSeries.empty());
     });
   });
 
@@ -88,7 +88,7 @@ describe('TegeSeries', () => {
 
       sequence.contains = spy;
 
-      const expansions: TegeSeries = TegeSeries.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -169,7 +169,7 @@ describe('TegeSeries', () => {
 
       sequence.contains = spy;
 
-      const expansions: TegeSeries = TegeSeries.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -188,7 +188,7 @@ describe('TegeSeries', () => {
 
       sequence.every = spy;
 
-      const expansions: TegeSeries = TegeSeries.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -209,7 +209,7 @@ describe('TegeSeries', () => {
 
       sequence.forEach = spy;
 
-      const expansions: TegeSeries = TegeSeries.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -230,7 +230,7 @@ describe('TegeSeries', () => {
 
       sequence.get = spy;
 
-      const expansions: TegeSeries = TegeSeries.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -249,7 +249,7 @@ describe('TegeSeries', () => {
 
       sequence.isEmpty = spy;
 
-      const expansions: TegeSeries = TegeSeries.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -268,7 +268,7 @@ describe('TegeSeries', () => {
 
       sequence.toString = spy;
 
-      const expansions: TegeSeries = TegeSeries.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -287,7 +287,7 @@ describe('TegeSeries', () => {
 
       sequence.size = spy;
 
-      const expansions: TegeSeries = TegeSeries.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -306,7 +306,7 @@ describe('TegeSeries', () => {
 
       sequence.some = spy;
 
-      const expansions: TegeSeries = TegeSeries.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
       expansions.teges = sequence;
 
@@ -327,7 +327,7 @@ describe('TegeSeries', () => {
 
       sequence.values = spy;
 
-      const expansions: TegeSeries = TegeSeries.ofArray([]);
+      const expansions: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
       expansions.teges = sequence;
 

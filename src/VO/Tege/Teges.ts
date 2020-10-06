@@ -20,7 +20,15 @@ export class Teges extends Quantity<TegeID, Tege, 'Teges'> {
   }
 
   public static ofMap(teges: ReadonlyMap<TegeID, Tege>): Teges {
+    if (teges.size === 0) {
+      return Teges.EMPTY;
+    }
+
     return new Teges(ImmutableProject.ofMap<TegeID, Tege>(teges));
+  }
+
+  public static empty(): Teges {
+    return Teges.EMPTY;
   }
 
   protected constructor(teges: ImmutableProject<TegeID, Tege>) {
