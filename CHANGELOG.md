@@ -1,3 +1,13 @@
+# [1.1.0](https://github.com/tegebu/syrup/compare/v1.0.0...v1.1.0) (2020-10-06)
+
+
+### Features
+
+* 🎸 README.md ([6bd4b27](https://github.com/tegebu/syrup/commit/6bd4b27f71216bdced266727b567b8d07d8a53ee))
+* 🎸 Teges and its mock ([5ad7846](https://github.com/tegebu/syrup/commit/5ad78466797ae8c41ea7673ddf3417f723e4b840))
+* 🎸 teges implemented ([931873c](https://github.com/tegebu/syrup/commit/931873cbd8d34a475b053702a222a588ef723077))
+* 🎸 update ([7968332](https://github.com/tegebu/syrup/commit/7968332c4fcb2567f6dc48905d31cc2fac87a1e8))
+
 # 1.0.0 (2020-10-05)
 
 
