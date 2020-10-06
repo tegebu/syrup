@@ -21,6 +21,7 @@ export type TegeJSON = Readonly<{
   minAge: number;
   imagePath: string;
   expansion: boolean;
+  series: ReadonlyArray<string>;
 }>;
 
 export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
@@ -94,8 +95,13 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     if (!TegeExpansion.validate(n.expansion)) {
       return false;
     }
+    if (!Kind.isArray(n.series)) {
+      return false;
+    }
 
-    return true;
+    return n.series.every((o: unknown) => {
+      return TegeID.validate(o);
+    });
   }
 
   protected constructor(
@@ -177,7 +183,10 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
       players: this.players.toJSON(),
       minAge: this.minAge.get(),
       imagePath: this.imagePath.get(),
-      expansion: this.expansion.get()
+      expansion: this.expansion.get(),
+      series: this.series.ids().map<string>((id: TegeID) => {
+        return id.get();
+      })
     };
   }
 

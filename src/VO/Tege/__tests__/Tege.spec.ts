@@ -1,5 +1,6 @@
 import { MockValueObject } from '@jamashita/publikum-object';
 import { MockTege } from '../Mock/MockTege';
+import { MockTegeID } from '../Mock/MockTegeID';
 import { Tege } from '../Tege';
 import { TegeExpansion } from '../TegeExpansion';
 import { TegeID } from '../TegeID';
@@ -25,7 +26,10 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(true);
@@ -55,7 +59,10 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -74,13 +81,16 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
     });
 
-    it('returns false when is is not string', () => {
+    it('returns false when id is not string', () => {
       expect.assertions(1);
 
       const n: unknown = {
@@ -93,7 +103,10 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -111,7 +124,10 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -130,7 +146,10 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -148,7 +167,10 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -167,7 +189,10 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -182,7 +207,10 @@ describe('Tege', () => {
         playingTime: 20,
         minAge: 8,
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -198,7 +226,10 @@ describe('Tege', () => {
         players: null,
         minAge: 8,
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -216,7 +247,10 @@ describe('Tege', () => {
           value: 30
         },
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -235,7 +269,10 @@ describe('Tege', () => {
         },
         minAge: false,
         imagePath: '/',
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -253,7 +290,10 @@ describe('Tege', () => {
           value: 30
         },
         minAge: 8,
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -272,7 +312,10 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: 9,
-        expansion: true
+        expansion: true,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -290,7 +333,10 @@ describe('Tege', () => {
           value: 30
         },
         minAge: 8,
-        imagePath: '/'
+        imagePath: '/',
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -309,7 +355,95 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: null
+        expansion: null,
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when series is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when series element is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true,
+        series: [
+          false
+        ]
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when series element is not uuid format string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true,
+        series: [
+          'dragon'
+        ]
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when series is not array', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true,
+        series: {
+          0: 'aa620de8-833a-422b-a484-31001bfc5714'
+        }
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -444,6 +578,10 @@ describe('Tege', () => {
     it('returns TegeJSON', () => {
       expect.assertions(1);
 
+      const id1: TegeID = new MockTegeID();
+      const id2: TegeID = new MockTegeID();
+      const id3: TegeID = new MockTegeID();
+
       const id: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
       const name: TegeName = TegeName.of('te');
       const time: TegePlayingTime = TegePlayingTime.ofNumber(20);
@@ -452,9 +590,15 @@ describe('Tege', () => {
       const imagePath: TegeImagePath = TegeImagePath.of('/');
       const expansion: TegeExpansion = TegeExpansion.of(false);
       const series: TegeSeries = TegeSeries.ofArray([
-        new MockTege(),
-        new MockTege(),
-        new MockTege()
+        new MockTege({
+          id: id1
+        }),
+        new MockTege({
+          id: id2
+        }),
+        new MockTege({
+          id: id3
+        })
       ]);
 
       const tege: Tege = Tege.of(
@@ -478,7 +622,12 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: false
+        expansion: false,
+        series: [
+          id1.toString(),
+          id2.toString(),
+          id3.toString()
+        ]
       });
     });
   });
