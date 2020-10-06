@@ -25,8 +25,7 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(true);
@@ -56,8 +55,7 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -76,8 +74,7 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -96,8 +93,7 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -115,8 +111,7 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -135,8 +130,7 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -154,8 +148,7 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -174,8 +167,7 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -190,8 +182,7 @@ describe('Tege', () => {
         playingTime: 20,
         minAge: 8,
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -207,8 +198,7 @@ describe('Tege', () => {
         players: null,
         minAge: 8,
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -226,8 +216,7 @@ describe('Tege', () => {
           value: 30
         },
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -246,8 +235,7 @@ describe('Tege', () => {
         },
         minAge: false,
         imagePath: '/',
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -265,8 +253,7 @@ describe('Tege', () => {
           value: 30
         },
         minAge: 8,
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -285,8 +272,7 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: 9,
-        expansion: true,
-        series: []
+        expansion: true
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -304,8 +290,7 @@ describe('Tege', () => {
           value: 30
         },
         minAge: 8,
-        imagePath: '/',
-        series: []
+        imagePath: '/'
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -324,8 +309,7 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: null,
-        series: []
+        expansion: null
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -467,7 +451,11 @@ describe('Tege', () => {
       const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
       const imagePath: TegeImagePath = TegeImagePath.of('/');
       const expansion: TegeExpansion = TegeExpansion.of(false);
-      const series: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.ofArray([
+        new MockTege(),
+        new MockTege(),
+        new MockTege()
+      ]);
 
       const tege: Tege = Tege.of(
         id,
@@ -490,8 +478,7 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        expansion: false,
-        series: []
+        expansion: false
       });
     });
   });

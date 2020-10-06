@@ -21,7 +21,6 @@ export type TegeJSON = Readonly<{
   minAge: number;
   imagePath: string;
   expansion: boolean;
-  series: ReadonlyArray<TegeJSON>;
 }>;
 
 export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
@@ -57,6 +56,19 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     );
   }
 
+  public static ofJSON(json: TegeJSON, series: TegeSeries): Tege {
+    return Tege.of(
+      TegeID.ofString(json.id),
+      TegeName.of(json.name),
+      TegePlayingTime.ofNumber(json.playingTime),
+      TegePlayers.ofJSON(json.players),
+      TegeMinAge.ofNumber(json.minAge),
+      TegeImagePath.of(json.imagePath),
+      TegeExpansion.of(json.expansion),
+      series
+    );
+  }
+
   public static validate(n: unknown): n is TegeJSON {
     if (!Kind.isObject<TegeJSON>(n)) {
       return false;
@@ -80,9 +92,6 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
       return false;
     }
     if (!TegeExpansion.validate(n.expansion)) {
-      return false;
-    }
-    if (!TegeSeries.validate(n.series)) {
       return false;
     }
 
@@ -168,8 +177,7 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
       players: this.players.toJSON(),
       minAge: this.minAge.get(),
       imagePath: this.imagePath.get(),
-      expansion: this.expansion.get(),
-      series: this.series.toJSON()
+      expansion: this.expansion.get()
     };
   }
 
