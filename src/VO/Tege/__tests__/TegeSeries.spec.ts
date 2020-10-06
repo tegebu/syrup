@@ -110,18 +110,7 @@ describe('TegeSeries', () => {
       const imagePath: TegeImagePath = TegeImagePath.of('/');
       const expansion: TegeExpansion = TegeExpansion.of(false);
       const series: TegeSeries = TegeSeries.empty();
-
-      const tege1: Tege = Tege.of(
-        id,
-        name,
-        time,
-        players,
-        minAge,
-        imagePath,
-        expansion,
-        series
-      );
-      const tege2: Tege = Tege.of(
+      const tege: Tege = Tege.of(
         id,
         name,
         time,
@@ -132,7 +121,9 @@ describe('TegeSeries', () => {
         series
       );
 
-      expect(tege1.equals(tege2)).toBe(true);
+      const se: TegeSeries = TegeSeries.ofArray([tege]);
+
+      expect(se.equals(se)).toBe(true);
     });
 
     it('return false when the different class instance given', () => {
@@ -146,7 +137,6 @@ describe('TegeSeries', () => {
       const imagePath: TegeImagePath = TegeImagePath.of('/');
       const expansion: TegeExpansion = TegeExpansion.of(false);
       const series: TegeSeries = TegeSeries.empty();
-
       const tege: Tege = Tege.of(
         id,
         name,
@@ -158,7 +148,9 @@ describe('TegeSeries', () => {
         series
       );
 
-      expect(tege.equals(new MockValueObject('mock'))).toBe(false);
+      const se: TegeSeries = TegeSeries.ofArray([tege]);
+
+      expect(se.equals(new MockValueObject('mock'))).toBe(false);
     });
 
     it('delegates its inner collection object', () => {
