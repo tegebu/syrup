@@ -5,11 +5,12 @@ import {
   Quantity,
   ReadonlyProject
 } from '@jamashita/publikum-collection';
+import { JSONable } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
-import { Tege } from './Tege';
+import { Tege, TegeJSON } from './Tege';
 import { TegeID } from './TegeID';
 
-export class Teges extends Quantity<TegeID, Tege, 'Teges'> {
+export class Teges extends Quantity<TegeID, Tege, 'Teges'> implements JSONable<ReadonlyArray<TegeJSON>> {
   public readonly noun: 'Teges' = 'Teges';
   private readonly teges: ImmutableProject<TegeID, Tege>;
 
@@ -85,5 +86,11 @@ export class Teges extends Quantity<TegeID, Tege, 'Teges'> {
 
   public values(): Iterable<Tege> {
     return this.teges.values();
+  }
+
+  public toJSON(): ReadonlyArray<TegeJSON> {
+    return [...this.teges.values()].map<TegeJSON>((tege: Tege) => {
+      return tege.toJSON();
+    });
   }
 }
