@@ -7,6 +7,7 @@ import {
 } from '@jamashita/publikum-collection';
 import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
 import { Tege, TegeJSON } from './Tege';
+import { TegeID } from './TegeID';
 
 export class TegeSeries extends Quantity<number, Tege, 'TegeSeries'> {
   public readonly noun: 'TegeSeries' = 'TegeSeries';
@@ -94,5 +95,11 @@ export class TegeSeries extends Quantity<number, Tege, 'TegeSeries'> {
 
   public values(): Iterable<Tege> {
     return this.teges.values();
+  }
+
+  public ids(): Array<TegeID> {
+    return this.teges.toArray().map<TegeID>((tege: Tege) => {
+      return tege.getID();
+    });
   }
 }
