@@ -5,11 +5,10 @@ import {
   Quantity,
   ReadonlySequence
 } from '@jamashita/publikum-collection';
-import { JSONable } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
 import { Tege, TegeJSON } from './Tege';
 
-export class TegeSeries extends Quantity<number, Tege, 'TegeSeries'> implements JSONable<ReadonlyArray<TegeJSON>> {
+export class TegeSeries extends Quantity<number, Tege, 'TegeSeries'> {
   public readonly noun: 'TegeSeries' = 'TegeSeries';
   private readonly teges: ImmutableSequence<Tege>;
 
@@ -95,11 +94,5 @@ export class TegeSeries extends Quantity<number, Tege, 'TegeSeries'> implements 
 
   public values(): Iterable<Tege> {
     return this.teges.values();
-  }
-
-  public toJSON(): ReadonlyArray<TegeJSON> {
-    return this.teges.toArray().map<TegeJSON>((tege: Tege) => {
-      return tege.toJSON();
-    });
   }
 }

@@ -44,8 +44,7 @@ describe('TegeSeries', () => {
           },
           minAge: 8,
           imagePath: '/1',
-          expansion: true,
-          series: []
+          expansion: true
         },
         {
           id: 'f8b1852c-9f7a-4435-9f42-33367debe504',
@@ -57,8 +56,7 @@ describe('TegeSeries', () => {
           },
           minAge: 9,
           imagePath: '/2',
-          expansion: false,
-          series: []
+          expansion: false
         }
       ];
 
@@ -326,63 +324,6 @@ describe('TegeSeries', () => {
       expansions.values();
 
       expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('toJSON', () => {
-    it('returns ReadonlyArray<TegeJSON>', () => {
-      expect.assertions(1);
-
-      const id1: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
-      const id2: TegeID = TegeID.ofString('f8b1852c-9f7a-4435-9f42-33367debe504');
-      const name1: TegeName = TegeName.of('te1');
-      const name2: TegeName = TegeName.of('te2');
-      const time1: TegePlayingTime = TegePlayingTime.ofNumber(20);
-      const time2: TegePlayingTime = TegePlayingTime.ofNumber(30);
-      const players1: TegePlayers = TegePlayers.ofUnique(30);
-      const players2: TegePlayers = TegePlayers.ofUnique(40);
-      const minAge1: TegeMinAge = TegeMinAge.ofNumber(8);
-      const minAge2: TegeMinAge = TegeMinAge.ofNumber(9);
-      const imagePath1: TegeImagePath = TegeImagePath.of('/1');
-      const imagePath2: TegeImagePath = TegeImagePath.of('/2');
-      const expansion1: TegeExpansion = TegeExpansion.of(false);
-      const expansion2: TegeExpansion = TegeExpansion.of(true);
-      const series1: TegeSeries = TegeSeries.empty();
-      const series2: TegeSeries = TegeSeries.empty();
-
-      const tege01: Tege = Tege.of(id1, name1, time1, players1, minAge1, imagePath1, expansion1, series1);
-      const tege02: Tege = Tege.of(id2, name2, time2, players2, minAge2, imagePath2, expansion2, series2);
-
-      const expansions: TegeSeries = TegeSeries.ofArray([tege01, tege02]);
-
-      expect(expansions.toJSON()).toStrictEqual([
-        {
-          id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
-          name: 'te1',
-          playingTime: 20,
-          players: {
-            type: 'unique',
-            value: 30
-          },
-          minAge: 8,
-          imagePath: '/1',
-          expansion: false,
-          series: []
-        },
-        {
-          id: 'f8b1852c-9f7a-4435-9f42-33367debe504',
-          name: 'te2',
-          playingTime: 30,
-          players: {
-            type: 'unique',
-            value: 40
-          },
-          minAge: 9,
-          imagePath: '/2',
-          expansion: true,
-          series: []
-        }
-      ]);
     });
   });
 });
