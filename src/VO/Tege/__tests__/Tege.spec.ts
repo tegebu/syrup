@@ -1,7 +1,8 @@
 import { MockValueObject } from '@jamashita/publikum-object';
 import { MockTege } from '../Mock/MockTege';
 import { MockTegeID } from '../Mock/MockTegeID';
-import { Tege } from '../Tege';
+import { MockTegeSeries } from '../Mock/MockTegeSeries';
+import { Tege, TegeInputJSON, TegeJSON } from '../Tege';
 import { TegeExpansion } from '../TegeExpansion';
 import { TegeID } from '../TegeID';
 import { TegeImagePath } from '../TegeImagePath';
@@ -12,6 +13,64 @@ import { TegePlayingTime } from '../TegePlayingTime';
 import { TegeSeries } from '../TegeSeries';
 
 describe('Tege', () => {
+  describe('ofJSON', () => {
+    it('returns its instance', () => {
+      expect.assertions(7);
+
+      const json: TegeJSON = {
+        id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true,
+        series: []
+      };
+      const series: TegeSeries = new MockTegeSeries();
+
+      const tege: Tege = Tege.ofJSON(json, series);
+
+      expect(tege.getID().get()).toBe(json.id);
+      expect(tege.getName().get()).toBe(json.name);
+      expect(tege.getTime().get()).toBe(json.playingTime);
+      expect(tege.getMinAge().get()).toBe(json.minAge);
+      expect(tege.getImagePath().get()).toBe(json.imagePath);
+      expect(tege.isExpansion()).toBe(json.expansion);
+      expect(tege.getSeries()).toBe(series);
+    });
+  });
+
+  describe('ofInputJSON', () => {
+    it('returns its instance', () => {
+      expect.assertions(6);
+
+      const json: TegeInputJSON = {
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true
+      };
+
+      const tege: Tege = Tege.ofInputJSON(json);
+
+      expect(tege.getName().get()).toBe(json.name);
+      expect(tege.getTime().get()).toBe(json.playingTime);
+      expect(tege.getMinAge().get()).toBe(json.minAge);
+      expect(tege.getImagePath().get()).toBe(json.imagePath);
+      expect(tege.isExpansion()).toBe(json.expansion);
+      expect(tege.getSeries()).toBe(TegeSeries.empty());
+    });
+  });
+
   describe('validate', () => {
     it('returns true', () => {
       expect.assertions(1);

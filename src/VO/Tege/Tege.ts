@@ -24,6 +24,15 @@ export type TegeJSON = Readonly<{
   series: ReadonlyArray<string>;
 }>;
 
+export type TegeInputJSON = Readonly<{
+  name: string;
+  playingTime: number;
+  players: TegePlayersJSON;
+  minAge: number;
+  imagePath: string;
+  expansion: boolean;
+}>;
+
 export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
   public readonly noun: 'Tege' = 'Tege';
   private readonly id: TegeID;
@@ -67,6 +76,19 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
       TegeImagePath.of(json.imagePath),
       TegeExpansion.of(json.expansion),
       series
+    );
+  }
+
+  public static ofInputJSON(json: TegeInputJSON): Tege {
+    return Tege.of(
+      TegeID.generate(),
+      TegeName.of(json.name),
+      TegePlayingTime.ofNumber(json.playingTime),
+      TegePlayers.ofJSON(json.players),
+      TegeMinAge.ofNumber(json.minAge),
+      TegeImagePath.of(json.imagePath),
+      TegeExpansion.of(json.expansion),
+      TegeSeries.empty()
     );
   }
 
