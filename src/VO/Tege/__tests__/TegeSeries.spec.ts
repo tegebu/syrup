@@ -26,7 +26,7 @@ describe('TegeSeries', () => {
     it('returns singleton if 0 length array given', () => {
       expect.assertions(1);
 
-      expect(TegeSeries.empty()).toBe(TegeSeries.empty());
+      expect(TegeSeries.ofArray([])).toBe(TegeSeries.empty());
     });
   });
 
@@ -45,7 +45,8 @@ describe('TegeSeries', () => {
           },
           minAge: 8,
           imagePath: '/1',
-          expansion: true
+          expansion: true,
+          series: []
         },
         {
           id: 'f8b1852c-9f7a-4435-9f42-33367debe504',
@@ -57,7 +58,8 @@ describe('TegeSeries', () => {
           },
           minAge: 9,
           imagePath: '/2',
-          expansion: false
+          expansion: false,
+          series: []
         }
       ];
 
