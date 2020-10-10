@@ -31,6 +31,60 @@ describe('Teges', () => {
     });
   });
 
+  describe('validate', () => {
+    it('returns true', () => {
+      expect.assertions(1);
+
+      const n: unknown = [
+        {
+          id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+          name: 'te1',
+          playingTime: 20,
+          players: {
+            type: 'unique',
+            value: 30
+          },
+          minAge: 8,
+          imagePath: '/p1',
+          expansion: true,
+          series: [
+            'aa620de8-833a-422b-a484-31001bfc5714'
+          ]
+        },
+        {
+          id: '9fc75748-af19-412e-97d2-af40ff8983ef',
+          name: 'te2',
+          playingTime: 40,
+          players: {
+            type: 'range',
+            min: 40,
+            max: 60
+          },
+          minAge: 9,
+          imagePath: '/p2',
+          expansion: false,
+          series: [
+            '9fefbd2b-66c0-4e54-bfec-d401edffbcd5'
+          ]
+        }
+      ];
+
+      expect(Teges.validate(n)).toBe(true);
+    });
+
+    it('returns false when non-object given', () => {
+      expect.assertions(1);
+
+      expect(Teges.validate('toi')).toBe(false);
+    });
+
+    it('returns false when non-array given', () => {
+      expect.assertions(1);
+
+      expect(Teges.validate({})).toBe(false);
+    });
+  });
+
   describe('contains', () => {
     it('delegates its inner collection object', () => {
       expect.assertions(1);
@@ -40,11 +94,11 @@ describe('Teges', () => {
 
       project.contains = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.contains(new MockTege());
+      teges.contains(new MockTege());
 
       expect(spy.called).toBe(true);
     });
@@ -123,11 +177,11 @@ describe('Teges', () => {
 
       project.contains = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.contains(new MockTege());
+      teges.contains(new MockTege());
 
       expect(spy.called).toBe(true);
     });
@@ -142,11 +196,11 @@ describe('Teges', () => {
 
       project.every = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.every(() => {
+      teges.every(() => {
         return true;
       });
 
@@ -163,11 +217,11 @@ describe('Teges', () => {
 
       project.forEach = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.forEach(() => {
+      teges.forEach(() => {
         // NOOP
       });
 
@@ -184,11 +238,11 @@ describe('Teges', () => {
 
       project.get = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.get(new MockTegeID());
+      teges.get(new MockTegeID());
 
       expect(spy.called).toBe(true);
     });
@@ -203,11 +257,11 @@ describe('Teges', () => {
 
       project.isEmpty = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.isEmpty();
+      teges.isEmpty();
 
       expect(spy.called).toBe(true);
     });
@@ -222,11 +276,11 @@ describe('Teges', () => {
 
       project.toString = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.toString();
+      teges.toString();
 
       expect(spy.called).toBe(true);
     });
@@ -241,11 +295,11 @@ describe('Teges', () => {
 
       project.size = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.size();
+      teges.size();
 
       expect(spy.called).toBe(true);
     });
@@ -260,11 +314,11 @@ describe('Teges', () => {
 
       project.some = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.some(() => {
+      teges.some(() => {
         return true;
       });
 
@@ -281,11 +335,11 @@ describe('Teges', () => {
 
       project.values = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.values();
+      teges.values();
 
       expect(spy.called).toBe(true);
     });

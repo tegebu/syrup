@@ -6,7 +6,7 @@ import {
   ReadonlyProject
 } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
 import { Tege, TegeJSON } from './Tege';
 import { TegeID } from './TegeID';
 
@@ -30,6 +30,16 @@ export class Teges extends Quantity<TegeID, Tege, 'Teges'> implements JSONable<R
 
   public static empty(): Teges {
     return Teges.EMPTY;
+  }
+
+  public static validate(n: unknown): n is ReadonlyArray<TegeJSON> {
+    if (!Kind.isArray(n)) {
+      return false;
+    }
+
+    return n.every((o: unknown) => {
+      return Tege.validate(o);
+    });
   }
 
   protected constructor(teges: ImmutableProject<TegeID, Tege>) {
