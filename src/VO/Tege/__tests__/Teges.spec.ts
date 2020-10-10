@@ -1,4 +1,4 @@
-import { MockProject, Project } from '@jamashita/publikum-collection';
+import { ImmutableProject, MockProject, Project } from '@jamashita/publikum-collection';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { MockTege } from '../Mock/MockTege';
@@ -175,13 +175,15 @@ describe('Teges', () => {
       const spy: SinonSpy = sinon.spy();
       const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
 
-      project.contains = spy;
+      project.equals = spy;
 
       const teges: Teges = Teges.empty();
       // @ts-expect-error
       teges.teges = project;
 
-      teges.contains(new MockTege());
+      teges.equals(Teges.of(ImmutableProject.ofMap<TegeID, Tege>(new Map<TegeID, Tege>([
+        [new MockTegeID(), new MockTege()]
+      ]))));
 
       expect(spy.called).toBe(true);
     });
@@ -342,6 +344,28 @@ describe('Teges', () => {
       teges.values();
 
       expect(spy.called).toBe(true);
+    });
+  });
+
+
+  describe('iterator', () => {
+    it('normal case', () => {
+      expect.assertions(6);
+
+      const array: Array<[MockTegeID, MockTege]> = [
+        [new MockTegeID(), new MockTege()],
+        [new MockTegeID(), new MockTege()],
+        [new MockTegeID(), new MockTege()]
+      ];
+
+      const teges: Teges = Teges.ofMap(new Map<MockTegeID, MockTege>(array));
+      let i: number = 0;
+
+      for (const pair of teges) {
+        expect(pair.getKey()).toBe(array[i][0]);
+        expect(pair.getValue()).toBe(array[i][1]);
+        i++;
+      }
     });
   });
 });
