@@ -368,4 +368,79 @@ describe('Teges', () => {
       }
     });
   });
+
+  describe('toJSON', () => {
+    it('returns Array<TegeJSON>', () => {
+      expect.assertions(1);
+
+      const id1: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
+      const id2: TegeID = TegeID.ofString('0d683348-0e24-4a47-ae23-aad7ec3a491e');
+      const name1: TegeName = TegeName.of('te1');
+      const name2: TegeName = TegeName.of('te2');
+      const time1: TegePlayingTime = TegePlayingTime.ofNumber(20);
+      const time2: TegePlayingTime = TegePlayingTime.ofNumber(40);
+      const players1: TegePlayers = TegePlayers.ofUnique(30);
+      const players2: TegePlayers = TegePlayers.ofRange(50, 80);
+      const minAge1: TegeMinAge = TegeMinAge.ofNumber(8);
+      const minAge2: TegeMinAge = TegeMinAge.ofNumber(16);
+      const imagePath1: TegeImagePath = TegeImagePath.of('/p1');
+      const imagePath2: TegeImagePath = TegeImagePath.of('/p2');
+      const expansion1: TegeExpansion = TegeExpansion.of(false);
+      const expansion2: TegeExpansion = TegeExpansion.of(true);
+      const series1: TegeSeries = TegeSeries.empty();
+      const series2: TegeSeries = TegeSeries.empty();
+      const tege1: Tege = Tege.of(
+        id1,
+        name1,
+        time1,
+        players1,
+        minAge1,
+        imagePath1,
+        expansion1,
+        series1
+      );
+      const tege2: Tege = Tege.of(
+        id2,
+        name2,
+        time2,
+        players2,
+        minAge2,
+        imagePath2,
+        expansion2,
+        series2
+      );
+
+      const teges: Teges = Teges.ofMap(new Map<TegeID, Tege>([[tege1.getID(), tege1], [tege2.getID(), tege2]]));
+
+      expect(teges.toJSON()).toStrictEqual([
+        {
+          id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+          name: 'te1',
+          playingTime: 20,
+          players: {
+            type: 'unique',
+            value: 30
+          },
+          minAge: 8,
+          imagePath: '/p1',
+          expansion: false,
+          series: []
+        },
+        {
+          id: '0d683348-0e24-4a47-ae23-aad7ec3a491e',
+          name: 'te2',
+          playingTime: 40,
+          players: {
+            type: 'range',
+            min: 50,
+            max: 80
+          },
+          minAge: 16,
+          imagePath: '/p2',
+          expansion: true,
+          series: []
+        }
+      ]);
+    });
+  });
 });
