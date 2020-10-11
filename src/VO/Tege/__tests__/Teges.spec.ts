@@ -349,7 +349,7 @@ describe('Teges', () => {
 
 
   describe('iterator', () => {
-    it('normal case', () => {
+    it('returns Pair<TegeID, Tege>', () => {
       expect.assertions(6);
 
       const array: Array<[MockTegeID, MockTege]> = [

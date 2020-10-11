@@ -30,7 +30,7 @@ describe('Languages', () => {
   });
 
   describe('iterator', () => {
-    it('normal case', () => {
+    it('returns Pair<LanguageID, Language>', () => {
       expect.assertions(3);
 
       const array: Array<MockLanguage> = [
