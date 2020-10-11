@@ -12,24 +12,24 @@ import { Nominative } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
 import { ClosureTableHierarchy } from './ClosureTableHierarchy';
 
-export class ClosureTable<V extends Nominative, W extends Nominative = V> extends Quantity<V, ReadonlyAddress<W>, 'ClosureTableHierarchies'> {
+export class ClosureTable<V extends Nominative> extends Quantity<V, ReadonlyAddress<V>, 'ClosureTableHierarchies'> {
   public readonly noun: 'ClosureTableHierarchies' = 'ClosureTableHierarchies';
-  private readonly table: ReadonlyProject<V, ReadonlyAddress<W>>;
+  private readonly table: ReadonlyProject<V, ReadonlyAddress<V>>;
 
   private static readonly EMPTY: ClosureTable<Nominative> = new ClosureTable<Nominative>(ImmutableProject.empty<Nominative, ReadonlyAddress<Nominative>>());
 
-  public static of<VT extends Nominative, WT extends Nominative = VT>(hierarchies: ReadonlyArray<ClosureTableHierarchy<VT, WT>>): ClosureTable<VT, WT> {
+  public static of<VT extends Nominative>(hierarchies: ReadonlyArray<ClosureTableHierarchy<VT>>): ClosureTable<VT> {
     if (hierarchies.length === 0) {
-      return ClosureTable.empty<VT, WT>();
+      return ClosureTable.empty<VT>();
     }
 
-    const project: MutableProject<VT, MutableAddress<WT>> = MutableProject.empty<VT, MutableAddress<WT>>();
+    const project: MutableProject<VT, MutableAddress<VT>> = MutableProject.empty<VT, MutableAddress<VT>>();
 
-    hierarchies.forEach((hierarchy: ClosureTableHierarchy<VT, WT>) => {
-      const offsprings: Nullable<MutableAddress<WT>> = project.get(hierarchy.getAncestor());
+    hierarchies.forEach((hierarchy: ClosureTableHierarchy<VT>) => {
+      const offsprings: Nullable<MutableAddress<VT>> = project.get(hierarchy.getAncestor());
 
       if (Kind.isNull(offsprings)) {
-        const address: MutableAddress<WT> = MutableAddress.empty<WT>();
+        const address: MutableAddress<VT> = MutableAddress.empty<VT>();
 
         address.add(hierarchy.getOffspring());
         project.set(hierarchy.getAncestor(), address);
@@ -40,23 +40,23 @@ export class ClosureTable<V extends Nominative, W extends Nominative = V> extend
       offsprings.add(hierarchy.getOffspring());
     });
 
-    return new ClosureTable<VT, WT>(project);
+    return new ClosureTable<VT>(project);
   }
 
-  public static empty<VT extends Nominative, WT extends Nominative = VT>(): ClosureTable<VT, WT> {
-    return ClosureTable.EMPTY as ClosureTable<VT, WT>;
+  public static empty<VT extends Nominative>(): ClosureTable<VT> {
+    return ClosureTable.EMPTY as ClosureTable<VT>;
   }
 
-  protected constructor(table: ReadonlyProject<V, ReadonlyAddress<W>>) {
+  protected constructor(table: ReadonlyProject<V, ReadonlyAddress<V>>) {
     super();
     this.table = table;
   }
 
-  public [Symbol.iterator](): Iterator<Pair<V, ReadonlyAddress<W>>> {
+  public [Symbol.iterator](): Iterator<Pair<V, ReadonlyAddress<V>>> {
     return this.table[Symbol.iterator]();
   }
 
-  public contains(value: ReadonlyAddress<W>): boolean {
+  public contains(value: ReadonlyAddress<V>): boolean {
     return this.table.contains(value);
   }
 
@@ -71,15 +71,15 @@ export class ClosureTable<V extends Nominative, W extends Nominative = V> extend
     return this.table.equals(other.table);
   }
 
-  public every(predicate: BinaryPredicate<ReadonlyAddress<W>, V>): boolean {
+  public every(predicate: BinaryPredicate<ReadonlyAddress<V>, V>): boolean {
     return this.table.every(predicate);
   }
 
-  public forEach(iteration: CancellableEnumerator<V, ReadonlyAddress<W>>): void {
+  public forEach(iteration: CancellableEnumerator<V, ReadonlyAddress<V>>): void {
     this.table.forEach(iteration);
   }
 
-  public get(key: V): Nullable<ReadonlyAddress<W>> {
+  public get(key: V): Nullable<ReadonlyAddress<V>> {
     return this.table.get(key);
   }
 
@@ -95,11 +95,11 @@ export class ClosureTable<V extends Nominative, W extends Nominative = V> extend
     return this.table.size();
   }
 
-  public some(predicate: BinaryPredicate<ReadonlyAddress<W>, V>): boolean {
+  public some(predicate: BinaryPredicate<ReadonlyAddress<V>, V>): boolean {
     return this.table.some(predicate);
   }
 
-  public values(): Iterable<ReadonlyAddress<W>> {
+  public values(): Iterable<ReadonlyAddress<V>> {
     return this.table.values();
   }
 }
