@@ -80,6 +80,26 @@ describe('TegeSeries', () => {
     });
   });
 
+  describe('iterator', () => {
+    it('returns Pair<>', () => {
+      expect.assertions(3);
+
+      const array: Array<MockTege> = [
+        new MockTege(),
+        new MockTege(),
+        new MockTege()
+      ];
+
+      const series: TegeSeries = TegeSeries.ofArray(array);
+      let i: number = 0;
+
+      for (const pair of series) {
+        expect(pair.getValue()).toBe(array[i]);
+        i++;
+      }
+    });
+  });
+
   describe('contains', () => {
     it('delegates its inner collection object', () => {
       expect.assertions(1);

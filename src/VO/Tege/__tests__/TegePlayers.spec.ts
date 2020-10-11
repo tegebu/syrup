@@ -37,6 +37,19 @@ describe('TegePlayers', () => {
       expect(u.get()).toBe(json.value);
     });
 
+    it('Throws TegeError: value is not positive', () => {
+      expect.assertions(1);
+
+      const json: TegePlayersJSON = {
+        type: 'unique',
+        value: -9
+      };
+
+      expect(() => {
+        TegePlayers.ofJSON(json as TegePlayersJSON);
+      }).toThrow(TegeError);
+    });
+
     it('returns instance: RangePlayerJSON given', () => {
       expect.assertions(3);
 
@@ -53,6 +66,20 @@ describe('TegePlayers', () => {
       expect(r).toBeInstanceOf(RangeValue);
       expect(r.getMin()).toBe(json.min);
       expect(r.getMax()).toBe(json.max);
+    });
+
+    it('throws TegeError: min or max is not positive', () => {
+      expect.assertions(1);
+
+      const json: TegePlayersJSON = {
+        type: 'range',
+        min: -2,
+        max: 5
+      };
+
+      expect(() => {
+        TegePlayers.ofJSON(json as TegePlayersJSON);
+      }).toThrow(TegeError);
     });
 
     it('throws TegeError when incorrect JSON given', () => {
