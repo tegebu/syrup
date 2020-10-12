@@ -31,14 +31,14 @@
     "update:upgrade": "ncu --upgrade"
   },
   "dependencies": {
-    "@jamashita/publikum-collection": "2.26.1",
-    "@jamashita/publikum-error": "2.26.1",
-    "@jamashita/publikum-interface": "2.26.1",
-    "@jamashita/publikum-json": "2.26.1",
-    "@jamashita/publikum-object": "2.26.1",
-    "@jamashita/publikum-type": "2.26.1",
-    "@jamashita/publikum-uuid": "2.26.1",
-    "@jamashita/publikum-zeit": "2.26.1"
+    "@jamashita/publikum-collection": "2.27.1",
+    "@jamashita/publikum-error": "2.27.1",
+    "@jamashita/publikum-interface": "2.27.1",
+    "@jamashita/publikum-json": "2.27.1",
+    "@jamashita/publikum-object": "2.27.1",
+    "@jamashita/publikum-type": "2.27.1",
+    "@jamashita/publikum-uuid": "2.27.1",
+    "@jamashita/publikum-zeit": "2.27.1"
   },
   "devDependencies": {
     "@commitlint/cli": "11.0.0",
