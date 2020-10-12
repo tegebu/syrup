@@ -2,35 +2,35 @@ import { ImmutableAddress, MutableAddress, ReadonlyAddress } from '@jamashita/pu
 import { Nominative } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 
-export class ClosureTableOffsprings<V extends Nominative> extends ValueObject<'ClosureTableOffsprings'> {
+export class ClosureTableOffsprings<K extends Nominative> extends ValueObject<'ClosureTableOffsprings'> {
   public readonly noun: 'ClosureTableOffsprings' = 'ClosureTableOffsprings';
-  private readonly offsprings: ReadonlyAddress<V>;
+  private readonly offsprings: ReadonlyAddress<K>;
 
   private static readonly EMPTY: ClosureTableOffsprings<Nominative> = new ClosureTableOffsprings<Nominative>(ImmutableAddress.empty<Nominative>());
 
-  public static of<VT extends Nominative>(offsprings: ReadonlyAddress<VT>): ClosureTableOffsprings<VT> {
+  public static of<KT extends Nominative>(offsprings: ReadonlyAddress<KT>): ClosureTableOffsprings<KT> {
     if (offsprings.size() === 0) {
-      return ClosureTableOffsprings.empty<VT>();
+      return ClosureTableOffsprings.empty<KT>();
     }
 
-    return new ClosureTableOffsprings<VT>(offsprings);
+    return new ClosureTableOffsprings<KT>(offsprings);
   }
 
-  public static ofArray<VT extends Nominative>(offsprings: ReadonlyArray<VT>): ClosureTableOffsprings<VT> {
-    const address: MutableAddress<VT> = MutableAddress.empty<VT>();
+  public static ofArray<KT extends Nominative>(offsprings: ReadonlyArray<KT>): ClosureTableOffsprings<KT> {
+    const address: MutableAddress<KT> = MutableAddress.empty<KT>();
 
-    offsprings.forEach((offspring: VT) => {
+    offsprings.forEach((offspring: KT) => {
       address.add(offspring);
     });
 
-    return ClosureTableOffsprings.of<VT>(address);
+    return ClosureTableOffsprings.of<KT>(address);
   }
 
-  public static empty<VT extends Nominative>(): ClosureTableOffsprings<VT> {
-    return ClosureTableOffsprings.EMPTY as ClosureTableOffsprings<VT>;
+  public static empty<KT extends Nominative>(): ClosureTableOffsprings<KT> {
+    return ClosureTableOffsprings.EMPTY as ClosureTableOffsprings<KT>;
   }
 
-  protected constructor(offsprings: ReadonlyAddress<V>) {
+  protected constructor(offsprings: ReadonlyAddress<K>) {
     super();
     this.offsprings = offsprings;
   }
@@ -58,11 +58,11 @@ export class ClosureTableOffsprings<V extends Nominative> extends ValueObject<'C
     return false;
   }
 
-  public compare(other: ClosureTableOffsprings<V>): number {
+  public compare(other: ClosureTableOffsprings<K>): number {
     return this.offsprings.size() - other.offsprings.size();
   }
 
-  public values(): Iterable<V> {
+  public values(): Iterable<K> {
     return this.offsprings.values();
   }
 }

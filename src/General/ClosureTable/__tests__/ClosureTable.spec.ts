@@ -1,35 +1,10 @@
 import { MockProject, Project, ReadonlyAddress } from '@jamashita/publikum-collection';
-import { ValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
+import { TestVO } from '../../../TestHelper/TestVO';
 import { ClosureTable } from '../ClosureTable';
 import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
 import { MockClosureTableHierarchy } from '../Mock/MockClosureTableHierarchy';
 import { MockClosureTableOffsprings } from '../Mock/MockClosureTableOffsprings';
-
-class TestVO extends ValueObject<'TestVO'> {
-  public readonly noun: 'TestVO' = 'TestVO';
-  private readonly str: string;
-
-  public constructor(str: string) {
-    super();
-    this.str = str;
-  }
-
-  public equals(other: unknown): boolean {
-    if (this === other) {
-      return true;
-    }
-    if (!(other instanceof TestVO)) {
-      return false;
-    }
-
-    return this.str === other.str;
-  }
-
-  public serialize(): string {
-    return this.str;
-  }
-}
 
 describe('ClosureTable', () => {
   describe('of', () => {
@@ -49,7 +24,7 @@ describe('ClosureTable', () => {
   });
 
   describe('iterator', () => {
-    it('returns Pair<V, ReadonlyAddress<W>>', () => {
+    it('returns Pair<K, ReadonlyAddress<K>>', () => {
       expect.assertions(7);
 
       const array: Array<ClosureTableHierarchy<TestVO>> = [

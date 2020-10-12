@@ -1,16 +1,16 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 
-export class ClosureTableHierarchy<V extends Nominative> extends ValueObject<'ClosureTableHierarchy'> {
+export class ClosureTableHierarchy<K extends Nominative> extends ValueObject<'ClosureTableHierarchy'> {
   public readonly noun: 'ClosureTableHierarchy' = 'ClosureTableHierarchy';
-  private readonly ancestor: V;
-  private readonly offspring: V;
+  private readonly ancestor: K;
+  private readonly offspring: K;
 
-  public static of<VT extends Nominative>(ancestor: VT, offspring: VT): ClosureTableHierarchy<VT> {
-    return new ClosureTableHierarchy<VT>(ancestor, offspring);
+  public static of<KT extends Nominative>(ancestor: KT, offspring: KT): ClosureTableHierarchy<KT> {
+    return new ClosureTableHierarchy<KT>(ancestor, offspring);
   }
 
-  protected constructor(ancestor: V, offspring: V) {
+  protected constructor(ancestor: K, offspring: K) {
     super();
     this.ancestor = ancestor;
     this.offspring = offspring;
@@ -42,11 +42,11 @@ export class ClosureTableHierarchy<V extends Nominative> extends ValueObject<'Cl
     return properties.join(', ');
   }
 
-  public getAncestor(): V {
+  public getAncestor(): K {
     return this.ancestor;
   }
 
-  public getOffspring(): V {
+  public getOffspring(): K {
     return this.offspring;
   }
 }

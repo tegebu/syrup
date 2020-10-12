@@ -1,19 +1,20 @@
-import { MutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
+import { MutableAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
+import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
 import { ClosureTableOffsprings } from '../ClosureTableOffsprings';
 
-export class MockClosureTableOffsprings<V extends Nominative> extends ClosureTableOffsprings<V> {
-  private static toAddress<VT extends Nominative>(offsprings: ReadonlyArray<VT>): ReadonlyAddress<VT> {
-    const address: MutableAddress<VT> = MutableAddress.empty<VT>();
+export class MockClosureTableOffsprings<K extends Nominative> extends ClosureTableOffsprings<K> {
+  private static toAddress<KT extends Nominative>(offsprings: ReadonlyArray<KT>): ClosureTableHierarchy<KT> {
+    const address: MutableAddress<KT> = MutableAddress.empty<KT>();
 
-    offsprings.forEach((offspring: VT) => {
+    offsprings.forEach((offspring: KT) => {
       address.add(offspring);
     });
 
     return address;
   }
 
-  public constructor(...offsprings: ReadonlyArray<V>) {
-    super(MockClosureTableOffsprings.toAddress<V>(offsprings));
+  public constructor(...offsprings: ReadonlyArray<K>) {
+    super(MockClosureTableOffsprings.toAddress<K>(offsprings));
   }
 }

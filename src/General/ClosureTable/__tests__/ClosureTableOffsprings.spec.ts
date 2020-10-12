@@ -115,7 +115,7 @@ describe('ClosureTableOffsprings', () => {
   });
 
   describe('values', () => {
-    it('returns Iterator<V>', () => {
+    it('returns Iterator<K>', () => {
       expect.assertions(2);
 
       const array: Array<MockValueObject> = [new MockValueObject('mock 1'), new MockValueObject('mock 2')];

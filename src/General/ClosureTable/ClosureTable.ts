@@ -12,24 +12,24 @@ import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
 import { ClosureTableHierarchy } from './ClosureTableHierarchy';
 import { ClosureTableOffsprings } from './ClosureTableOffsprings';
 
-export class ClosureTable<V extends Nominative> extends Quantity<V, ClosureTableOffsprings<V>, 'ClosureTableHierarchies'> {
+export class ClosureTable<K extends Nominative> extends Quantity<K, ClosureTableOffsprings<K>, 'ClosureTableHierarchies'> {
   public readonly noun: 'ClosureTableHierarchies' = 'ClosureTableHierarchies';
-  private readonly table: ReadonlyProject<V, ClosureTableOffsprings<V>>;
+  private readonly table: ReadonlyProject<K, ClosureTableOffsprings<K>>;
 
   private static readonly EMPTY: ClosureTable<Nominative> = new ClosureTable<Nominative>(ImmutableProject.empty<Nominative, ClosureTableOffsprings<Nominative>>());
 
-  public static of<VT extends Nominative>(hierarchies: ReadonlyArray<ClosureTableHierarchy<VT>>): ClosureTable<VT> {
+  public static of<KT extends Nominative>(hierarchies: ReadonlyArray<ClosureTableHierarchy<KT>>): ClosureTable<KT> {
     if (hierarchies.length === 0) {
-      return ClosureTable.empty<VT>();
+      return ClosureTable.empty<KT>();
     }
 
-    const project: MutableProject<VT, MutableAddress<VT>> = MutableProject.empty<VT, MutableAddress<VT>>();
+    const project: MutableProject<KT, MutableAddress<KT>> = MutableProject.empty<KT, MutableAddress<KT>>();
 
-    hierarchies.forEach((hierarchy: ClosureTableHierarchy<VT>) => {
-      const offsprings: Nullable<MutableAddress<VT>> = project.get(hierarchy.getAncestor());
+    hierarchies.forEach((hierarchy: ClosureTableHierarchy<KT>) => {
+      const offsprings: Nullable<MutableAddress<KT>> = project.get(hierarchy.getAncestor());
 
       if (Kind.isNull(offsprings)) {
-        const address: MutableAddress<VT> = MutableAddress.empty<VT>();
+        const address: MutableAddress<KT> = MutableAddress.empty<KT>();
 
         address.add(hierarchy.getOffspring());
         project.set(hierarchy.getAncestor(), address);
@@ -40,27 +40,27 @@ export class ClosureTable<V extends Nominative> extends Quantity<V, ClosureTable
       offsprings.add(hierarchy.getOffspring());
     });
 
-    const table: MutableProject<VT, ClosureTableOffsprings<VT>> = project.map<ClosureTableOffsprings<VT>>((offsprings: MutableAddress<VT>) => {
-      return ClosureTableOffsprings.of<VT>(offsprings);
+    const table: MutableProject<KT, ClosureTableOffsprings<KT>> = project.map<ClosureTableOffsprings<KT>>((offsprings: MutableAddress<KT>) => {
+      return ClosureTableOffsprings.of<KT>(offsprings);
     });
 
-    return new ClosureTable<VT>(table);
+    return new ClosureTable<KT>(table);
   }
 
-  public static empty<VT extends Nominative>(): ClosureTable<VT> {
-    return ClosureTable.EMPTY as ClosureTable<VT>;
+  public static empty<KT extends Nominative>(): ClosureTable<KT> {
+    return ClosureTable.EMPTY as ClosureTable<KT>;
   }
 
-  protected constructor(table: ReadonlyProject<V, ClosureTableOffsprings<V>>) {
+  protected constructor(table: ReadonlyProject<K, ClosureTableOffsprings<K>>) {
     super();
     this.table = table;
   }
 
-  public [Symbol.iterator](): Iterator<Pair<V, ClosureTableOffsprings<V>>> {
+  public [Symbol.iterator](): Iterator<Pair<K, ClosureTableOffsprings<K>>> {
     return this.table[Symbol.iterator]();
   }
 
-  public contains(value: ClosureTableOffsprings<V>): boolean {
+  public contains(value: ClosureTableOffsprings<K>): boolean {
     return this.table.contains(value);
   }
 
@@ -75,15 +75,15 @@ export class ClosureTable<V extends Nominative> extends Quantity<V, ClosureTable
     return this.table.equals(other.table);
   }
 
-  public every(predicate: BinaryPredicate<ClosureTableOffsprings<V>, V>): boolean {
+  public every(predicate: BinaryPredicate<ClosureTableOffsprings<K>, K>): boolean {
     return this.table.every(predicate);
   }
 
-  public forEach(iteration: CancellableEnumerator<V, ClosureTableOffsprings<V>>): void {
+  public forEach(iteration: CancellableEnumerator<K, ClosureTableOffsprings<K>>): void {
     this.table.forEach(iteration);
   }
 
-  public get(key: V): Nullable<ClosureTableOffsprings<V>> {
+  public get(key: K): Nullable<ClosureTableOffsprings<K>> {
     return this.table.get(key);
   }
 
@@ -99,11 +99,11 @@ export class ClosureTable<V extends Nominative> extends Quantity<V, ClosureTable
     return this.table.size();
   }
 
-  public some(predicate: BinaryPredicate<ClosureTableOffsprings<V>, V>): boolean {
+  public some(predicate: BinaryPredicate<ClosureTableOffsprings<K>, K>): boolean {
     return this.table.some(predicate);
   }
 
-  public values(): Iterable<ClosureTableOffsprings<V>> {
+  public values(): Iterable<ClosureTableOffsprings<K>> {
     return this.table.values();
   }
 }

@@ -1,18 +1,19 @@
-import { MutableAddress, MutableProject, ReadonlyAddress, ReadonlyProject } from '@jamashita/publikum-collection';
+import { MutableAddress, MutableProject, ReadonlyProject } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { Kind, Nullable } from '@jamashita/publikum-type';
 import { ClosureTable } from '../ClosureTable';
 import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
+import { ClosureTableOffsprings } from '../ClosureTableOffsprings';
 
-export class MockClosureTable<V extends Nominative, W extends Nominative = V> extends ClosureTable<V, W> {
-  private static toProject<VT extends Nominative, WT extends Nominative = VT>(hierarchies: ReadonlyArray<ClosureTableHierarchy<VT, WT>>): ReadonlyProject<VT, ReadonlyAddress<WT>> {
-    const project: MutableProject<VT, MutableAddress<WT>> = MutableProject.empty<VT, MutableAddress<WT>>();
+export class MockClosureTable<K extends Nominative> extends ClosureTable<K> {
+  private static toProject<KT extends Nominative>(hierarchies: ReadonlyArray<ClosureTableHierarchy<KT>>): ReadonlyProject<KT, ClosureTableOffsprings<KT>> {
+    const project: MutableProject<KT, MutableAddress<KT>> = MutableProject.empty<KT, MutableAddress<KT>>();
 
-    hierarchies.forEach((hierarchy: ClosureTableHierarchy<VT, WT>) => {
-      const offsprings: Nullable<MutableAddress<WT>> = project.get(hierarchy.getAncestor());
+    hierarchies.forEach((hierarchy: ClosureTableHierarchy<KT>) => {
+      const offsprings: Nullable<MutableAddress<KT>> = project.get(hierarchy.getAncestor());
 
       if (Kind.isNull(offsprings)) {
-        const address: MutableAddress<WT> = MutableAddress.empty<WT>();
+        const address: MutableAddress<KT> = MutableAddress.empty<KT>();
 
         address.add(hierarchy.getOffspring());
         project.set(hierarchy.getAncestor(), address);
@@ -23,10 +24,12 @@ export class MockClosureTable<V extends Nominative, W extends Nominative = V> ex
       offsprings.add(hierarchy.getOffspring());
     });
 
-    return project;
+    return project.map((offsprings: MutableAddress<KT>) => {
+      return ClosureTableOffsprings.of<KT>(offsprings);
+    });
   }
 
-  public constructor(...hierarchies: ReadonlyArray<ClosureTableHierarchy<V, W>>) {
+  public constructor(...hierarchies: ReadonlyArray<ClosureTableHierarchy<K>>) {
     super(MockClosureTable.toProject(hierarchies));
   }
 }
