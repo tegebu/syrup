@@ -28,6 +28,8 @@ describe('ClosureTable', () => {
       expect.assertions(7);
 
       const array: Array<ClosureTableHierarchy<TestVO>> = [
+        new MockClosureTableHierarchy(new TestVO('mock 10'), new TestVO('mock 10')),
+        new MockClosureTableHierarchy(new TestVO('mock 11'), new TestVO('mock 11')),
         new MockClosureTableHierarchy(new TestVO('mock 10'), new TestVO('mock 01')),
         new MockClosureTableHierarchy(new TestVO('mock 10'), new TestVO('mock 02')),
         new MockClosureTableHierarchy(new TestVO('mock 11'), new TestVO('mock 02')),
@@ -44,9 +46,9 @@ describe('ClosureTable', () => {
             const vs: Array<TestVO> = [...pair.getValue().values()];
 
             expect(vs).toHaveLength(3);
-            expect(vs[0]).toBe(array[0].getOffspring());
-            expect(vs[1]).toBe(array[1].getOffspring());
-            expect(vs[2]).toBe(array[4].getOffspring());
+            expect(vs[0]).toBe(array[2].getOffspring());
+            expect(vs[1]).toBe(array[3].getOffspring());
+            expect(vs[2]).toBe(array[6].getOffspring());
             i++;
             break;
           }
@@ -54,8 +56,8 @@ describe('ClosureTable', () => {
             const vs: Array<TestVO> = [...pair.getValue().values()];
 
             expect(vs).toHaveLength(2);
-            expect(vs[0]).toBe(array[2].getOffspring());
-            expect(vs[1]).toBe(array[3].getOffspring());
+            expect(vs[0]).toBe(array[4].getOffspring());
+            expect(vs[1]).toBe(array[5].getOffspring());
             i++;
             break;
           }
