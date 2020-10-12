@@ -45,4 +45,22 @@ describe('ClosureTableHierarchy', () => {
       expect(hierarchy.toString()).toBe('mock1, mock2');
     });
   });
+
+  describe('refersToSelf', () => {
+    it('returns true when ancestor and offspring are the same', () => {
+      expect.assertions(1);
+
+      const hierarchy: ClosureTableHierarchy<TestVO> = ClosureTableHierarchy.of<TestVO>(new TestVO('mock1'), new TestVO('mock1'));
+
+      expect(hierarchy.refersToSelf()).toBe(true);
+    });
+
+    it('returns false when ancestor and offspring are not same', () => {
+      expect.assertions(1);
+
+      const hierarchy: ClosureTableHierarchy<TestVO> = ClosureTableHierarchy.of<TestVO>(new TestVO('mock2'), new TestVO('mock1'));
+
+      expect(hierarchy.refersToSelf()).toBe(false);
+    });
+  });
 });

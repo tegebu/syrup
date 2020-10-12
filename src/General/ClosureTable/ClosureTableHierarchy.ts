@@ -49,4 +49,8 @@ export class ClosureTableHierarchy<K extends Nominative> extends ValueObject<'Cl
   public getOffspring(): K {
     return this.offspring;
   }
+
+  public refersToSelf(): boolean {
+    return this.ancestor.equals(this.offspring);
+  }
 }
