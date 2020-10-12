@@ -1,9 +1,10 @@
-import { MockAddress, MockProject, Project, ReadonlyAddress } from '@jamashita/publikum-collection';
+import { MockProject, Project, ReadonlyAddress } from '@jamashita/publikum-collection';
 import { ValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { ClosureTable } from '../ClosureTable';
 import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
 import { MockClosureTableHierarchy } from '../Mock/MockClosureTableHierarchy';
+import { MockClosureTableOffsprings } from '../Mock/MockClosureTableOffsprings';
 
 class TestVO extends ValueObject<'TestVO'> {
   public readonly noun: 'TestVO' = 'TestVO';
@@ -65,17 +66,21 @@ describe('ClosureTable', () => {
       for (const pair of table) {
         switch (i) {
           case 0: {
-            expect(pair.getValue().size()).toBe(3);
-            expect(pair.getValue().contains(array[0].getOffspring())).toBe(true);
-            expect(pair.getValue().contains(array[1].getOffspring())).toBe(true);
-            expect(pair.getValue().contains(array[4].getOffspring())).toBe(true);
+            const vs: Array<TestVO> = [...pair.getValue().values()];
+
+            expect(vs).toHaveLength(3);
+            expect(vs[0]).toBe(array[0].getOffspring());
+            expect(vs[1]).toBe(array[1].getOffspring());
+            expect(vs[2]).toBe(array[4].getOffspring());
             i++;
             break;
           }
           case 1: {
-            expect(pair.getValue().size()).toBe(2);
-            expect(pair.getValue().contains(array[2].getOffspring())).toBe(true);
-            expect(pair.getValue().contains(array[3].getOffspring())).toBe(true);
+            const vs: Array<TestVO> = [...pair.getValue().values()];
+
+            expect(vs).toHaveLength(2);
+            expect(vs[0]).toBe(array[2].getOffspring());
+            expect(vs[1]).toBe(array[3].getOffspring());
             i++;
             break;
           }
@@ -101,7 +106,7 @@ describe('ClosureTable', () => {
       // @ts-expect-error
       table.table = project;
 
-      table.contains(new MockAddress<TestVO>(new Set<TestVO>()));
+      table.contains(new MockClosureTableOffsprings<TestVO>(new TestVO('mock')));
 
       expect(spy.called).toBe(true);
     });
@@ -136,7 +141,7 @@ describe('ClosureTable', () => {
       // @ts-expect-error
       table.table = project;
 
-      table.contains(new MockAddress<TestVO>(new Set<TestVO>()));
+      table.contains(new MockClosureTableOffsprings<TestVO>(new TestVO('mock')));
 
       expect(spy.called).toBe(true);
     });
