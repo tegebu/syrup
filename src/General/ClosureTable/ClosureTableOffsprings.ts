@@ -61,4 +61,8 @@ export class ClosureTableOffsprings<V extends Nominative> extends ValueObject<'C
   public compare(other: ClosureTableOffsprings<V>): number {
     return this.offsprings.size() - other.offsprings.size();
   }
+
+  public values(): Iterable<V> {
+    return this.offsprings.values();
+  }
 }

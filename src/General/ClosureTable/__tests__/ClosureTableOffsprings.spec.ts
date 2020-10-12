@@ -113,4 +113,19 @@ describe('ClosureTableOffsprings', () => {
       expect(offsprings02.compare(offsprings01)).toBe(2);
     });
   });
+
+  describe('values', () => {
+    it('returns Iterator<V>', () => {
+      expect.assertions(2);
+
+      const array: Array<MockValueObject> = [new MockValueObject('mock 1'), new MockValueObject('mock 2')];
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>(array);
+      let i: number = 0;
+
+      for (const p of offsprings.values()) {
+        expect(p).toBe(array[i]);
+        i++;
+      }
+    });
+  });
 });
