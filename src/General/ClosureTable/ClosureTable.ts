@@ -28,10 +28,6 @@ export class ClosureTable<K extends Nominative> extends Quantity<K, ClosureTable
     const project: MutableProject<KT, MutableAddress<KT>> = MutableProject.empty<KT, MutableAddress<KT>>();
 
     hierarchies.forEach((hierarchy: ClosureTableHierarchy<KT>) => {
-      if (hierarchy.refersToSelf()) {
-        return;
-      }
-
       const offsprings: Nullable<MutableAddress<KT>> = project.get(hierarchy.getAncestor());
 
       if (Kind.isNull(offsprings)) {

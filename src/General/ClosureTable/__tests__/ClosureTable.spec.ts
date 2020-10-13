@@ -27,7 +27,7 @@ describe('ClosureTable', () => {
 
   describe('iterator', () => {
     it('returns Pair<K, ReadonlyAddress<K>>', () => {
-      expect.assertions(7);
+      expect.assertions(9);
 
       const array: Array<ClosureTableHierarchy<TestVO>> = [
         new MockClosureTableHierarchy(new TestVO('mock 10'), new TestVO('mock 10')),
@@ -47,19 +47,21 @@ describe('ClosureTable', () => {
           case 0: {
             const vs: Array<TestVO> = [...pair.getValue().values()];
 
-            expect(vs).toHaveLength(3);
-            expect(vs[0]).toBe(array[2].getOffspring());
-            expect(vs[1]).toBe(array[3].getOffspring());
-            expect(vs[2]).toBe(array[6].getOffspring());
+            expect(vs).toHaveLength(4);
+            expect(vs[0]).toBe(array[0].getOffspring());
+            expect(vs[1]).toBe(array[2].getOffspring());
+            expect(vs[2]).toBe(array[3].getOffspring());
+            expect(vs[3]).toBe(array[6].getOffspring());
             i++;
             break;
           }
           case 1: {
             const vs: Array<TestVO> = [...pair.getValue().values()];
 
-            expect(vs).toHaveLength(2);
-            expect(vs[0]).toBe(array[4].getOffspring());
-            expect(vs[1]).toBe(array[5].getOffspring());
+            expect(vs).toHaveLength(3);
+            expect(vs[0]).toBe(array[1].getOffspring());
+            expect(vs[1]).toBe(array[4].getOffspring());
+            expect(vs[2]).toBe(array[5].getOffspring());
             i++;
             break;
           }
