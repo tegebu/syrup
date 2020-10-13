@@ -7,7 +7,7 @@ import {
   ReadonlyAddress
 } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
+import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
 
 export class ClosureTableOffsprings<K extends Nominative> extends Quantity<void, K, 'ClosureTableOffsprings'> {
   public readonly noun: 'ClosureTableOffsprings' = 'ClosureTableOffsprings';
@@ -103,5 +103,9 @@ export class ClosureTableOffsprings<K extends Nominative> extends Quantity<void,
 
   public compare(other: ClosureTableOffsprings<K>): number {
     return this.offsprings.size() - other.offsprings.size();
+  }
+
+  public map<L extends Nominative>(mapper: Mapper<K, L>): ReadonlyAddress<L> {
+    return this.offsprings.map(mapper);
   }
 }

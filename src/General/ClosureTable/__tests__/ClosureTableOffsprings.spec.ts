@@ -301,4 +301,25 @@ describe('ClosureTableOffsprings', () => {
       }
     });
   });
+
+  describe('map', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
+
+      address.map = spy;
+
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      // @ts-expect-error
+      offsprings.offsprings = address;
+
+      offsprings.map((mock: MockValueObject) => {
+        return mock;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
 });
