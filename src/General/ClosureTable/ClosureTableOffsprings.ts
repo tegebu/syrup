@@ -1,8 +1,15 @@
-import { ImmutableAddress, MutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
+import {
+  CancellableEnumerator,
+  ImmutableAddress,
+  MutableAddress,
+  Pair,
+  Quantity,
+  ReadonlyAddress
+} from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
+import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 
-export class ClosureTableOffsprings<K extends Nominative> extends ValueObject<'ClosureTableOffsprings'> {
+export class ClosureTableOffsprings<K extends Nominative> extends Quantity<void, K, 'ClosureTableOffsprings'> {
   public readonly noun: 'ClosureTableOffsprings' = 'ClosureTableOffsprings';
   private readonly offsprings: ReadonlyAddress<K>;
 
@@ -54,6 +61,38 @@ export class ClosureTableOffsprings<K extends Nominative> extends ValueObject<'C
     return this.offsprings.size();
   }
 
+  public values(): Iterable<K> {
+    return this.offsprings.values();
+  }
+
+  public [Symbol.iterator](): Iterator<Pair<void, K>> {
+    return this.offsprings[Symbol.iterator]();
+  }
+
+  public contains(value: K): boolean {
+    return this.offsprings.contains(value);
+  }
+
+  public every(predicate: BinaryPredicate<K, void>): boolean {
+    return this.offsprings.every(predicate);
+  }
+
+  public forEach(iteration: CancellableEnumerator<void, K>): void {
+    this.offsprings.forEach(iteration);
+  }
+
+  public get(): Nullable<K> {
+    return null;
+  }
+
+  public isEmpty(): boolean {
+    return this.offsprings.isEmpty();
+  }
+
+  public some(predicate: BinaryPredicate<K, void>): boolean {
+    return this.offsprings.some(predicate);
+  }
+
   public isLeaf(): boolean {
     if (this.offsprings.size() === 1) {
       return true;
@@ -64,9 +103,5 @@ export class ClosureTableOffsprings<K extends Nominative> extends ValueObject<'C
 
   public compare(other: ClosureTableOffsprings<K>): number {
     return this.offsprings.size() - other.offsprings.size();
-  }
-
-  public values(): Iterable<K> {
-    return this.offsprings.values();
   }
 }

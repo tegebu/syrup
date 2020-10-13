@@ -1,4 +1,4 @@
-import { MockAddress } from '@jamashita/publikum-collection';
+import { Address, ImmutableAddress, MockAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
@@ -46,54 +46,211 @@ describe('ClosureTableOffsprings', () => {
       expect(offsprings.equals(new MockValueObject('mock 1'))).toBe(false);
     });
 
-    it('returns true if all the properties are the same', () => {
-      expect.assertions(4);
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
 
-      const offsprings01: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1'), new MockValueObject('mock 2')]);
-      const offsprings02: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 3'), new MockValueObject('mock 2')]);
-      const offsprings03: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1'), new MockValueObject('mock 4')]);
-      const offsprings04: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1')]);
-      const offsprings05: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1'), new MockValueObject('mock 2')]);
+      const spy: SinonSpy = sinon.spy();
+      const address: Address<MockValueObject> = new MockAddress<MockValueObject>(new Set<MockValueObject>());
 
-      expect(offsprings01.equals(offsprings02)).toBe(false);
-      expect(offsprings01.equals(offsprings03)).toBe(false);
-      expect(offsprings01.equals(offsprings04)).toBe(false);
-      expect(offsprings01.equals(offsprings05)).toBe(true);
+      address.equals = spy;
+
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      // @ts-expect-error
+      offsprings.offsprings = address;
+
+      offsprings.equals(ClosureTableOffsprings.of<MockValueObject>(ImmutableAddress.ofSet<MockValueObject>(new Set<MockValueObject>([new MockValueObject('mock 1')]))));
+
+      expect(spy.called).toBe(true);
     });
+  });
 
-    describe('toString', () => {
-      it('delegates its inner collection instance', () => {
-        expect.assertions(1);
+  describe('toString', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
 
-        const spy: SinonSpy = sinon.spy();
-        const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
 
-        address.toString = spy;
+      address.toString = spy;
 
-        const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1'), new MockValueObject('mock 2')]);
-        // @ts-expect-error
-        offsprings.offsprings = address;
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      // @ts-expect-error
+      offsprings.offsprings = address;
 
-        offsprings.toString();
+      offsprings.toString();
 
-        expect(spy.called).toBe(true);
-      });
+      expect(spy.called).toBe(true);
     });
   });
 
   describe('size', () => {
-    it('just returns its retaining collection size', () => {
+    it('delegates its inner collection instance', () => {
       expect.assertions(1);
 
-      const array: Array<MockValueObject> = [
-        new MockValueObject('mock 1'),
-        new MockValueObject('mock 2'),
-        new MockValueObject('mock 3'),
-        new MockValueObject('mock 4')
-      ];
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>(array);
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
 
-      expect(offsprings.size()).toBe(array.length);
+      address.size = spy;
+
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      // @ts-expect-error
+      offsprings.offsprings = address;
+
+      offsprings.size();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('value', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
+
+      address.values = spy;
+
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      // @ts-expect-error
+      offsprings.offsprings = address;
+
+      offsprings.values();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  // TODO NOT YET
+  describe('iterator', () => {
+    it('returns Pair<void, K>', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
+
+      address.size = spy;
+
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      // @ts-expect-error
+      offsprings.offsprings = address;
+
+      offsprings.size();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('contains', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
+
+      address.contains = spy;
+
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      // @ts-expect-error
+      offsprings.offsprings = address;
+
+      offsprings.contains(new MockValueObject('mock'));
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('every', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
+
+      address.every = spy;
+
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      // @ts-expect-error
+      offsprings.offsprings = address;
+
+      offsprings.every(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('forEach', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
+
+      address.forEach = spy;
+
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      // @ts-expect-error
+      offsprings.offsprings = address;
+
+      offsprings.forEach(() => {
+        // NOOP
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('get', () => {
+    it('returns null', () => {
+      expect.assertions(2);
+
+      const offsprings1: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      const offsprings2: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock')]);
+
+      expect(offsprings1.get()).toBeNull();
+      expect(offsprings2.get()).toBeNull();
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
+
+      address.isEmpty = spy;
+
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      // @ts-expect-error
+      offsprings.offsprings = address;
+
+      offsprings.isEmpty();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('some', () => {
+    it('delegates its inner collection instance', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
+
+      address.some = spy;
+
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
+      // @ts-expect-error
+      offsprings.offsprings = address;
+
+      offsprings.some(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
     });
   });
 
