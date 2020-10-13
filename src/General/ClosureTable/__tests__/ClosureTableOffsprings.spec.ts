@@ -81,6 +81,22 @@ describe('ClosureTableOffsprings', () => {
     });
   });
 
+  describe('size', () => {
+    it('just returns its retaining collection size', () => {
+      expect.assertions(1);
+
+      const array: Array<MockValueObject> = [
+        new MockValueObject('mock 1'),
+        new MockValueObject('mock 2'),
+        new MockValueObject('mock 3'),
+        new MockValueObject('mock 4')
+      ];
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>(array);
+
+      expect(offsprings.size()).toBe(array.length);
+    });
+  });
+
   describe('isLeaf', () => {
     it('returns true when the size is 1', () => {
       expect.assertions(1);

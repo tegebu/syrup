@@ -50,6 +50,10 @@ export class ClosureTableOffsprings<K extends Nominative> extends ValueObject<'C
     return this.offsprings.toString();
   }
 
+  public size(): number {
+    return this.offsprings.size();
+  }
+
   public isLeaf(): boolean {
     if (this.offsprings.size() === 1) {
       return true;
