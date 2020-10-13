@@ -94,11 +94,7 @@ export class ClosureTableOffsprings<K extends Nominative> extends Quantity<void,
   }
 
   public isLeaf(): boolean {
-    if (this.offsprings.size() === 1) {
-      return true;
-    }
-
-    return false;
+    return this.offsprings.isEmpty();
   }
 
   public compare(other: ClosureTableOffsprings<K>): number {
@@ -106,6 +102,6 @@ export class ClosureTableOffsprings<K extends Nominative> extends Quantity<void,
   }
 
   public map<L extends Nominative>(mapper: Mapper<K, L>): ReadonlyAddress<L> {
-    return this.offsprings.map(mapper);
+    return this.offsprings.map<L>(mapper);
   }
 }

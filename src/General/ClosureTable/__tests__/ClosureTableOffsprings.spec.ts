@@ -255,10 +255,10 @@ describe('ClosureTableOffsprings', () => {
   });
 
   describe('isLeaf', () => {
-    it('returns true when the size is 1', () => {
+    it('returns true when the size is 0', () => {
       expect.assertions(1);
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1')]);
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
 
       expect(offsprings.isLeaf()).toBe(true);
     });
@@ -266,7 +266,7 @@ describe('ClosureTableOffsprings', () => {
     it('returns false when the size is not 1', () => {
       expect.assertions(2);
 
-      const offsprings01: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([]);
+      const offsprings01: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1')]);
       const offsprings02: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>([new MockValueObject('mock 1'), new MockValueObject('mock 2')]);
 
       expect(offsprings01.isLeaf()).toBe(false);
