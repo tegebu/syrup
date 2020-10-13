@@ -94,7 +94,11 @@ export class ClosureTableOffsprings<K extends Nominative> extends Quantity<void,
   }
 
   public isLeaf(): boolean {
-    return this.offsprings.isEmpty();
+    if (this.offsprings.size() === 1) {
+      return true;
+    }
+
+    return false;
   }
 
   public compare(other: ClosureTableOffsprings<K>): number {
