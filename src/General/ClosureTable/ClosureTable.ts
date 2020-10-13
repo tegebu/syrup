@@ -125,18 +125,15 @@ export class ClosureTable<K extends Nominative> extends Quantity<K, ClosureTable
     return root as unknown as K;
   }
 
-  // TODO NOT NECESSARY ?
-  public sort(): ReadonlySequence<Pair<K, ClosureTableOffsprings<K>>> {
-    const pairs: Array<Pair<K, ClosureTableOffsprings<K>>> = [];
+  public sort(): ReadonlySequence<K> {
+    const pairs: Array<Pair<K, ClosureTableOffsprings<K>>> = [...this.table];
 
-    this.forEach((offsprings: ClosureTableOffsprings<K>, ancestor: K) => {
-      pairs.push(Pair.of<K, ClosureTableOffsprings<K>>(ancestor, offsprings));
-    });
-
-    pairs.sort((p1: Pair<K, ClosureTableOffsprings<K>>, p2: Pair<K, ClosureTableOffsprings<K>>) => {
+    const keys: Array<K> = pairs.sort((p1: Pair<K, ClosureTableOffsprings<K>>, p2: Pair<K, ClosureTableOffsprings<K>>) => {
       return p1.getValue().compare(p2.getValue());
+    }).map<K>((pair: Pair<K, ClosureTableOffsprings<K>>) => {
+      return pair.getKey();
     });
 
-    return ImmutableSequence.ofArray<Pair<K, ClosureTableOffsprings<K>>>(pairs);
+    return ImmutableSequence.ofArray<K>(keys);
   }
 }

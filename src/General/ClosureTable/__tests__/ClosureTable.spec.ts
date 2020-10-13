@@ -1,10 +1,8 @@
-import { MockProject, Pair, Project, ReadonlyAddress, ReadonlySequence } from '@jamashita/publikum-collection';
-import { Nullable } from '@jamashita/publikum-type';
+import { MockProject, Project, ReadonlyAddress, ReadonlySequence } from '@jamashita/publikum-collection';
 import sinon, { SinonSpy } from 'sinon';
 import { TestVO } from '../../../TestHelper/TestVO';
 import { ClosureTable } from '../ClosureTable';
 import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
-import { ClosureTableOffsprings } from '../ClosureTableOffsprings';
 import { MockClosureTableHierarchy } from '../Mock/MockClosureTableHierarchy';
 import { MockClosureTableOffsprings } from '../Mock/MockClosureTableOffsprings';
 
@@ -323,52 +321,24 @@ describe('ClosureTable', () => {
 
   describe('sort', () => {
     it('returns desc ordered pairs', () => {
-      expect.assertions(10);
+      expect.assertions(4);
 
       const array: Array<ClosureTableHierarchy<TestVO>> = [
         new MockClosureTableHierarchy(new TestVO('mock 10'), new TestVO('mock 01')),
         new MockClosureTableHierarchy(new TestVO('mock 10'), new TestVO('mock 02')),
         new MockClosureTableHierarchy(new TestVO('mock 11'), new TestVO('mock 02')),
         new MockClosureTableHierarchy(new TestVO('mock 11'), new TestVO('mock 01')),
-        new MockClosureTableHierarchy(new TestVO('mock 10'), new TestVO('mock 03'))
+        new MockClosureTableHierarchy(new TestVO('mock 10'), new TestVO('mock 03')),
+        new MockClosureTableHierarchy(new TestVO('mock 12'), new TestVO('mock 03'))
       ];
 
       const table: ClosureTable<TestVO> = ClosureTable.of<TestVO>(array);
-      const pairs: ReadonlySequence<Pair<TestVO, ClosureTableOffsprings<TestVO>>> = table.sort();
+      const keys: ReadonlySequence<TestVO> = table.sort();
 
-      expect(pairs.size()).toBe(2);
-      for (let i: number = 0; i < pairs.size(); i++) {
-        const pair: Nullable<Pair<TestVO, ClosureTableOffsprings<TestVO>>> = pairs.get(i);
-
-        if (pair === null) {
-          fail();
-          return;
-        }
-
-        const vos: Array<TestVO> = [...pair.getValue().values()];
-
-        switch (i) {
-          case 0: {
-            expect(pair.getKey().toString()).toBe('mock 11');
-            expect(vos).toHaveLength(2);
-            expect(vos[0].toString()).toBe('mock 02');
-            expect(vos[1].toString()).toBe('mock 01');
-            break;
-          }
-          case 1: {
-            expect(pair.getKey().toString()).toBe('mock 10');
-            expect(vos).toHaveLength(3);
-            expect(vos[0].toString()).toBe('mock 01');
-            expect(vos[1].toString()).toBe('mock 02');
-            expect(vos[2].toString()).toBe('mock 03');
-            break;
-          }
-          default: {
-            fail();
-            break;
-          }
-        }
-      }
+      expect(keys.size()).toBe(3);
+      expect(keys.get(0)?.toString()).toBe('mock 12');
+      expect(keys.get(1)?.toString()).toBe('mock 11');
+      expect(keys.get(2)?.toString()).toBe('mock 10');
     });
   });
 });
