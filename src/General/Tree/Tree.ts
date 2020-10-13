@@ -1,8 +1,10 @@
+import { ReadonlyAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { TreeElement } from './Interface/TreeElement';
 import { TreeNode } from './TreeNode';
 
-export class Tree<V extends Nominative> extends ValueObject<'Tree'> {
+export class Tree<V extends Nominative> extends ValueObject<'Tree'> implements TreeElement<V, 'Tree'> {
   public readonly noun: 'Tree' = 'Tree';
   private readonly root: TreeNode<V>;
 
@@ -28,5 +30,17 @@ export class Tree<V extends Nominative> extends ValueObject<'Tree'> {
 
   public serialize(): string {
     return this.root.toString();
+  }
+
+  public getValue(): V {
+    return this.root.getValue();
+  }
+
+  public getChildren(): ReadonlyAddress<TreeElement<V>> {
+    return this.root.getChildren();
+  }
+
+  public isLeaf(): boolean {
+    return this.root.isLeaf();
   }
 }

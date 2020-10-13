@@ -99,4 +99,55 @@ describe('Tree', () => {
       expect(spy.called).toBe(true);
     });
   });
+
+  describe('getValue', () => {
+    it('delegates its node instance', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const root: MockTreeNode<TestVO> = new MockTreeNode<TestVO>(new TestVO('mock'));
+
+      root.getValue = spy;
+
+      const tree: Tree<TestVO> = Tree.of<TestVO>(root);
+
+      tree.getValue();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('getChildren', () => {
+    it('delegates its node instance', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const root: MockTreeNode<TestVO> = new MockTreeNode<TestVO>(new TestVO('mock'));
+
+      root.getChildren = spy;
+
+      const tree: Tree<TestVO> = Tree.of<TestVO>(root);
+
+      tree.getChildren();
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('isLeaf', () => {
+    it('delegates its node instance', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const root: MockTreeNode<TestVO> = new MockTreeNode<TestVO>(new TestVO('mock'));
+
+      root.isLeaf = spy;
+
+      const tree: Tree<TestVO> = Tree.of<TestVO>(root);
+
+      tree.isLeaf();
+
+      expect(spy.called).toBe(true);
+    });
+  });
 });

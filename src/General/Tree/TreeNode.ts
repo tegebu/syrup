@@ -1,8 +1,9 @@
 import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { TreeElement } from './Interface/TreeElement';
 
-export class TreeNode<V extends Nominative> extends ValueObject<'TreeNode'> {
+export class TreeNode<V extends Nominative> extends ValueObject<'TreeNode'> implements TreeElement<V, 'TreeNode'> {
   public readonly noun: 'TreeNode' = 'TreeNode';
   private readonly value: V;
   private readonly children: ReadonlyAddress<TreeNode<V>>;
@@ -46,7 +47,7 @@ export class TreeNode<V extends Nominative> extends ValueObject<'TreeNode'> {
     return this.value;
   }
 
-  public getChildren(): ReadonlyAddress<TreeNode<V>> {
+  public getChildren(): ReadonlyAddress<TreeElement<V>> {
     return this.children;
   }
 
