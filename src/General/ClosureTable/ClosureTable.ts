@@ -1,11 +1,13 @@
 import {
   CancellableEnumerator,
   ImmutableProject,
+  ImmutableSequence,
   MutableAddress,
   MutableProject,
   Pair,
   Quantity,
-  ReadonlyProject
+  ReadonlyProject,
+  ReadonlySequence
 } from '@jamashita/publikum-collection';
 import { Nominative } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
@@ -109,5 +111,19 @@ export class ClosureTable<K extends Nominative> extends Quantity<K, ClosureTable
 
   public values(): Iterable<ClosureTableOffsprings<K>> {
     return this.table.values();
+  }
+
+  public sort(): ReadonlySequence<Pair<K, ClosureTableOffsprings<K>>> {
+    const pairs: Array<Pair<K, ClosureTableOffsprings<K>>> = [];
+
+    this.forEach((offsprings: ClosureTableOffsprings<K>, ancestor: K) => {
+      pairs.push(Pair.of<K, ClosureTableOffsprings<K>>(ancestor, offsprings));
+    });
+
+    pairs.sort((p1: Pair<K, ClosureTableOffsprings<K>>, p2: Pair<K, ClosureTableOffsprings<K>>) => {
+      return p1.getValue().compare(p2.getValue());
+    });
+
+    return ImmutableSequence.ofArray<Pair<K, ClosureTableOffsprings<K>>>(pairs);
   }
 }
