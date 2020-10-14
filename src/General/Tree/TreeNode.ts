@@ -8,8 +8,12 @@ export class TreeNode<V extends Nominative> extends ValueObject<'TreeNode'> impl
   private readonly value: V;
   private readonly children: ReadonlyAddress<TreeNode<V>>;
 
-  public static of<VT extends Nominative>(value: VT, children: ReadonlyAddress<TreeNode<VT>> = ImmutableAddress.empty<TreeNode<VT>>()): TreeNode<VT> {
-    return new TreeNode<VT>(value, children);
+  public static of<VT extends Nominative>(value: VT, children: ReadonlyAddress<TreeNode<VT>>): TreeNode<VT> {
+    if (children.isEmpty()) {
+      return new TreeNode<VT>(value, ImmutableAddress.empty<TreeNode<VT>>());
+    }
+
+    return new TreeNode<VT>(value, ImmutableAddress.of<TreeNode<VT>>(children));
   }
 
   protected constructor(value: V, children: ReadonlyAddress<TreeNode<V>>) {
