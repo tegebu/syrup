@@ -48,11 +48,7 @@ export class ClosureTableTreeFactory<K extends Nominative, V extends Nominative>
       throw new TreeError(`THIS KEY DOES NOT HAVE VALUE. GIVEN: ${key.toString()}`);
     }
 
-    const offsprings: Nullable<ClosureTableOffsprings<K>> = this.table.get(key);
-
-    if (Kind.isNull(offsprings)) {
-      throw new TreeError(`THIS TREE NODE IS INCORRECT. GIVEN: ${key.toString()}`);
-    }
+    const offsprings: ClosureTableOffsprings<K> = this.table.get(key) as ClosureTableOffsprings<K>;
 
     if (offsprings.isLeaf()) {
       const newNode: TreeNode<V> = TreeNode.of<V>(value);
