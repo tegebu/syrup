@@ -109,22 +109,6 @@ export class ClosureTable<K extends Nominative> extends Quantity<K, ClosureTable
     return this.table.values();
   }
 
-  public getRoot(): K {
-    let max: number = -1;
-    let root: Nullable<K> = null;
-
-    this.forEach((offsprings: ClosureTableOffsprings<K>, key: K) => {
-      const size: number = offsprings.size();
-
-      if (size > max) {
-        max = size;
-        root = key;
-      }
-    });
-
-    return root as unknown as K;
-  }
-
   public sort(): ReadonlySequence<K> {
     const pairs: Array<Pair<K, ClosureTableOffsprings<K>>> = [...this.table];
 

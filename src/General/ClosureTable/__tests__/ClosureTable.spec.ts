@@ -284,41 +284,6 @@ describe('ClosureTable', () => {
     });
   });
 
-  describe('getRoot', () => {
-    it('returns root itself when the hierarchy is only 1', () => {
-      expect.assertions(1);
-
-      const root: TestVO = new TestVO('mock 10');
-
-      const array: Array<ClosureTableHierarchy<TestVO>> = [
-        new MockClosureTableHierarchy(root, new TestVO('mock 01'))
-      ];
-
-      const table: ClosureTable<TestVO> = ClosureTable.of<TestVO>(array);
-
-      expect(table.getRoot()).toBe(root);
-    });
-
-    it('returns the most hierarchy collector', () => {
-      expect.assertions(1);
-
-      const root: TestVO = new TestVO('mock 10');
-      const node: TestVO = new TestVO('mock 11');
-
-      const array: Array<ClosureTableHierarchy<TestVO>> = [
-        new MockClosureTableHierarchy(root, new TestVO('mock 01')),
-        new MockClosureTableHierarchy(root, new TestVO('mock 02')),
-        new MockClosureTableHierarchy(node, new TestVO('mock 02')),
-        new MockClosureTableHierarchy(node, new TestVO('mock 01')),
-        new MockClosureTableHierarchy(root, new TestVO('mock 03'))
-      ];
-
-      const table: ClosureTable<TestVO> = ClosureTable.of<TestVO>(array);
-
-      expect(table.getRoot()).toBe(root);
-    });
-  });
-
   describe('sort', () => {
     it('returns desc ordered pairs', () => {
       expect.assertions(4);
