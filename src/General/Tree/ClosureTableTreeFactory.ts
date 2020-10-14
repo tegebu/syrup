@@ -50,15 +50,6 @@ export class ClosureTableTreeFactory<K extends Nominative, V extends Nominative>
 
     const offsprings: ClosureTableOffsprings<K> = this.table.get(key) as ClosureTableOffsprings<K>;
 
-    if (offsprings.isLeaf()) {
-      const newNode: TreeNode<V> = TreeNode.of<V>(value);
-
-      pool.set(key, newNode);
-      used.add(key);
-
-      return newNode;
-    }
-
     const address: MutableAddress<TreeNode<V>> = MutableAddress.empty<TreeNode<V>>();
 
     offsprings.forEach((child: K) => {
