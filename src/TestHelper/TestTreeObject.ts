@@ -1,4 +1,3 @@
-import { UnimplementedError } from '@jamashita/publikum-error';
 import { ValueObject } from '@jamashita/publikum-object';
 import { TreeID } from '../General/Tree/Interface/TreeID';
 import { TreeObject } from '../General/Tree/Interface/TreeObject';
@@ -25,10 +24,6 @@ export class TestTreeObject extends ValueObject<'TestTreeObject'> implements Tre
 
   public getTreeID(): TreeID<string> {
     return this.id;
-  }
-
-  public hashCode(): string {
-    throw new UnimplementedError();
   }
 
   public serialize(): string {
