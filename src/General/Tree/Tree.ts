@@ -1,20 +1,26 @@
 import { ReadonlyAddress } from '@jamashita/publikum-collection';
-import { Nominative } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { Primitive } from '@jamashita/publikum-type';
 import { TreeElement } from './Interface/TreeElement';
+import { TreeID } from './Interface/TreeID';
+import { TreeObject } from './Interface/TreeObject';
 import { TreeNode } from './TreeNode';
 
-export class Tree<V extends Nominative> extends ValueObject<'Tree'> implements TreeElement<V, 'Tree'> {
+export class Tree<P extends Primitive, V extends TreeObject<P>> extends ValueObject<'Tree'> implements TreeElement<P, V, 'Tree'> {
   public readonly noun: 'Tree' = 'Tree';
-  private readonly root: TreeNode<V>;
+  private readonly root: TreeNode<P, V>;
 
-  public static of<VT extends Nominative>(root: TreeNode<VT>): Tree<VT> {
-    return new Tree<VT>(root);
+  public static of<PT extends Primitive, VT extends TreeObject<PT>>(root: TreeNode<PT, VT>): Tree<PT, VT> {
+    return new Tree<PT, VT>(root);
   }
 
-  protected constructor(root: TreeNode<V>) {
+  protected constructor(root: TreeNode<P, V>) {
     super();
     this.root = root;
+  }
+
+  public getTreeID(): TreeID<P> {
+    return this.getValue().getTreeID();
   }
 
   public equals(other: unknown): boolean {
@@ -36,7 +42,7 @@ export class Tree<V extends Nominative> extends ValueObject<'Tree'> implements T
     return this.root.getValue();
   }
 
-  public getChildren(): ReadonlyAddress<TreeElement<V>> {
+  public getChildren(): ReadonlyAddress<TreeElement<P, V>> {
     return this.root.getChildren();
   }
 
