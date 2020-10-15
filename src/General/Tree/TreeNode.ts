@@ -1,22 +1,24 @@
 import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
-import { Nominative } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { Primitive } from '@jamashita/publikum-type';
 import { TreeElement } from './Interface/TreeElement';
+import { TreeID } from './Interface/TreeID';
+import { TreeObject } from './Interface/TreeObject';
 
-export class TreeNode<V extends Nominative> extends ValueObject<'TreeNode'> implements TreeElement<V, 'TreeNode'> {
+export class TreeNode<P extends Primitive, V extends TreeObject<P>> extends ValueObject<'TreeNode'> implements TreeElement<P, V> {
   public readonly noun: 'TreeNode' = 'TreeNode';
   private readonly value: V;
-  private readonly children: ReadonlyAddress<TreeNode<V>>;
+  private readonly children: ReadonlyAddress<TreeNode<P, V>>;
 
-  public static of<VT extends Nominative>(value: VT, children: ReadonlyAddress<TreeNode<VT>>): TreeNode<VT> {
+  public static of<PT extends Primitive, VT extends TreeObject<PT>>(value: VT, children: ReadonlyAddress<TreeNode<PT, VT>>): TreeNode<PT, VT> {
     if (children.isEmpty()) {
-      return new TreeNode<VT>(value, ImmutableAddress.empty<TreeNode<VT>>());
+      return new TreeNode<PT, VT>(value, ImmutableAddress.empty<TreeNode<PT, VT>>());
     }
 
-    return new TreeNode<VT>(value, ImmutableAddress.of<TreeNode<VT>>(children));
+    return new TreeNode<PT, VT>(value, ImmutableAddress.of<TreeNode<PT, VT>>(children));
   }
 
-  protected constructor(value: V, children: ReadonlyAddress<TreeNode<V>>) {
+  protected constructor(value: V, children: ReadonlyAddress<TreeNode<P, V>>) {
     super();
     this.value = value;
     this.children = children;
@@ -51,11 +53,15 @@ export class TreeNode<V extends Nominative> extends ValueObject<'TreeNode'> impl
     return this.value;
   }
 
-  public getChildren(): ReadonlyAddress<TreeElement<V>> {
+  public getChildren(): ReadonlyAddress<TreeElement<P, V>> {
     return this.children;
   }
 
   public isLeaf(): boolean {
     return this.children.isEmpty();
+  }
+
+  public getTreeID(): TreeID<P> {
+    return this.value.getTreeID();
   }
 }
