@@ -8,16 +8,16 @@ type ClosureTableJSON<P extends Primitive> = Readonly<{
   offspring: P;
 }>;
 
-export class ClosureTableHierarchy<P extends TreeID<Primitive>> extends ValueObject<'ClosureTableHierarchy'> implements JSONable<ClosureTableJSON<Primitive>> {
+export class ClosureTableHierarchy<P extends Primitive> extends ValueObject<'ClosureTableHierarchy'> implements JSONable<ClosureTableJSON<P>> {
   public readonly noun: 'ClosureTableHierarchy' = 'ClosureTableHierarchy';
-  private readonly ancestor: TreeID<Primitive>;
-  private readonly offspring: TreeID<Primitive>;
+  private readonly ancestor: TreeID<P>;
+  private readonly offspring: TreeID<P>;
 
-  public static of<PT extends TreeID<Primitive>>(ancestor: PT, offspring: PT): ClosureTableHierarchy<PT> {
+  public static of<PT extends Primitive>(ancestor: TreeID<PT>, offspring: TreeID<PT>): ClosureTableHierarchy<PT> {
     return new ClosureTableHierarchy<PT>(ancestor, offspring);
   }
 
-  protected constructor(ancestor: P, offspring: P) {
+  protected constructor(ancestor: TreeID<P>, offspring: TreeID<P>) {
     super();
     this.ancestor = ancestor;
     this.offspring = offspring;
@@ -49,18 +49,18 @@ export class ClosureTableHierarchy<P extends TreeID<Primitive>> extends ValueObj
     return properties.join(', ');
   }
 
-  public toJSON(): ClosureTableJSON<Primitive> {
+  public toJSON(): ClosureTableJSON<P> {
     return {
       ancestor: this.ancestor.get(),
       offspring: this.offspring.get()
     };
   }
 
-  public getAncestor(): TreeID<Primitive> {
+  public getAncestor(): TreeID<P> {
     return this.ancestor;
   }
 
-  public getOffspring(): TreeID<Primitive> {
+  public getOffspring(): TreeID<P> {
     return this.offspring;
   }
 }
