@@ -1,8 +1,9 @@
-import { Nominative } from '@jamashita/publikum-interface';
+import { Primitive } from '@jamashita/publikum-type';
+import { TreeID } from '../../Tree/Interface/TreeID';
 import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
 
-export class MockClosureTableHierarchy<K extends Nominative> extends ClosureTableHierarchy<K> {
-  public constructor(ancestor: K, offspring: K) {
+export class MockClosureTableHierarchy extends ClosureTableHierarchy<TreeID<Primitive>> {
+  public constructor(ancestor: TreeID<Primitive>, offspring: TreeID<Primitive>) {
     super(ancestor, offspring);
   }
 }
