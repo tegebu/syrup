@@ -1,12 +1,17 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { TreeID } from '../General/Tree/Interface/TreeID';
 
-export class TestVO extends ValueObject<'TestVO'> {
+export class TestVO extends ValueObject<'TestVO'> implements TreeID<string> {
   public readonly noun: 'TestVO' = 'TestVO';
   private readonly str: string;
 
   public constructor(str: string) {
     super();
     this.str = str;
+  }
+
+  public get(): string {
+    return this.str;
   }
 
   public equals(other: unknown): boolean {
