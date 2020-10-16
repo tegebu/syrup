@@ -23,6 +23,7 @@ export class ClosureTableTreeFactory<K extends TreeID, V extends TreeObject> imp
 
     const pool: MutableProject<K, TreeNode<V>> = MutableProject.empty<K, TreeNode<V>>();
     const used: MutableAddress<K> = MutableAddress.empty<K>();
+    // TODO should implement sort in table
     const array: ReadonlyArray<Nullable<TreeNode<V>>> = this.table.sort().toArray().map<Nullable<TreeNode<V>>>((key: K) => {
       return this.forgeInternal(key, values, pool, used);
     });

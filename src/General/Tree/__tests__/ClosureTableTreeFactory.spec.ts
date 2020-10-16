@@ -6,8 +6,8 @@ import { MockClosureTable } from '../../ClosureTable/Mock/MockClosureTable';
 import { MockClosureTableHierarchy } from '../../ClosureTable/Mock/MockClosureTableHierarchy';
 import { ClosureTableTreeFactory } from '../ClosureTableTreeFactory';
 import { TreeError } from '../Error/TreeError';
-import { TreeElement } from '../Interface/TreeElement';
 import { Tree } from '../Tree';
+import { TreeNode } from '../TreeNode';
 
 describe('ClosureTableTreeFactory', () => {
   describe('forge', () => {
@@ -61,9 +61,9 @@ describe('ClosureTableTreeFactory', () => {
       expect(tree.isLeaf()).toBe(false);
       expect(tree.getValue().toString()).toBe('mock 1');
 
-      const ch1: ReadonlyAddress<TreeElement<TestTreeObject>> = tree.getChildren();
+      const ch1: ReadonlyAddress<TreeNode<TestTreeObject>> = tree.getChildren();
 
-      const pairs1: Array<Pair<void, TreeElement<TestTreeObject>>> = [...ch1];
+      const pairs1: Array<Pair<void, TreeNode<TestTreeObject>>> = [...ch1];
 
       expect(pairs1).toHaveLength(2);
       expect(pairs1[0].getValue().isLeaf()).toBe(true);
@@ -71,9 +71,9 @@ describe('ClosureTableTreeFactory', () => {
       expect(pairs1[1].getValue().isLeaf()).toBe(false);
       expect(pairs1[1].getValue().getValue().toString()).toBe('mock 3');
 
-      const ch2: ReadonlyAddress<TreeElement<TestTreeObject>> = pairs1[1].getValue().getChildren();
+      const ch2: ReadonlyAddress<TreeNode<TestTreeObject>> = pairs1[1].getValue().getChildren();
 
-      const pairs2: Array<Pair<void, TreeElement<TestTreeObject>>> = [...ch2];
+      const pairs2: Array<Pair<void, TreeNode<TestTreeObject>>> = [...ch2];
 
       expect(pairs2).toHaveLength(2);
       expect(pairs2[0].getValue().isLeaf()).toBe(true);

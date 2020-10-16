@@ -1,24 +1,20 @@
 import { ReadonlyAddress } from '@jamashita/publikum-collection';
 import { ValueObject } from '@jamashita/publikum-object';
-import { TreeElement } from './Interface/TreeElement';
 import { TreeID } from './Interface/TreeID';
 import { TreeObject } from './Interface/TreeObject';
+import { TreeNode } from './TreeNode';
 
-export class Tree<V extends TreeObject> extends ValueObject<'Tree'> implements TreeElement<V, 'Tree'> {
+export class Tree<V extends TreeObject> extends ValueObject<'Tree'> {
   public readonly noun: 'Tree' = 'Tree';
-  private readonly root: TreeElement<V>;
+  private readonly root: TreeNode<V>;
 
-  public static of<VT extends TreeObject>(root: TreeElement<VT>): Tree<VT> {
+  public static of<VT extends TreeObject>(root: TreeNode<VT>): Tree<VT> {
     return new Tree<VT>(root);
   }
 
-  protected constructor(root: TreeElement<V>) {
+  protected constructor(root: TreeNode<V>) {
     super();
     this.root = root;
-  }
-
-  public getTreeID(): TreeID {
-    return this.getValue().getTreeID();
   }
 
   public equals(other: unknown): boolean {
@@ -36,11 +32,15 @@ export class Tree<V extends TreeObject> extends ValueObject<'Tree'> implements T
     return this.root.toString();
   }
 
+  public getTreeID(): TreeID {
+    return this.getValue().getTreeID();
+  }
+
   public getValue(): V {
     return this.root.getValue();
   }
 
-  public getChildren(): ReadonlyAddress<TreeElement<V>> {
+  public getChildren(): ReadonlyAddress<TreeNode<V>> {
     return this.root.getChildren();
   }
 

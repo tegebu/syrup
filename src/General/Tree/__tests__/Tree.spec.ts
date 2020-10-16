@@ -1,16 +1,16 @@
 import { ImmutableAddress } from '@jamashita/publikum-collection';
 import sinon, { SinonSpy } from 'sinon';
-import { TestTreeElement } from '../../../TestHelper/TestTreeElement';
 import { TestTreeObject } from '../../../TestHelper/TestTreeObject';
 import { TestVO } from '../../../TestHelper/TestVO';
 import { Tree } from '../Tree';
+import { TreeNode } from '../TreeNode';
 
 describe('Tree', () => {
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);
 
-      const tree: Tree<TestTreeObject> = Tree.of<TestTreeObject>(new TestTreeElement(new TestTreeObject(new TestVO('mock'))));
+      const tree: Tree<TestTreeObject> = Tree.of<TestTreeObject>(TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock')), ImmutableAddress.empty<TreeNode<TestTreeObject>>()));
 
       expect(tree.equals(tree)).toBe(true);
     });
@@ -18,7 +18,7 @@ describe('Tree', () => {
     it('returns false when the different class instance given', () => {
       expect.assertions(1);
 
-      const tree: Tree<TestTreeObject> = Tree.of<TestTreeObject>(new TestTreeElement(new TestTreeObject(new TestVO('mock'))));
+      const tree: Tree<TestTreeObject> = Tree.of<TestTreeObject>(TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock')), ImmutableAddress.empty<TreeNode<TestTreeObject>>()));
 
       expect(tree.equals(new TestTreeObject(new TestVO('mock')))).toBe(false);
     });
@@ -26,38 +26,48 @@ describe('Tree', () => {
     it('returns true when all the properties are the same', () => {
       expect.assertions(11);
 
-      const tree01: Tree<TestTreeObject> = Tree.of<TestTreeObject>(new TestTreeElement(new TestTreeObject(new TestVO('mock 1'))));
-      const tree02: Tree<TestTreeObject> = Tree.of<TestTreeObject>(new TestTreeElement(new TestTreeObject(new TestVO('mock 2'))));
-      const tree03: Tree<TestTreeObject> = Tree.of<TestTreeObject>(new TestTreeElement(new TestTreeObject(new TestVO('mock 1'))));
+      const tree01: Tree<TestTreeObject> = Tree.of<TestTreeObject>(TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 1')), ImmutableAddress.empty<TreeNode<TestTreeObject>>()));
+      const tree02: Tree<TestTreeObject> = Tree.of<TestTreeObject>(TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 2')), ImmutableAddress.empty<TreeNode<TestTreeObject>>()));
+      const tree03: Tree<TestTreeObject> = Tree.of<TestTreeObject>(TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 1')), ImmutableAddress.empty<TreeNode<TestTreeObject>>()));
       const tree04: Tree<TestTreeObject> = Tree.of<TestTreeObject>(
-        new TestTreeElement(new TestTreeObject(new TestVO('mock 1')),
-          ImmutableAddress.ofSet<TestTreeElement>(
-            new Set<TestTreeElement>([new TestTreeElement(new TestTreeObject(new TestVO('mock 1')))])
-          ))
+        TreeNode.of<TestTreeObject>(
+          new TestTreeObject(new TestVO('mock 1')),
+          ImmutableAddress.ofSet<TreeNode<TestTreeObject>>(
+            new Set<TreeNode<TestTreeObject>>([TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 1')), ImmutableAddress.empty<TreeNode<TestTreeObject>>())])
+          )
+        )
       );
       const tree05: Tree<TestTreeObject> = Tree.of<TestTreeObject>(
-        new TestTreeElement(new TestTreeObject(new TestVO('mock 1')),
-          ImmutableAddress.ofSet<TestTreeElement>(
-            new Set<TestTreeElement>([new TestTreeElement(new TestTreeObject(new TestVO('mock 2')))])
-          ))
+        TreeNode.of<TestTreeObject>(
+          new TestTreeObject(new TestVO('mock 1')),
+          ImmutableAddress.ofSet<TreeNode<TestTreeObject>>(
+            new Set<TreeNode<TestTreeObject>>([TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 2')), ImmutableAddress.empty<TreeNode<TestTreeObject>>())])
+          )
+        )
       );
       const tree06: Tree<TestTreeObject> = Tree.of<TestTreeObject>(
-        new TestTreeElement(new TestTreeObject(new TestVO('mock 2')),
-          ImmutableAddress.ofSet<TestTreeElement>(
-            new Set<TestTreeElement>([new TestTreeElement(new TestTreeObject(new TestVO('mock 1')))])
-          ))
+        TreeNode.of<TestTreeObject>(
+          new TestTreeObject(new TestVO('mock 2')),
+          ImmutableAddress.ofSet<TreeNode<TestTreeObject>>(
+            new Set<TreeNode<TestTreeObject>>([TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 1')), ImmutableAddress.empty<TreeNode<TestTreeObject>>())])
+          )
+        )
       );
       const tree07: Tree<TestTreeObject> = Tree.of<TestTreeObject>(
-        new TestTreeElement(new TestTreeObject(new TestVO('mock 2')),
-          ImmutableAddress.ofSet<TestTreeElement>(
-            new Set<TestTreeElement>([new TestTreeElement(new TestTreeObject(new TestVO('mock 2')))])
-          ))
+        TreeNode.of<TestTreeObject>(
+          new TestTreeObject(new TestVO('mock 2')),
+          ImmutableAddress.ofSet<TreeNode<TestTreeObject>>(
+            new Set<TreeNode<TestTreeObject>>([TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 2')), ImmutableAddress.empty<TreeNode<TestTreeObject>>())])
+          )
+        )
       );
       const tree08: Tree<TestTreeObject> = Tree.of<TestTreeObject>(
-        new TestTreeElement(new TestTreeObject(new TestVO('mock 1')),
-          ImmutableAddress.ofSet<TestTreeElement>(
-            new Set<TestTreeElement>([new TestTreeElement(new TestTreeObject(new TestVO('mock 1')))])
-          ))
+        TreeNode.of<TestTreeObject>(
+          new TestTreeObject(new TestVO('mock 1')),
+          ImmutableAddress.ofSet<TreeNode<TestTreeObject>>(
+            new Set<TreeNode<TestTreeObject>>([TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 1')), ImmutableAddress.empty<TreeNode<TestTreeObject>>())])
+          )
+        )
       );
 
       expect(tree01.equals(tree02)).toBe(false);
@@ -79,7 +89,7 @@ describe('Tree', () => {
       expect.assertions(1);
 
       const spy: SinonSpy = sinon.spy();
-      const root: TestTreeElement = new TestTreeElement(new TestTreeObject(new TestVO('mock')));
+      const root: TreeNode<TestTreeObject> = TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock')), ImmutableAddress.empty<TreeNode<TestTreeObject>>());
 
       root.toString = spy;
 
@@ -96,7 +106,7 @@ describe('Tree', () => {
       expect.assertions(1);
 
       const spy: SinonSpy = sinon.spy();
-      const root: TestTreeElement = new TestTreeElement(new TestTreeObject(new TestVO('mock')));
+      const root: TreeNode<TestTreeObject> = TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock')), ImmutableAddress.empty<TreeNode<TestTreeObject>>());
 
       root.getValue = spy;
 
@@ -113,7 +123,7 @@ describe('Tree', () => {
       expect.assertions(1);
 
       const spy: SinonSpy = sinon.spy();
-      const root: TestTreeElement = new TestTreeElement(new TestTreeObject(new TestVO('mock')));
+      const root: TreeNode<TestTreeObject> = TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock')), ImmutableAddress.empty<TreeNode<TestTreeObject>>());
 
       root.getChildren = spy;
 
@@ -130,7 +140,7 @@ describe('Tree', () => {
       expect.assertions(1);
 
       const spy: SinonSpy = sinon.spy();
-      const root: TestTreeElement = new TestTreeElement(new TestTreeObject(new TestVO('mock')));
+      const root: TreeNode<TestTreeObject> = TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock')), ImmutableAddress.empty<TreeNode<TestTreeObject>>());
 
       root.isLeaf = spy;
 
