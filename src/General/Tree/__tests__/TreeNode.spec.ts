@@ -156,4 +156,48 @@ describe('TreeNode', () => {
       expect(node.isLeaf()).toBe(true);
     });
   });
+
+  describe('toJSON', () => {
+    it('returns TreeNodeJSON', () => {
+      expect.assertions(1);
+
+      const node: TreeNode<TestTreeObject> = TreeNode.of<TestTreeObject>(
+        new TestTreeObject(new TestVO('mock 1')),
+        ImmutableAddress.ofSet<TreeNode<TestTreeObject>>(new Set<TreeNode<TestTreeObject>>([
+          TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 2')),
+            ImmutableAddress.ofSet<TreeNode<TestTreeObject>>(new Set<TreeNode<TestTreeObject>>([
+              TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 3')), ImmutableAddress.empty<TreeNode<TestTreeObject>>())
+            ]))),
+          TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 4')), ImmutableAddress.empty<TreeNode<TestTreeObject>>())
+        ]))
+      );
+
+      expect(node.toJSON()).toStrictEqual({
+        value: {
+          id: 'mock 1'
+        },
+        children: [
+          {
+            value: {
+              id: 'mock 2'
+            },
+            children: [
+              {
+                value: {
+                  id: 'mock 3'
+                },
+                children: []
+              }
+            ]
+          },
+          {
+            value: {
+              id: 'mock 4'
+            },
+            children: []
+          }
+        ]
+      });
+    });
+  });
 });

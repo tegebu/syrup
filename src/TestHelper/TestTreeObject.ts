@@ -1,7 +1,11 @@
 import { ValueObject } from '@jamashita/publikum-object';
-import { ObjectLiteral } from '@jamashita/publikum-type';
+import { Primitive } from '@jamashita/publikum-type';
 import { TreeID } from '../General/Tree/Interface/TreeID';
 import { TreeObject } from '../General/Tree/Interface/TreeObject';
+
+type TestTreeObjectJSON = Readonly<{
+  id: Primitive;
+}>;
 
 export class TestTreeObject extends ValueObject<'TestTreeObject'> implements TreeObject<'TestTreeObject'> {
   public readonly noun: 'TestTreeObject' = 'TestTreeObject';
@@ -31,7 +35,7 @@ export class TestTreeObject extends ValueObject<'TestTreeObject'> implements Tre
     return this.id.toString();
   }
 
-  public toJSON(): ObjectLiteral {
+  public toJSON(): TestTreeObjectJSON {
     return {
       id: this.id.get()
     };

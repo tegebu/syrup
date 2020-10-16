@@ -1,9 +1,16 @@
 import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
+import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { ObjectLiteral } from '@jamashita/publikum-type';
 import { TreeID } from './Interface/TreeID';
 import { TreeObject } from './Interface/TreeObject';
 
-export class TreeNode<V extends TreeObject> extends ValueObject<'TreeNode'> {
+export type TreeNodeJSON = Readonly<{
+  value: ObjectLiteral;
+  children: ReadonlyArray<ObjectLiteral>;
+}>;
+
+export class TreeNode<V extends TreeObject> extends ValueObject<'TreeNode'> implements JSONable<TreeNodeJSON> {
   public readonly noun: 'TreeNode' = 'TreeNode';
   private readonly value: V;
   private readonly children: ReadonlyAddress<TreeNode<V>>;
@@ -45,6 +52,15 @@ export class TreeNode<V extends TreeObject> extends ValueObject<'TreeNode'> {
     }
 
     return `{VALUE: ${this.value.toString()}, CHILDREN: [${this.children.toString()}]}`;
+  }
+
+  public toJSON(): TreeNodeJSON {
+    return {
+      value: this.value.toJSON(),
+      children: [...this.children.values()].map<ObjectLiteral>((node: TreeNode<V>) => {
+        return node.toJSON();
+      })
+    };
   }
 
   public getValue(): V {
