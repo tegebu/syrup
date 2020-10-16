@@ -3,7 +3,7 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { Primitive } from '@jamashita/publikum-type';
 import { TreeID } from '../Interface/TreeID';
 
-export class MockTreeID extends ValueObject<'MockTreeID'> implements TreeID<Primitive, 'MockTreeID'> {
+export class MockTreeID extends ValueObject<'MockTreeID'> implements TreeID<'MockTreeID'> {
   public readonly noun: 'MockTreeID' = 'MockTreeID';
 
   public equals(): boolean {

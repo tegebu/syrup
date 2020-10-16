@@ -1,24 +1,23 @@
 import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
 import { ValueObject } from '@jamashita/publikum-object';
-import { Primitive } from '@jamashita/publikum-type';
 import { TreeElement } from './Interface/TreeElement';
 import { TreeID } from './Interface/TreeID';
 import { TreeObject } from './Interface/TreeObject';
 
-export class TreeNode<V extends TreeObject<P>, P extends Primitive = Primitive> extends ValueObject<'TreeNode'> implements TreeElement<V, P> {
+export class TreeNode<V extends TreeObject> extends ValueObject<'TreeNode'> implements TreeElement<V> {
   public readonly noun: 'TreeNode' = 'TreeNode';
   private readonly value: V;
-  private readonly children: ReadonlyAddress<TreeNode<V, P>>;
+  private readonly children: ReadonlyAddress<TreeNode<V>>;
 
-  public static of<VT extends TreeObject<PT>, PT extends Primitive = Primitive>(value: VT, children: ReadonlyAddress<TreeNode<VT, PT>>): TreeNode<VT, PT> {
+  public static of<VT extends TreeObject>(value: VT, children: ReadonlyAddress<TreeNode<VT>>): TreeNode<VT> {
     if (children.isEmpty()) {
-      return new TreeNode<VT, PT>(value, ImmutableAddress.empty<TreeNode<VT, PT>>());
+      return new TreeNode<VT>(value, ImmutableAddress.empty<TreeNode<VT>>());
     }
 
-    return new TreeNode<VT, PT>(value, ImmutableAddress.of<TreeNode<VT, PT>>(children));
+    return new TreeNode<VT>(value, ImmutableAddress.of<TreeNode<VT>>(children));
   }
 
-  protected constructor(value: V, children: ReadonlyAddress<TreeNode<V, P>>) {
+  protected constructor(value: V, children: ReadonlyAddress<TreeNode<V>>) {
     super();
     this.value = value;
     this.children = children;
@@ -53,7 +52,7 @@ export class TreeNode<V extends TreeObject<P>, P extends Primitive = Primitive> 
     return this.value;
   }
 
-  public getChildren(): ReadonlyAddress<TreeElement<V, P>> {
+  public getChildren(): ReadonlyAddress<TreeElement<V>> {
     return this.children;
   }
 
@@ -61,7 +60,7 @@ export class TreeNode<V extends TreeObject<P>, P extends Primitive = Primitive> 
     return this.children.isEmpty();
   }
 
-  public getTreeID(): TreeID<P> {
+  public getTreeID(): TreeID {
     return this.value.getTreeID();
   }
 }

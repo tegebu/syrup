@@ -2,11 +2,11 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { TreeID } from '../General/Tree/Interface/TreeID';
 import { TreeObject } from '../General/Tree/Interface/TreeObject';
 
-export class TestTreeObject extends ValueObject<'TestTreeObject'> implements TreeObject<string, 'TestTreeObject'> {
+export class TestTreeObject extends ValueObject<'TestTreeObject'> implements TreeObject<'TestTreeObject'> {
   public readonly noun: 'TestTreeObject' = 'TestTreeObject';
-  private readonly id: TreeID<string>;
+  private readonly id: TreeID;
 
-  public constructor(id: TreeID<string>) {
+  public constructor(id: TreeID) {
     super();
     this.id = id;
   }
@@ -22,7 +22,7 @@ export class TestTreeObject extends ValueObject<'TestTreeObject'> implements Tre
     return this.id.equals(other.id);
   }
 
-  public getTreeID(): TreeID<string> {
+  public getTreeID(): TreeID {
     return this.id;
   }
 
