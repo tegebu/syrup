@@ -151,4 +151,21 @@ describe('Tree', () => {
       expect(spy.called).toBe(true);
     });
   });
+
+  describe('toJSON', () => {
+    it('returns TreeNodeJSON', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const root: TreeNode<TestTreeObject> = TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock')), ImmutableAddress.empty<TreeNode<TestTreeObject>>());
+
+      root.toJSON = spy;
+
+      const tree: Tree<TestTreeObject> = Tree.of<TestTreeObject>(root);
+
+      tree.toJSON();
+
+      expect(spy.called).toBe(true);
+    });
+  });
 });

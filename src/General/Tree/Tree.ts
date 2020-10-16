@@ -1,10 +1,11 @@
 import { ReadonlyAddress } from '@jamashita/publikum-collection';
+import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { TreeID } from './Interface/TreeID';
 import { TreeObject } from './Interface/TreeObject';
-import { TreeNode } from './TreeNode';
+import { TreeNode, TreeNodeJSON } from './TreeNode';
 
-export class Tree<V extends TreeObject> extends ValueObject<'Tree'> {
+export class Tree<V extends TreeObject> extends ValueObject<'Tree'> implements JSONable<TreeNodeJSON> {
   public readonly noun: 'Tree' = 'Tree';
   private readonly root: TreeNode<V>;
 
@@ -30,6 +31,10 @@ export class Tree<V extends TreeObject> extends ValueObject<'Tree'> {
 
   public serialize(): string {
     return this.root.toString();
+  }
+
+  public toJSON(): TreeNodeJSON {
+    return this.root.toJSON();
   }
 
   public getTreeID(): TreeID {
