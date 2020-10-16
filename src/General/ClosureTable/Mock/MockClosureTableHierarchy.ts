@@ -1,9 +1,8 @@
-import { Primitive } from '@jamashita/publikum-type';
 import { TreeID } from '../../Tree/Interface/TreeID';
 import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
 
-export class MockClosureTableHierarchy<P extends Primitive> extends ClosureTableHierarchy<P> {
-  public constructor(ancestor: TreeID<P>, offspring: TreeID<P>) {
+export class MockClosureTableHierarchy<K extends TreeID> extends ClosureTableHierarchy<K> {
+  public constructor(ancestor: K, offspring: K) {
     super(ancestor, offspring);
   }
 }

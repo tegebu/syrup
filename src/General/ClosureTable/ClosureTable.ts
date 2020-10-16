@@ -9,18 +9,18 @@ import {
   ReadonlyProject,
   ReadonlySequence
 } from '@jamashita/publikum-collection';
-import { Nominative } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
+import { TreeID } from '../Tree/Interface/TreeID';
 import { ClosureTableHierarchy } from './ClosureTableHierarchy';
 import { ClosureTableOffsprings } from './ClosureTableOffsprings';
 
-export class ClosureTable<K extends Nominative> extends Quantity<K, ClosureTableOffsprings<K>, 'ClosureTableHierarchies'> {
+export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffsprings<K>, 'ClosureTableHierarchies'> {
   public readonly noun: 'ClosureTableHierarchies' = 'ClosureTableHierarchies';
   private readonly table: ReadonlyProject<K, ClosureTableOffsprings<K>>;
 
-  private static readonly EMPTY: ClosureTable<Nominative> = new ClosureTable<Nominative>(ImmutableProject.empty<Nominative, ClosureTableOffsprings<Nominative>>());
+  private static readonly EMPTY: ClosureTable<TreeID> = new ClosureTable<TreeID>(ImmutableProject.empty<TreeID, ClosureTableOffsprings<TreeID>>());
 
-  public static of<KT extends Nominative>(hierarchies: ReadonlyArray<ClosureTableHierarchy<KT>>): ClosureTable<KT> {
+  public static of<KT extends TreeID>(hierarchies: ReadonlyArray<ClosureTableHierarchy<KT>>): ClosureTable<KT> {
     if (hierarchies.length === 0) {
       return ClosureTable.empty<KT>();
     }
@@ -49,7 +49,7 @@ export class ClosureTable<K extends Nominative> extends Quantity<K, ClosureTable
     return new ClosureTable<KT>(table);
   }
 
-  public static empty<KT extends Nominative>(): ClosureTable<KT> {
+  public static empty<KT extends TreeID>(): ClosureTable<KT> {
     return ClosureTable.EMPTY as ClosureTable<KT>;
   }
 

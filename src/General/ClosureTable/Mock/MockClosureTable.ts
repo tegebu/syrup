@@ -1,12 +1,12 @@
 import { MutableAddress, MutableProject, ReadonlyProject } from '@jamashita/publikum-collection';
-import { Nominative } from '@jamashita/publikum-interface';
 import { Kind, Nullable } from '@jamashita/publikum-type';
+import { TreeID } from '../../Tree/Interface/TreeID';
 import { ClosureTable } from '../ClosureTable';
 import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
 import { ClosureTableOffsprings } from '../ClosureTableOffsprings';
 
-export class MockClosureTable<K extends Nominative> extends ClosureTable<K> {
-  private static toProject<KT extends Nominative>(hierarchies: ReadonlyArray<ClosureTableHierarchy<KT>>): ReadonlyProject<KT, ClosureTableOffsprings<KT>> {
+export class MockClosureTable<K extends TreeID> extends ClosureTable<K> {
+  private static toProject<KT extends TreeID>(hierarchies: ReadonlyArray<ClosureTableHierarchy<KT>>): ReadonlyProject<KT, ClosureTableOffsprings<KT>> {
     const project: MutableProject<KT, MutableAddress<KT>> = MutableProject.empty<KT, MutableAddress<KT>>();
 
     hierarchies.forEach((hierarchy: ClosureTableHierarchy<KT>) => {

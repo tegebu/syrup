@@ -3,21 +3,21 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { Primitive } from '@jamashita/publikum-type';
 import { TreeID } from '../Tree/Interface/TreeID';
 
-type ClosureTableJSON<P extends Primitive> = Readonly<{
-  ancestor: P;
-  offspring: P;
+type ClosureTableJSON = Readonly<{
+  ancestor: Primitive;
+  offspring: Primitive;
 }>;
 
-export class ClosureTableHierarchy<P extends Primitive> extends ValueObject<'ClosureTableHierarchy'> implements JSONable<ClosureTableJSON<P>> {
+export class ClosureTableHierarchy<K extends TreeID> extends ValueObject<'ClosureTableHierarchy'> implements JSONable<ClosureTableJSON> {
   public readonly noun: 'ClosureTableHierarchy' = 'ClosureTableHierarchy';
-  private readonly ancestor: TreeID<P>;
-  private readonly offspring: TreeID<P>;
+  private readonly ancestor: K;
+  private readonly offspring: K;
 
-  public static of<PT extends Primitive>(ancestor: TreeID<PT>, offspring: TreeID<PT>): ClosureTableHierarchy<PT> {
-    return new ClosureTableHierarchy<PT>(ancestor, offspring);
+  public static of<KT extends TreeID>(ancestor: KT, offspring: KT): ClosureTableHierarchy<KT> {
+    return new ClosureTableHierarchy<KT>(ancestor, offspring);
   }
 
-  protected constructor(ancestor: TreeID<P>, offspring: TreeID<P>) {
+  protected constructor(ancestor: K, offspring: K) {
     super();
     this.ancestor = ancestor;
     this.offspring = offspring;
@@ -49,18 +49,18 @@ export class ClosureTableHierarchy<P extends Primitive> extends ValueObject<'Clo
     return properties.join(', ');
   }
 
-  public toJSON(): ClosureTableJSON<P> {
+  public toJSON(): ClosureTableJSON {
     return {
       ancestor: this.ancestor.get(),
       offspring: this.offspring.get()
     };
   }
 
-  public getAncestor(): TreeID<P> {
+  public getAncestor(): K {
     return this.ancestor;
   }
 
-  public getOffspring(): TreeID<P> {
+  public getOffspring(): K {
     return this.offspring;
   }
 }
