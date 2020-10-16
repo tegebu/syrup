@@ -1,14 +1,15 @@
 import { MutableAddress, MutableProject, ReadonlyProject } from '@jamashita/publikum-collection';
-import { Nominative } from '@jamashita/publikum-interface';
 import { Kind, Nullable } from '@jamashita/publikum-type';
 import { ClosureTable } from '../ClosureTable/ClosureTable';
 import { ClosureTableOffsprings } from '../ClosureTable/ClosureTableOffsprings';
 import { TreeError } from './Error/TreeError';
 import { TreeFactory } from './Interface/TreeFactory';
+import { TreeID } from './Interface/TreeID';
+import { TreeObject } from './Interface/TreeObject';
 import { Tree } from './Tree';
 import { TreeNode } from './TreeNode';
 
-export class ClosureTableTreeFactory<K extends Nominative, V extends Nominative> implements TreeFactory<K, V> {
+export class ClosureTableTreeFactory<K extends TreeID, V extends TreeObject> implements TreeFactory<K, V> {
   private readonly table: ClosureTable<K>;
 
   public constructor(table: ClosureTable<K>) {
