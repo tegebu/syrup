@@ -1,15 +1,15 @@
-import { ReadonlyAddress } from '@jamashita/publikum-collection';
+import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
 import { ValueObject } from '@jamashita/publikum-object';
 import { TreeElement } from '../General/Tree/Interface/TreeElement';
 import { TreeID } from '../General/Tree/Interface/TreeID';
 import { TestTreeObject } from './TestTreeObject';
 
-export class TestTreeElement extends ValueObject<'TestTreeElement'> implements TreeElement<TestTreeObject, string, 'TestTreeElement'> {
+export class TestTreeElement extends ValueObject<'TestTreeElement'> implements TreeElement<TestTreeObject, 'TestTreeElement'> {
   public readonly noun: 'TestTreeElement' = 'TestTreeElement';
   private readonly value: TestTreeObject;
-  private readonly children: ReadonlyAddress<TreeElement<TestTreeObject, string>>;
+  private readonly children: ReadonlyAddress<TreeElement<TestTreeObject>>;
 
-  public constructor(value: TestTreeObject, children: ReadonlyAddress<TreeElement<TestTreeObject, string>>) {
+  public constructor(value: TestTreeObject, children: ReadonlyAddress<TreeElement<TestTreeObject>> = ImmutableAddress.empty<TreeElement<TestTreeObject>>()) {
     super();
     this.value = value;
     this.children = children;
@@ -49,7 +49,7 @@ export class TestTreeElement extends ValueObject<'TestTreeElement'> implements T
     return this.value;
   }
 
-  public getChildren(): ReadonlyAddress<TreeElement<TestTreeObject, string>> {
+  public getChildren(): ReadonlyAddress<TreeElement<TestTreeObject>> {
     return this.children;
   }
 

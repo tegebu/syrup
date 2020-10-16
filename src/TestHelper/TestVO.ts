@@ -1,7 +1,7 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { TreeID } from '../General/Tree/Interface/TreeID';
 
-export class TestVO extends ValueObject<'TestVO'> implements TreeID<string> {
+export class TestVO extends ValueObject<'TestVO'> implements TreeID {
   public readonly noun: 'TestVO' = 'TestVO';
   private readonly str: string;
 
