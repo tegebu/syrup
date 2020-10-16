@@ -25,8 +25,8 @@ describe('ClosureTableTreeFactory', () => {
 
       const tree: Tree<TestTreeObject> = factory.forge(project);
 
-      expect(tree.isLeaf()).toBe(true);
-      expect(tree.getValue().toString()).toBe('mock 1');
+      expect(tree.getRote().isLeaf()).toBe(true);
+      expect(tree.getRote().getValue().toString()).toBe('mock 1');
     });
 
     it('returns complex tree', () => {
@@ -58,10 +58,10 @@ describe('ClosureTableTreeFactory', () => {
 
       const tree: Tree<TestTreeObject> = factory.forge(project);
 
-      expect(tree.isLeaf()).toBe(false);
-      expect(tree.getValue().toString()).toBe('mock 1');
+      expect(tree.getRote().isLeaf()).toBe(false);
+      expect(tree.getRote().getValue().toString()).toBe('mock 1');
 
-      const ch1: ReadonlyAddress<TreeNode<TestTreeObject>> = tree.getChildren();
+      const ch1: ReadonlyAddress<TreeNode<TestTreeObject>> = tree.getRote().getChildren();
 
       const pairs1: Array<Pair<void, TreeNode<TestTreeObject>>> = [...ch1];
 

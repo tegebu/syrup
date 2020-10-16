@@ -101,8 +101,8 @@ describe('Tree', () => {
     });
   });
 
-  describe('getValue', () => {
-    it('delegates its node instance', () => {
+  describe('getNode', () => {
+    it('returns root', () => {
       expect.assertions(1);
 
       const spy: SinonSpy = sinon.spy();
@@ -112,43 +112,7 @@ describe('Tree', () => {
 
       const tree: Tree<TestTreeObject> = Tree.of<TestTreeObject>(root);
 
-      tree.getValue();
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('getChildren', () => {
-    it('delegates its node instance', () => {
-      expect.assertions(1);
-
-      const spy: SinonSpy = sinon.spy();
-      const root: TreeNode<TestTreeObject> = TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock')), ImmutableAddress.empty<TreeNode<TestTreeObject>>());
-
-      root.getChildren = spy;
-
-      const tree: Tree<TestTreeObject> = Tree.of<TestTreeObject>(root);
-
-      tree.getChildren();
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('isLeaf', () => {
-    it('delegates its node instance', () => {
-      expect.assertions(1);
-
-      const spy: SinonSpy = sinon.spy();
-      const root: TreeNode<TestTreeObject> = TreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock')), ImmutableAddress.empty<TreeNode<TestTreeObject>>());
-
-      root.isLeaf = spy;
-
-      const tree: Tree<TestTreeObject> = Tree.of<TestTreeObject>(root);
-
-      tree.isLeaf();
-
-      expect(spy.called).toBe(true);
+      expect(tree.getRote()).toBe(root);
     });
   });
 

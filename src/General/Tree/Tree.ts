@@ -1,4 +1,3 @@
-import { ReadonlyAddress } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { TreeID } from './Interface/TreeID';
@@ -38,18 +37,10 @@ export class Tree<V extends TreeObject> extends ValueObject<'Tree'> implements J
   }
 
   public getTreeID(): TreeID {
-    return this.getValue().getTreeID();
+    return this.root.getValue().getTreeID();
   }
 
-  public getValue(): V {
-    return this.root.getValue();
-  }
-
-  public getChildren(): ReadonlyAddress<TreeNode<V>> {
-    return this.root.getChildren();
-  }
-
-  public isLeaf(): boolean {
-    return this.root.isLeaf();
+  public getRote(): TreeNode<V> {
+    return this.root;
   }
 }
