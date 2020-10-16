@@ -121,23 +121,23 @@ describe('ClosureTableOffsprings', () => {
     });
   });
 
-  // TODO NOT YET
   describe('iterator', () => {
     it('returns Pair<void, K>', () => {
-      expect.assertions(1);
+      expect.assertions(3);
 
-      const spy: SinonSpy = sinon.spy();
-      const address: MockAddress<Nominative> = new MockAddress<Nominative>(new Set<Nominative>());
+      const array: Array<MockValueObject> = [
+        new MockValueObject('mock 1'),
+        new MockValueObject('mock 2'),
+        new MockValueObject('mock 3')
+      ];
 
-      address.size = spy;
+      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.ofArray<MockValueObject>(array);
+      let i: number = 0;
 
-      const offsprings: ClosureTableOffsprings<MockValueObject> = ClosureTableOffsprings.empty<MockValueObject>();
-      // @ts-expect-error
-      offsprings.offsprings = address;
-
-      offsprings.size();
-
-      expect(spy.called).toBe(true);
+      for (const pair of offsprings) {
+        expect(pair.getValue()).toBe(array[i]);
+        i++;
+      }
     });
   });
 
