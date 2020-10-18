@@ -1,8 +1,33 @@
 import { MockValueObject } from '@jamashita/publikum-object';
+import sinon, { SinonStub } from 'sinon';
 import { TestVO } from '../../../TestHelper/TestVO';
-import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
+import { MockTreeIDFactory } from '../../Tree/Mock/MockTreeIDFactory';
+import { ClosureTableHierarchy, ClosureTableJSON } from '../ClosureTableHierarchy';
 
 describe('ClosureTableHierarchy', () => {
+  describe('ofJSON', () => {
+    it('returns instance from json by forging with factory', () => {
+      expect.assertions(2);
+
+      const json: ClosureTableJSON = {
+        ancestor: '7fc1343b-f086-4951-876f-410067a6937d',
+        offspring: 'e45eb02f-837a-40c9-8925-474e2f18faf0'
+      };
+
+      const factory: MockTreeIDFactory<TestVO> = new MockTreeIDFactory<TestVO>();
+
+      const stub: SinonStub = sinon.stub();
+      factory.forge = stub;
+      stub.onFirstCall().returns(new TestVO(json.ancestor as string));
+      stub.onSecondCall().returns(new TestVO(json.offspring as string));
+
+      const hierarchy: ClosureTableHierarchy<TestVO> = ClosureTableHierarchy.ofJSON<TestVO>(json, factory);
+
+      expect(hierarchy.getAncestor().get()).toBe(json.ancestor);
+      expect(hierarchy.getOffspring().get()).toBe(json.offspring);
+    });
+  });
+
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);

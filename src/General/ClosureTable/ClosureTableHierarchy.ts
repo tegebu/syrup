@@ -2,6 +2,7 @@ import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Primitive } from '@jamashita/publikum-type';
 import { TreeID } from '../Tree/Interface/TreeID';
+import { TreeIDFactory } from '../Tree/Interface/TreeIDFactory';
 
 export type ClosureTableJSON = Readonly<{
   ancestor: Primitive;
@@ -15,6 +16,13 @@ export class ClosureTableHierarchy<K extends TreeID> extends ValueObject<'Closur
 
   public static of<KT extends TreeID>(ancestor: KT, offspring: KT): ClosureTableHierarchy<KT> {
     return new ClosureTableHierarchy<KT>(ancestor, offspring);
+  }
+
+  public static ofJSON<KT extends TreeID>(json: ClosureTableJSON, factory: TreeIDFactory<KT>): ClosureTableHierarchy<KT> {
+    const ancestor: KT = factory.forge(json.ancestor);
+    const offspring: KT = factory.forge(json.offspring);
+
+    return ClosureTableHierarchy.of<KT>(ancestor, offspring);
   }
 
   protected constructor(ancestor: K, offspring: K) {
