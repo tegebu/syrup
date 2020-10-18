@@ -11,7 +11,7 @@ import { BinaryPredicate, Mapper, Nullable } from '@jamashita/publikum-type';
 
 export class ClosureTableOffsprings<K extends Nominative> extends Quantity<void, K, 'ClosureTableOffsprings'> {
   public readonly noun: 'ClosureTableOffsprings' = 'ClosureTableOffsprings';
-  private readonly offsprings: ReadonlyAddress<K>;
+  private readonly offsprings: ImmutableAddress<K>;
 
   private static readonly EMPTY: ClosureTableOffsprings<Nominative> = new ClosureTableOffsprings<Nominative>(ImmutableAddress.empty<Nominative>());
 
@@ -20,7 +20,7 @@ export class ClosureTableOffsprings<K extends Nominative> extends Quantity<void,
       return ClosureTableOffsprings.empty<KT>();
     }
 
-    return new ClosureTableOffsprings<KT>(offsprings);
+    return new ClosureTableOffsprings<KT>(ImmutableAddress.of<KT>(offsprings));
   }
 
   public static ofArray<KT extends Nominative>(offsprings: ReadonlyArray<KT>): ClosureTableOffsprings<KT> {
@@ -37,7 +37,7 @@ export class ClosureTableOffsprings<K extends Nominative> extends Quantity<void,
     return ClosureTableOffsprings.EMPTY as ClosureTableOffsprings<KT>;
   }
 
-  protected constructor(offsprings: ReadonlyAddress<K>) {
+  protected constructor(offsprings: ImmutableAddress<K>) {
     super();
     this.offsprings = offsprings;
   }

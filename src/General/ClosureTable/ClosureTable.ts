@@ -7,7 +7,6 @@ import {
   Pair,
   Quantity,
   ReadonlyAddress,
-  ReadonlyProject,
   ReadonlySequence
 } from '@jamashita/publikum-collection';
 import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
@@ -21,7 +20,7 @@ import { ClosureTableOffsprings } from './ClosureTableOffsprings';
 
 export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffsprings<K>, 'ClosureTable'> {
   public readonly noun: 'ClosureTable' = 'ClosureTable';
-  private readonly table: ReadonlyProject<K, ClosureTableOffsprings<K>>;
+  private readonly table: ImmutableProject<K, ClosureTableOffsprings<K>>;
 
   private static readonly EMPTY: ClosureTable<TreeID> = new ClosureTable<TreeID>(ImmutableProject.empty<TreeID, ClosureTableOffsprings<TreeID>>());
 
@@ -51,7 +50,7 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
       return ClosureTableOffsprings.of<KT>(offsprings);
     });
 
-    return new ClosureTable<KT>(table);
+    return new ClosureTable<KT>(ImmutableProject.of<KT, ClosureTableOffsprings<KT>>(table));
   }
 
   public static empty<KT extends TreeID>(): ClosureTable<KT> {
@@ -84,7 +83,7 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
     });
   }
 
-  protected constructor(table: ReadonlyProject<K, ClosureTableOffsprings<K>>) {
+  protected constructor(table: ImmutableProject<K, ClosureTableOffsprings<K>>) {
     super();
     this.table = table;
   }
