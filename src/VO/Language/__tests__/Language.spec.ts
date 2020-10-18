@@ -1,10 +1,26 @@
 import { MockValueObject } from '@jamashita/publikum-object';
 import { UUID } from '@jamashita/publikum-uuid';
-import { Language } from '../Language';
+import { Language, LanguageJSON } from '../Language';
 import { LanguageID } from '../LanguageID';
 import { LanguageName } from '../LanguageName';
 
 describe('Language', () => {
+  describe('ofJSON', () => {
+    it('returns instance', () => {
+      expect.assertions(2);
+
+      const json: LanguageJSON = {
+        id: '3aeec5f1-25fa-41fb-bab3-954d4f9f2990',
+        name: 'souvenir'
+      };
+
+      const language: Language = Language.ofJSON(json);
+
+      expect(language.getID().get().get()).toBe(json.id);
+      expect(language.getName().get()).toBe(json.name);
+    });
+  });
+
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);

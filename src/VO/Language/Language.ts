@@ -18,6 +18,13 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
     return new Language(id, name);
   }
 
+  public static ofJSON(json: LanguageJSON): Language {
+    return Language.of(
+      LanguageID.ofString(json.id),
+      LanguageName.of(json.name)
+    );
+  }
+
   protected constructor(id: LanguageID, name: LanguageName) {
     super();
     this.id = id;
@@ -57,11 +64,11 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
     };
   }
 
-  public getLanguageID(): LanguageID {
+  public getID(): LanguageID {
     return this.id;
   }
 
-  public getLanguageName(): LanguageName {
+  public getName(): LanguageName {
     return this.name;
   }
 }
