@@ -58,7 +58,7 @@ export class SerializableTreeNode<V extends JSONTreeObject> extends ValueObject<
     return this.value;
   }
 
-  public getChildren(): ReadonlyAddress<TreeNode<V>> {
+  public getChildren(): ReadonlyAddress<SerializableTreeNode<V>> {
     return this.children;
   }
 
