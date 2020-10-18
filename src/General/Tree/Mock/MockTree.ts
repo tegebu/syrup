@@ -1,9 +1,9 @@
-import { TreeObject } from '../Interface/TreeObject';
-import { Tree } from '../Tree';
-import { TreeNode } from '../TreeNode';
+import { ATree } from '../ATree';
+import { IDTreeObject } from '../Interface/IDTreeObject';
+import { MockTreeNode } from '../TreeNode/Mock/MockTreeNode';
 
-export class MockTree<V extends TreeObject> extends Tree<V> {
-  public constructor(root: TreeNode<V>) {
-    super(root);
+export class MockTree<V extends IDTreeObject> extends ATree<V, MockTreeNode<V>, 'MockTree'> {
+  public constructor(root: MockTreeNode<V>) {
+    super(root, 'MockTree');
   }
 }
