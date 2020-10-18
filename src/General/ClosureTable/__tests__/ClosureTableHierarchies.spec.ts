@@ -1,12 +1,47 @@
 import { ImmutableAddress, MockAddress } from '@jamashita/publikum-collection';
 import { MockValueObject } from '@jamashita/publikum-object';
-import sinon, { SinonSpy } from 'sinon';
+import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TestVO } from '../../../TestHelper/TestVO';
+import { MockTreeIDFactory } from '../../Tree/Mock/MockTreeIDFactory';
 import { ClosureTableHierarchies } from '../ClosureTableHierarchies';
-import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
+import { ClosureTableHierarchy, ClosureTableJSON } from '../ClosureTableHierarchy';
 import { MockClosureTableHierarchy } from '../Mock/MockClosureTableHierarchy';
 
 describe('ClosureTableHierarchies', () => {
+  describe('ofJSON', () => {
+    it('returns instance from json by forging with factory', () => {
+      expect.assertions(5);
+
+      const json: Array<ClosureTableJSON> = [
+        {
+          ancestor: '7fc1343b-f086-4951-876f-410067a6937d',
+          offspring: 'e45eb02f-837a-40c9-8925-474e2f18faf0'
+        },
+        {
+          ancestor: '8aa8813a-caac-451b-acd1-768f06ff87b5',
+          offspring: 'd104cb7b-dcf3-40de-9d22-5d80473c2a06'
+        }
+      ];
+
+      const factory: MockTreeIDFactory<TestVO> = new MockTreeIDFactory<TestVO>();
+
+      const stub: SinonStub = sinon.stub();
+      factory.forge = stub;
+      stub.onCall(0).returns(new TestVO(json[0].ancestor as string));
+      stub.onCall(1).returns(new TestVO(json[0].offspring as string));
+      stub.onCall(2).returns(new TestVO(json[1].ancestor as string));
+      stub.onCall(3).returns(new TestVO(json[1].offspring as string));
+
+      const hierarchies: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.ofJSON<TestVO>(json, factory);
+
+      expect(hierarchies.size()).toBe(json.length);
+      for (let i: number = 0; i < hierarchies.size(); i++) {
+        expect(hierarchies.get(i)?.getAncestor().get()).toBe(json[i].ancestor);
+        expect(hierarchies.get(i)?.getOffspring().get()).toBe(json[i].offspring);
+      }
+    });
+  });
+
   describe('iterator', () => {
     it('returns Pair<void, ClosureTableHierarchy>', () => {
       expect.assertions(3);

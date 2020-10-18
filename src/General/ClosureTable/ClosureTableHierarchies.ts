@@ -9,6 +9,7 @@ import {
 import { JSONable } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 import { TreeID } from '../Tree/Interface/TreeID';
+import { TreeIDFactory } from '../Tree/Interface/TreeIDFactory';
 import { ClosureTableHierarchy, ClosureTableJSON } from './ClosureTableHierarchy';
 
 export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, ClosureTableHierarchy<K>, 'ClosureTableHierarchies'> implements JSONable<ReadonlyArray<ClosureTableJSON>> {
@@ -18,7 +19,19 @@ export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, 
   private static readonly EMPTY: ClosureTableHierarchies<TreeID> = new ClosureTableHierarchies<TreeID>(ImmutableSequence.empty<ClosureTableHierarchy<TreeID>>());
 
   public static of<KT extends TreeID>(hierarchies: ReadonlyAddress<ClosureTableHierarchy<KT>>): ClosureTableHierarchies<KT> {
-    return new ClosureTableHierarchies<KT>(ImmutableSequence.ofArray([...hierarchies.values()]));
+    return ClosureTableHierarchies.ofArray<KT>([...hierarchies.values()]);
+  }
+
+  public static ofArray<KT extends TreeID>(hierarchies: ReadonlyArray<ClosureTableHierarchy<KT>>): ClosureTableHierarchies<KT> {
+    return new ClosureTableHierarchies<KT>(ImmutableSequence.ofArray(hierarchies));
+  }
+
+  public static ofJSON<KT extends TreeID>(json: ReadonlyArray<ClosureTableJSON>, factory: TreeIDFactory<KT>): ClosureTableHierarchies<KT> {
+    const hierarchies: Array<ClosureTableHierarchy<KT>> = json.map<ClosureTableHierarchy<KT>>((j: ClosureTableJSON) => {
+      return ClosureTableHierarchy.ofJSON<KT>(j, factory);
+    });
+
+    return ClosureTableHierarchies.ofArray<KT>(hierarchies);
   }
 
   public static empty<KT extends TreeID>(): ClosureTableHierarchies<KT> {
