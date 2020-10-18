@@ -1,13 +1,13 @@
 import { ImmutableProject, Pair, Project, ReadonlyAddress } from '@jamashita/publikum-collection';
 import { TestTreeObject } from '../../../TestHelper/TestTreeObject';
 import { TestVO } from '../../../TestHelper/TestVO';
-import { ClosureTable } from '../../ClosureTable/ClosureTable';
-import { MockClosureTable } from '../../ClosureTable/Mock/MockClosureTable';
-import { MockClosureTableHierarchy } from '../../ClosureTable/Mock/MockClosureTableHierarchy';
+import { TreeError } from '../../Tree/Error/TreeError';
+import { Tree } from '../../Tree/Tree';
+import { TreeNode } from '../../Tree/TreeNode/TreeNode';
+import { ClosureTable } from '../ClosureTable';
 import { ClosureTableTreeFactory } from '../ClosureTableTreeFactory';
-import { TreeError } from '../Error/TreeError';
-import { Tree } from '../Tree';
-import { TreeNode } from '../TreeNode';
+import { MockClosureTable } from '../Mock/MockClosureTable';
+import { MockClosureTableHierarchy } from '../Mock/MockClosureTableHierarchy';
 
 describe('ClosureTableTreeFactory', () => {
   describe('forge', () => {
@@ -18,12 +18,12 @@ describe('ClosureTableTreeFactory', () => {
         new MockClosureTableHierarchy<TestVO>(new TestVO('A'), new TestVO('A'))
       );
 
-      const factory: ClosureTableTreeFactory<TestVO, TestTreeObject> = new ClosureTableTreeFactory<TestVO, TestTreeObject>(table);
-      const project: Project<TestVO, TestTreeObject> = ImmutableProject.ofMap<TestVO, TestTreeObject>(new Map<TestVO, TestTreeObject>([
+      const factory: ClosureTableTreeFactory<TestVO, TestTreeObject<TestVO>> = new ClosureTableTreeFactory<TestVO, TestTreeObject<TestVO>>(table);
+      const project: Project<TestVO, TestTreeObject<TestVO>> = ImmutableProject.ofMap<TestVO, TestTreeObject<TestVO>>(new Map<TestVO, TestTreeObject<TestVO>>([
         [new TestVO('A'), new TestTreeObject(new TestVO('mock 1'))]
       ]));
 
-      const tree: Tree<TestTreeObject> = factory.forge(project);
+      const tree: Tree<TestTreeObject<TestVO>> = factory.forge(project);
 
       expect(tree.getRote().isLeaf()).toBe(true);
       expect(tree.getRote().getValue().toString()).toBe('mock 1');
@@ -46,8 +46,8 @@ describe('ClosureTableTreeFactory', () => {
         new MockClosureTableHierarchy<TestVO>(new TestVO('E'), new TestVO('E'))
       );
 
-      const factory: ClosureTableTreeFactory<TestVO, TestTreeObject> = new ClosureTableTreeFactory<TestVO, TestTreeObject>(table);
-      const project: Project<TestVO, TestTreeObject> = ImmutableProject.ofMap<TestVO, TestTreeObject>(new Map<TestVO, TestTreeObject>([
+      const factory: ClosureTableTreeFactory<TestVO, TestTreeObject<TestVO>> = new ClosureTableTreeFactory<TestVO, TestTreeObject<TestVO>>(table);
+      const project: Project<TestVO, TestTreeObject<TestVO>> = ImmutableProject.ofMap<TestVO, TestTreeObject<TestVO>>(new Map<TestVO, TestTreeObject<TestVO>>([
         [new TestVO('A'), new TestTreeObject(new TestVO('mock 1'))],
         [new TestVO('B'), new TestTreeObject(new TestVO('mock 2'))],
         [new TestVO('C'), new TestTreeObject(new TestVO('mock 3'))],
@@ -56,14 +56,14 @@ describe('ClosureTableTreeFactory', () => {
         [new TestVO('F'), new TestTreeObject(new TestVO('mock 6'))]
       ]));
 
-      const tree: Tree<TestTreeObject> = factory.forge(project);
+      const tree: Tree<TestTreeObject<TestVO>> = factory.forge(project);
 
       expect(tree.getRote().isLeaf()).toBe(false);
       expect(tree.getRote().getValue().toString()).toBe('mock 1');
 
-      const ch1: ReadonlyAddress<TreeNode<TestTreeObject>> = tree.getRote().getChildren();
+      const ch1: ReadonlyAddress<TreeNode<TestTreeObject<TestVO>>> = tree.getRote().getChildren();
 
-      const pairs1: Array<Pair<void, TreeNode<TestTreeObject>>> = [...ch1];
+      const pairs1: Array<Pair<void, TreeNode<TestTreeObject<TestVO>>>> = [...ch1];
 
       expect(pairs1).toHaveLength(2);
       expect(pairs1[0].getValue().isLeaf()).toBe(true);
@@ -71,9 +71,9 @@ describe('ClosureTableTreeFactory', () => {
       expect(pairs1[1].getValue().isLeaf()).toBe(false);
       expect(pairs1[1].getValue().getValue().toString()).toBe('mock 3');
 
-      const ch2: ReadonlyAddress<TreeNode<TestTreeObject>> = pairs1[1].getValue().getChildren();
+      const ch2: ReadonlyAddress<TreeNode<TestTreeObject<TestVO>>> = pairs1[1].getValue().getChildren();
 
-      const pairs2: Array<Pair<void, TreeNode<TestTreeObject>>> = [...ch2];
+      const pairs2: Array<Pair<void, TreeNode<TestTreeObject<TestVO>>>> = [...ch2];
 
       expect(pairs2).toHaveLength(2);
       expect(pairs2[0].getValue().isLeaf()).toBe(true);
@@ -85,20 +85,20 @@ describe('ClosureTableTreeFactory', () => {
     it('throws TreeError when empty closure table given', () => {
       expect.assertions(1);
 
-      const factory: ClosureTableTreeFactory<TestVO, TestTreeObject> = new ClosureTableTreeFactory<TestVO, TestTreeObject>(ClosureTable.empty<TestVO>());
+      const factory: ClosureTableTreeFactory<TestVO, TestTreeObject<TestVO>> = new ClosureTableTreeFactory<TestVO, TestTreeObject<TestVO>>(ClosureTable.empty<TestVO>());
 
       expect(() => {
-        factory.forge(ImmutableProject.empty<TestVO, TestTreeObject>());
+        factory.forge(ImmutableProject.empty<TestVO, TestTreeObject<TestVO>>());
       }).toThrow(TreeError);
     });
 
     it('throws TreeError when values have no suck key value', () => {
       expect.assertions(1);
 
-      const factory: ClosureTableTreeFactory<TestVO, TestTreeObject> = new ClosureTableTreeFactory<TestVO, TestTreeObject>(ClosureTable.of<TestVO>([
+      const factory: ClosureTableTreeFactory<TestVO, TestTreeObject<TestVO>> = new ClosureTableTreeFactory<TestVO, TestTreeObject<TestVO>>(ClosureTable.of<TestVO>([
         new MockClosureTableHierarchy(new TestVO('G'), new TestVO('G'))
       ]));
-      const project: Project<TestVO, TestTreeObject> = ImmutableProject.ofMap<TestVO, TestTreeObject>(new Map<TestVO, TestTreeObject>([
+      const project: Project<TestVO, TestTreeObject<TestVO>> = ImmutableProject.ofMap<TestVO, TestTreeObject<TestVO>>(new Map<TestVO, TestTreeObject<TestVO>>([
         [new TestVO('A'), new TestTreeObject(new TestVO('mock 1'))],
         [new TestVO('B'), new TestTreeObject(new TestVO('mock 2'))],
         [new TestVO('C'), new TestTreeObject(new TestVO('mock 3'))],
