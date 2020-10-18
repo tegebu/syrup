@@ -1,14 +1,14 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Primitive } from '@jamashita/publikum-type';
-import { IDTreeObject } from '../General/Tree/Interface/IDTreeObject';
+import { StructurableTreeObject } from '../General/Tree/Interface/StructurableTreeObject';
 import { TreeID } from '../General/Tree/Interface/TreeID';
 
 type TestTreeObjectJSON = Readonly<{
   id: Primitive;
 }>;
 
-export class TestTreeObject<K extends TreeID = TreeID> extends ValueObject<'TestTreeObject'> implements IDTreeObject<K, 'TestTreeObject'>, JSONable<TestTreeObjectJSON> {
+export class TestTreeObject<K extends TreeID = TreeID> extends ValueObject<'TestTreeObject'> implements StructurableTreeObject<K, 'TestTreeObject'>, JSONable<TestTreeObjectJSON> {
   public readonly noun: 'TestTreeObject' = 'TestTreeObject';
   private readonly id: K;
 

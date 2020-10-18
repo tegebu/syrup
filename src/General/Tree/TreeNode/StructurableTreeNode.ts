@@ -1,10 +1,10 @@
 import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
-import { IDTreeObject } from '../Interface/IDTreeObject';
+import { StructurableTreeObject } from '../Interface/StructurableTreeObject';
 import { TreeID } from '../Interface/TreeID';
 import { ATreeNode } from './ATreeNode';
 
-export class StructurableTreeNode<K extends TreeID, V extends IDTreeObject<K>> extends ATreeNode<V, StructurableTreeNode<K, V>, 'StructurableTreeNode'> {
-  public static of<KT extends TreeID, VT extends IDTreeObject<KT>>(value: VT, children: ReadonlyAddress<StructurableTreeNode<KT, VT>>): StructurableTreeNode<KT, VT> {
+export class StructurableTreeNode<K extends TreeID, V extends StructurableTreeObject<K>> extends ATreeNode<V, StructurableTreeNode<K, V>, 'StructurableTreeNode'> {
+  public static of<KT extends TreeID, VT extends StructurableTreeObject<KT>>(value: VT, children: ReadonlyAddress<StructurableTreeNode<KT, VT>>): StructurableTreeNode<KT, VT> {
     if (children.isEmpty()) {
       return new StructurableTreeNode<KT, VT>(value, ImmutableAddress.empty<StructurableTreeNode<KT, VT>>());
     }

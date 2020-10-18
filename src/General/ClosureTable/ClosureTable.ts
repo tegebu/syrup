@@ -11,7 +11,7 @@ import {
   ReadonlySequence
 } from '@jamashita/publikum-collection';
 import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
-import { IDTreeObject } from '../Tree/Interface/IDTreeObject';
+import { StructurableTreeObject } from '../Tree/Interface/StructurableTreeObject';
 import { TreeID } from '../Tree/Interface/TreeID';
 import { StructurableTree } from '../Tree/StructurableTree';
 import { StructurableTreeNode } from '../Tree/TreeNode/StructurableTreeNode';
@@ -58,7 +58,7 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
     return ClosureTable.EMPTY as ClosureTable<KT>;
   }
 
-  public static toHierarchies<KT extends TreeID, VT extends IDTreeObject<KT>>(tree: StructurableTree<KT, VT>): ClosureTableHierarchies<KT> {
+  public static toHierarchies<KT extends TreeID, VT extends StructurableTreeObject<KT>>(tree: StructurableTree<KT, VT>): ClosureTableHierarchies<KT> {
     const hierarchies: MutableAddress<ClosureTableHierarchy<KT>> = MutableAddress.empty<ClosureTableHierarchy<KT>>();
 
     ClosureTable.retrieve<KT, VT>(tree.getRote(), hierarchies);
@@ -66,7 +66,7 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
     return ClosureTableHierarchies.of<KT>(hierarchies);
   }
 
-  private static retrieve<KT extends TreeID, VT extends IDTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, hierarchies: MutableAddress<ClosureTableHierarchy<KT>>): void {
+  private static retrieve<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, hierarchies: MutableAddress<ClosureTableHierarchy<KT>>): void {
     hierarchies.add(ClosureTableHierarchy.of<KT>(node.getTreeID(), node.getTreeID()));
 
     if (!node.isLeaf()) {
@@ -74,7 +74,7 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
     }
   }
 
-  private static retrieveChildren<KT extends TreeID, VT extends IDTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, children: ReadonlyAddress<StructurableTreeNode<KT, VT>>, hierarchies: MutableAddress<ClosureTableHierarchy<KT>>): void {
+  private static retrieveChildren<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, children: ReadonlyAddress<StructurableTreeNode<KT, VT>>, hierarchies: MutableAddress<ClosureTableHierarchy<KT>>): void {
     children.forEach((child: StructurableTreeNode<KT, VT>) => {
       hierarchies.add(ClosureTableHierarchy.of<KT>(node.getTreeID(), child.getTreeID()));
       ClosureTable.retrieve<KT, VT>(child, hierarchies);

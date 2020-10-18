@@ -1,14 +1,14 @@
 import { MutableAddress, MutableProject, ReadonlyProject } from '@jamashita/publikum-collection';
 import { Kind, Nullable } from '@jamashita/publikum-type';
 import { TreeError } from '../Tree/Error/TreeError';
-import { IDTreeObject } from '../Tree/Interface/IDTreeObject';
+import { StructurableTreeObject } from '../Tree/Interface/StructurableTreeObject';
 import { TreeID } from '../Tree/Interface/TreeID';
 import { StructurableTree } from '../Tree/StructurableTree';
 import { StructurableTreeNode } from '../Tree/TreeNode/StructurableTreeNode';
 import { ClosureTable } from './ClosureTable';
 import { ClosureTableOffsprings } from './ClosureTableOffsprings';
 
-export class ClosureTableTreeFactory<K extends TreeID, V extends IDTreeObject<K>> {
+export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTreeObject<K>> {
   private readonly table: ClosureTable<K>;
 
   public constructor(table: ClosureTable<K>) {
