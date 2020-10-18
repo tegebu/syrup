@@ -3,7 +3,7 @@ import { ValueObject } from '@jamashita/publikum-object';
 import { Primitive } from '@jamashita/publikum-type';
 import { TreeID } from '../Tree/Interface/TreeID';
 
-type ClosureTableJSON = Readonly<{
+export type ClosureTableJSON = Readonly<{
   ancestor: Primitive;
   offspring: Primitive;
 }>;
