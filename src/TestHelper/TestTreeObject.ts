@@ -8,11 +8,11 @@ type TestTreeObjectJSON = Readonly<{
   id: Primitive;
 }>;
 
-export class TestTreeObject extends ValueObject<'TestTreeObject'> implements IDTreeObject<'TestTreeObject'>, JSONable<TestTreeObjectJSON> {
+export class TestTreeObject<K extends TreeID> extends ValueObject<'TestTreeObject'> implements IDTreeObject<K, 'TestTreeObject'>, JSONable<TestTreeObjectJSON> {
   public readonly noun: 'TestTreeObject' = 'TestTreeObject';
-  private readonly id: TreeID;
+  private readonly id: K;
 
-  public constructor(id: TreeID) {
+  public constructor(id: K) {
     super();
     this.id = id;
   }
@@ -28,7 +28,7 @@ export class TestTreeObject extends ValueObject<'TestTreeObject'> implements IDT
     return this.id.equals(other.id);
   }
 
-  public getTreeID(): TreeID {
+  public getTreeID(): K {
     return this.id;
   }
 
