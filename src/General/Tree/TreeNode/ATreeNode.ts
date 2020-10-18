@@ -44,7 +44,7 @@ export abstract class ATreeNode<V extends Nominative, T extends TreeNode<V>, N e
     return this.value;
   }
 
-  public getChildren(): ReadonlyAddress<TreeNode<V>> {
+  public getChildren(): ReadonlyAddress<T> {
     return this.children;
   }
 
