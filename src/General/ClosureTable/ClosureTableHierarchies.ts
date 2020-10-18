@@ -1,35 +1,36 @@
 import {
   CancellableEnumerator,
-  ImmutableAddress,
+  ImmutableSequence,
   Pair,
   Quantity,
-  ReadonlyAddress
+  ReadonlyAddress,
+  ReadonlySequence
 } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 import { TreeID } from '../Tree/Interface/TreeID';
 import { ClosureTableHierarchy, ClosureTableJSON } from './ClosureTableHierarchy';
 
-export class ClosureTableHierarchies<K extends TreeID> extends Quantity<void, ClosureTableHierarchy<K>, 'ClosureTableHierarchies'> implements JSONable<ReadonlyArray<ClosureTableJSON>> {
+export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, ClosureTableHierarchy<K>, 'ClosureTableHierarchies'> implements JSONable<ReadonlyArray<ClosureTableJSON>> {
   public readonly noun: 'ClosureTableHierarchies' = 'ClosureTableHierarchies';
-  private readonly hierarchies: ReadonlyAddress<ClosureTableHierarchy<K>>;
+  private readonly hierarchies: ReadonlySequence<ClosureTableHierarchy<K>>;
 
-  private static readonly EMPTY: ClosureTableHierarchies<TreeID> = new ClosureTableHierarchies<TreeID>(ImmutableAddress.empty<ClosureTableHierarchy<TreeID>>());
+  private static readonly EMPTY: ClosureTableHierarchies<TreeID> = new ClosureTableHierarchies<TreeID>(ImmutableSequence.empty<ClosureTableHierarchy<TreeID>>());
 
   public static of<KT extends TreeID>(hierarchies: ReadonlyAddress<ClosureTableHierarchy<KT>>): ClosureTableHierarchies<KT> {
-    return new ClosureTableHierarchies<KT>(hierarchies);
+    return new ClosureTableHierarchies<KT>(ImmutableSequence.ofArray([...hierarchies.values()]));
   }
 
   public static empty<KT extends TreeID>(): ClosureTableHierarchies<KT> {
     return ClosureTableHierarchies.EMPTY as ClosureTableHierarchies<KT>;
   }
 
-  protected constructor(hierarchies: ReadonlyAddress<ClosureTableHierarchy<K>>) {
+  protected constructor(hierarchies: ReadonlySequence<ClosureTableHierarchy<K>>) {
     super();
     this.hierarchies = hierarchies;
   }
 
-  public [Symbol.iterator](): Iterator<Pair<void, ClosureTableHierarchy<K>>> {
+  public [Symbol.iterator](): Iterator<Pair<number, ClosureTableHierarchy<K>>> {
     return this.hierarchies[Symbol.iterator]();
   }
 
@@ -48,15 +49,15 @@ export class ClosureTableHierarchies<K extends TreeID> extends Quantity<void, Cl
     return this.hierarchies.equals(other.hierarchies);
   }
 
-  public every(predicate: BinaryPredicate<ClosureTableHierarchy<K>, void>): boolean {
+  public every(predicate: BinaryPredicate<ClosureTableHierarchy<K>, number>): boolean {
     return this.hierarchies.every(predicate);
   }
 
-  public forEach(iteration: CancellableEnumerator<void, ClosureTableHierarchy<K>>): void {
+  public forEach(iteration: CancellableEnumerator<number, ClosureTableHierarchy<K>>): void {
     this.hierarchies.forEach(iteration);
   }
 
-  public get(key: void): Nullable<ClosureTableHierarchy<K>> {
+  public get(key: number): Nullable<ClosureTableHierarchy<K>> {
     return this.hierarchies.get(key);
   }
 
@@ -72,7 +73,7 @@ export class ClosureTableHierarchies<K extends TreeID> extends Quantity<void, Cl
     return this.hierarchies.size();
   }
 
-  public some(predicate: BinaryPredicate<ClosureTableHierarchy<K>, void>): boolean {
+  public some(predicate: BinaryPredicate<ClosureTableHierarchy<K>, number>): boolean {
     return this.hierarchies.some(predicate);
   }
 

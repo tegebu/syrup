@@ -155,7 +155,7 @@ describe('ClosureTableHierarchies', () => {
       // @ts-expect-error
       hierarchies.hierarchies = address;
 
-      hierarchies.get();
+      hierarchies.get(0);
 
       expect(spy.called).toBe(true);
     });
