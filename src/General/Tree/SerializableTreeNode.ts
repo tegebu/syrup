@@ -1,8 +1,8 @@
 import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
+import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { ObjectLiteral } from '@jamashita/publikum-type';
-import { TreeID } from './Interface/TreeID';
-import { TreeObject } from './Interface/TreeObject';
+import { JSONTreeObject } from './Interface/JSONTreeObject';
 import { TreeNode } from './TreeNode';
 
 export type TreeNodeJSON = Readonly<{
@@ -10,20 +10,20 @@ export type TreeNodeJSON = Readonly<{
   children: ReadonlyArray<ObjectLiteral>;
 }>;
 
-export class JSONableTreeNode<V extends TreeObject> extends ValueObject<'TreeNode'> implements TreeNode<V> {
-  public readonly noun: 'TreeNode' = 'TreeNode';
+export class SerializableTreeNode<V extends JSONTreeObject> extends ValueObject<'SerializableTreeNode'> implements TreeNode<V, 'SerializableTreeNode'>, JSONable<TreeNodeJSON> {
+  public readonly noun: 'SerializableTreeNode' = 'SerializableTreeNode';
   private readonly value: V;
-  private readonly children: ReadonlyAddress<JSONableTreeNode<V>>;
+  private readonly children: ReadonlyAddress<SerializableTreeNode<V>>;
 
-  public static of<VT extends TreeObject>(value: VT, children: ReadonlyAddress<JSONableTreeNode<VT>>): JSONableTreeNode<VT> {
+  public static of<VT extends JSONTreeObject>(value: VT, children: ReadonlyAddress<SerializableTreeNode<VT>>): SerializableTreeNode<VT> {
     if (children.isEmpty()) {
-      return new JSONableTreeNode<VT>(value, ImmutableAddress.empty<JSONableTreeNode<VT>>());
+      return new SerializableTreeNode<VT>(value, ImmutableAddress.empty<SerializableTreeNode<VT>>());
     }
 
-    return new JSONableTreeNode<VT>(value, ImmutableAddress.of<JSONableTreeNode<VT>>(children));
+    return new SerializableTreeNode<VT>(value, ImmutableAddress.of<SerializableTreeNode<VT>>(children));
   }
 
-  protected constructor(value: V, children: ReadonlyAddress<JSONableTreeNode<V>>) {
+  protected constructor(value: V, children: ReadonlyAddress<SerializableTreeNode<V>>) {
     super();
     this.value = value;
     this.children = children;
@@ -33,7 +33,7 @@ export class JSONableTreeNode<V extends TreeObject> extends ValueObject<'TreeNod
     if (this === other) {
       return true;
     }
-    if (!(other instanceof JSONableTreeNode)) {
+    if (!(other instanceof SerializableTreeNode)) {
       return false;
     }
     if (!this.value.equals(other.value)) {
@@ -62,14 +62,10 @@ export class JSONableTreeNode<V extends TreeObject> extends ValueObject<'TreeNod
     return this.children;
   }
 
-  public getTreeID(): TreeID {
-    return this.value.getTreeID();
-  }
-
   public toJSON(): TreeNodeJSON {
     return {
       value: this.value.toJSON(),
-      children: [...this.children.values()].map<ObjectLiteral>((node: JSONableTreeNode<V>) => {
+      children: [...this.children.values()].map<ObjectLiteral>((node: SerializableTreeNode<V>) => {
         return node.toJSON();
       })
     };
