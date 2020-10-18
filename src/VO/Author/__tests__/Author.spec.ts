@@ -7,7 +7,7 @@ import { MockAuthorName } from '../Mock/MockAuthorName';
 
 describe('Author', () => {
   describe('ofJSON', () => {
-    it('forges the instance', () => {
+    it('returns the instance', () => {
       expect.assertions(2);
 
       const json: AuthorJSON = {
@@ -49,7 +49,7 @@ describe('Author', () => {
   });
 
   describe('generate', () => {
-    it('forges the instance', () => {
+    it('returns the instance', () => {
       expect.assertions(1);
 
       const name: string = 'author name';

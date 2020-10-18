@@ -8,7 +8,7 @@ import { Publisher, PublisherJSON } from '../Publisher';
 
 describe('Publisher', () => {
   describe('ofJSON', () => {
-    it('forges its instance', () => {
+    it('returns its instance', () => {
       expect.assertions(3);
 
       const json: PublisherJSON = {
@@ -68,7 +68,7 @@ describe('Publisher', () => {
   });
 
   describe('generate', () => {
-    it('forges its instance', () => {
+    it('returns its instance', () => {
       expect.assertions(2);
 
       const name: string = 'publisher name';
