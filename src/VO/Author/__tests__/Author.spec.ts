@@ -17,8 +17,8 @@ describe('Author', () => {
 
       const author: Author = Author.ofJSON(json);
 
-      expect(author.getAuthorID().get().get()).toBe(json.id);
-      expect(author.getAuthorName().get()).toBe(json.name);
+      expect(author.getID().get().get()).toBe(json.id);
+      expect(author.getName().get()).toBe(json.name);
     });
 
     it('throws AuthorError when incorrect uuid format id given', () => {
@@ -56,7 +56,7 @@ describe('Author', () => {
 
       const author: Author = Author.generate(name);
 
-      expect(author.getAuthorName().get()).toBe(name);
+      expect(author.getName().get()).toBe(name);
     });
 
     it('throws AuthorError when empty name given', () => {

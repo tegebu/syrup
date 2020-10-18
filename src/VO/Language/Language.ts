@@ -9,6 +9,7 @@ export type LanguageJSON = Readonly<{
   name: string;
 }>;
 
+// validate()
 export class Language extends ValueObject<'Language'> implements JSONable<LanguageJSON> {
   public readonly noun: 'Language' = 'Language';
   private readonly id: LanguageID;

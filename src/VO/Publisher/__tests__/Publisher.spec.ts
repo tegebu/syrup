@@ -19,9 +19,9 @@ describe('Publisher', () => {
 
       const publisher: Publisher = Publisher.ofJSON(json);
 
-      expect(publisher.getPublisherID().get().get()).toBe(json.id);
-      expect(publisher.getPublisherName().get()).toBe(json.name);
-      expect(publisher.getPublisherURL().get()).toBe(json.url);
+      expect(publisher.getID().get().get()).toBe(json.id);
+      expect(publisher.getName().get()).toBe(json.name);
+      expect(publisher.getURL().get()).toBe(json.url);
     });
 
     it('throws PublisherError when incorrect uuid format id given', () => {
@@ -76,8 +76,8 @@ describe('Publisher', () => {
 
       const publisher: Publisher = Publisher.generate(name, url);
 
-      expect(publisher.getPublisherName().get()).toBe(name);
-      expect(publisher.getPublisherURL().get()).toBe(url);
+      expect(publisher.getName().get()).toBe(name);
+      expect(publisher.getURL().get()).toBe(url);
     });
 
     it('throws PublisherError when empty name given', () => {
