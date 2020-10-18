@@ -8,11 +8,11 @@ describe('StructurableTreeNode', () => {
     it('returns ImmutableAddress.empty() when empty children given', () => {
       expect.assertions(2);
 
-      const node01: StructurableTreeNode<TestTreeObject> = StructurableTreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 1')), MutableAddress.empty<StructurableTreeNode<TestTreeObject>>());
-      const node02: StructurableTreeNode<TestTreeObject> = StructurableTreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 1')), new MockAddress<StructurableTreeNode<TestTreeObject>>(new Set<StructurableTreeNode<TestTreeObject>>()));
+      const node01: StructurableTreeNode<TestVO, TestTreeObject<TestVO>> = StructurableTreeNode.of<TestVO, TestTreeObject<TestVO>>(new TestTreeObject(new TestVO('mock 1')), MutableAddress.empty<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>());
+      const node02: StructurableTreeNode<TestVO, TestTreeObject<TestVO>> = StructurableTreeNode.of<TestVO, TestTreeObject<TestVO>>(new TestTreeObject(new TestVO('mock 1')), new MockAddress<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>(new Set<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>()));
 
-      expect(node01.getChildren()).toBe(ImmutableAddress.empty<StructurableTreeNode<TestTreeObject>>());
-      expect(node02.getChildren()).toBe(ImmutableAddress.empty<StructurableTreeNode<TestTreeObject>>());
+      expect(node01.getChildren()).toBe(ImmutableAddress.empty<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>());
+      expect(node02.getChildren()).toBe(ImmutableAddress.empty<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>());
     });
   });
 
@@ -20,14 +20,14 @@ describe('StructurableTreeNode', () => {
     it('returns value\'s TreeID', () => {
       expect.assertions(1);
 
-      const node: StructurableTreeNode<TestTreeObject> = StructurableTreeNode.of<TestTreeObject>(
+      const node: StructurableTreeNode<TestVO, TestTreeObject<TestVO>> = StructurableTreeNode.of<TestVO, TestTreeObject<TestVO>>(
         new TestTreeObject(new TestVO('mock 1')),
-        ImmutableAddress.ofSet<StructurableTreeNode<TestTreeObject>>(new Set<StructurableTreeNode<TestTreeObject>>([
-          StructurableTreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 2')),
-            ImmutableAddress.ofSet<StructurableTreeNode<TestTreeObject>>(new Set<StructurableTreeNode<TestTreeObject>>([
-              StructurableTreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 3')), ImmutableAddress.empty<StructurableTreeNode<TestTreeObject>>())
+        ImmutableAddress.ofSet<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>(new Set<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>([
+          StructurableTreeNode.of<TestVO, TestTreeObject<TestVO>>(new TestTreeObject(new TestVO('mock 2')),
+            ImmutableAddress.ofSet<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>(new Set<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>([
+              StructurableTreeNode.of<TestVO, TestTreeObject<TestVO>>(new TestTreeObject(new TestVO('mock 3')), ImmutableAddress.empty<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>())
             ]))),
-          StructurableTreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock 4')), ImmutableAddress.empty<StructurableTreeNode<TestTreeObject>>())
+          StructurableTreeNode.of<TestVO, TestTreeObject<TestVO>>(new TestTreeObject(new TestVO('mock 4')), ImmutableAddress.empty<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>())
         ]))
       );
 
