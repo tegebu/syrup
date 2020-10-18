@@ -3,7 +3,8 @@ import {
   ImmutableSequence,
   Pair,
   Quantity,
-  ReadonlyAddress
+  ReadonlyAddress,
+  ReadonlyProject
 } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
@@ -21,7 +22,12 @@ export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, 
     return ClosureTableHierarchies.ofArray<KT>([...hierarchies.values()]);
   }
 
+  // TODO TEST UNDONE
   public static ofArray<KT extends TreeID>(hierarchies: ReadonlyArray<ClosureTableHierarchy<KT>>): ClosureTableHierarchies<KT> {
+    if (hierarchies.length === 0) {
+      return ClosureTableHierarchies.empty<KT>();
+    }
+
     return new ClosureTableHierarchies<KT>(ImmutableSequence.ofArray<ClosureTableHierarchy<KT>>(hierarchies));
   }
 
@@ -31,6 +37,19 @@ export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, 
     });
 
     return ClosureTableHierarchies.ofArray<KT>(hierarchies);
+  }
+
+  // TODO TEST UNDONE
+  public static oooo<KT extends TreeID>(hierarchies: ReadonlyProject<KT, ReadonlyAddress<KT>>): ClosureTableHierarchies<KT> {
+    const array: Array<ClosureTableHierarchy<KT>> = [];
+
+    hierarchies.forEach((offsprings: ReadonlyAddress<KT>, ancestor: KT) => {
+      offsprings.forEach((offspring: KT) => {
+        array.push(ClosureTableHierarchy.of<KT>(ancestor, offspring));
+      });
+    });
+
+    return ClosureTableHierarchies.ofArray<KT>(array);
   }
 
   public static empty<KT extends TreeID>(): ClosureTableHierarchies<KT> {

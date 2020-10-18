@@ -41,7 +41,6 @@ export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTre
       return null;
     }
 
-
     const value: Nullable<V> = values.get(key);
 
     if (Kind.isNull(value)) {
@@ -49,7 +48,6 @@ export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTre
     }
 
     const offsprings: ClosureTableOffsprings<K> = this.table.get(key) as ClosureTableOffsprings<K>;
-
     const address: MutableAddress<StructurableTreeNode<K, V>> = MutableAddress.empty<StructurableTreeNode<K, V>>();
 
     offsprings.forEach((child: K) => {

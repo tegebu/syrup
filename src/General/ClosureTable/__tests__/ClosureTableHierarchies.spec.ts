@@ -8,6 +8,14 @@ import { ClosureTableHierarchy, ClosureTableJSON } from '../ClosureTableHierarch
 import { MockClosureTableHierarchy } from '../Mock/MockClosureTableHierarchy';
 
 describe('ClosureTableHierarchies', () => {
+  describe('ofArray', () => {
+    it('when 0-length array given, returns ClosureTableHierarchies.empty()', () => {
+      expect.assertions(1);
+
+      expect(ClosureTableHierarchies.ofArray<TestVO>([])).toBe(ClosureTableHierarchies.empty<TestVO>());
+    });
+  });
+
   describe('ofJSON', () => {
     it('returns instance from json by forging with factory', () => {
       expect.assertions(5);
