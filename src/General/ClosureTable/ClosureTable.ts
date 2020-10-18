@@ -6,16 +6,21 @@ import {
   MutableProject,
   Pair,
   Quantity,
+  ReadonlyAddress,
   ReadonlyProject,
   ReadonlySequence
 } from '@jamashita/publikum-collection';
 import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
+import { IDTreeObject } from '../Tree/Interface/IDTreeObject';
 import { TreeID } from '../Tree/Interface/TreeID';
+import { StructurableTree } from '../Tree/StructurableTree';
+import { StructurableTreeNode } from '../Tree/TreeNode/StructurableTreeNode';
+import { ClosureTableHierarchies } from './ClosureTableHierarchies';
 import { ClosureTableHierarchy } from './ClosureTableHierarchy';
 import { ClosureTableOffsprings } from './ClosureTableOffsprings';
 
-export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffsprings<K>, 'ClosureTableHierarchies'> {
-  public readonly noun: 'ClosureTableHierarchies' = 'ClosureTableHierarchies';
+export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffsprings<K>, 'ClosureTable'> {
+  public readonly noun: 'ClosureTable' = 'ClosureTable';
   private readonly table: ReadonlyProject<K, ClosureTableOffsprings<K>>;
 
   private static readonly EMPTY: ClosureTable<TreeID> = new ClosureTable<TreeID>(ImmutableProject.empty<TreeID, ClosureTableOffsprings<TreeID>>());
@@ -51,6 +56,32 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
 
   public static empty<KT extends TreeID>(): ClosureTable<KT> {
     return ClosureTable.EMPTY as ClosureTable<KT>;
+  }
+
+  public static toHierarchies<KT extends TreeID, VT extends IDTreeObject<KT>>(tree: StructurableTree<KT, VT>): ClosureTableHierarchies<KT> {
+    const hierarchies: MutableAddress<ClosureTableHierarchy<KT>> = MutableAddress.empty<ClosureTableHierarchy<KT>>();
+
+    ClosureTable.retrieve<KT, VT>(tree.getRote(), hierarchies);
+
+    return ClosureTableHierarchies.of<KT>(hierarchies);
+  }
+
+  private static retrieve<KT extends TreeID, VT extends IDTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, hierarchies: MutableAddress<ClosureTableHierarchy<KT>>): void {
+    hierarchies.add(ClosureTableHierarchy.of<KT>(node.getTreeID(), node.getTreeID()));
+
+    if (!node.isLeaf()) {
+      ClosureTable.retrieveChildren<KT, VT>(node, node.getChildren(), hierarchies);
+    }
+  }
+
+  private static retrieveChildren<KT extends TreeID, VT extends IDTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, children: ReadonlyAddress<StructurableTreeNode<KT, VT>>, hierarchies: MutableAddress<ClosureTableHierarchy<KT>>): void {
+    children.forEach((child: StructurableTreeNode<KT, VT>) => {
+      hierarchies.add(ClosureTableHierarchy.of<KT>(node.getTreeID(), child.getTreeID()));
+      ClosureTable.retrieve<KT, VT>(child, hierarchies);
+      if (!child.isLeaf()) {
+        ClosureTable.retrieveChildren<KT, VT>(node, child.getChildren(), hierarchies);
+      }
+    });
   }
 
   protected constructor(table: ReadonlyProject<K, ClosureTableOffsprings<K>>) {
