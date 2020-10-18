@@ -1,7 +1,7 @@
 import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
+import { IDTreeObject } from '../Interface/IDTreeObject';
+import { TreeID } from '../Interface/TreeID';
 import { ATreeNode } from './ATreeNode';
-import { IDTreeObject } from './Interface/IDTreeObject';
-import { TreeID } from './Interface/TreeID';
 
 export class StructurableTreeNode<V extends IDTreeObject> extends ATreeNode<V, StructurableTreeNode<V>, 'StructurableTreeNode'> {
   public static of<VT extends IDTreeObject>(value: VT, children: ReadonlyAddress<StructurableTreeNode<VT>>): StructurableTreeNode<VT> {

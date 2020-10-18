@@ -1,6 +1,6 @@
 import { ImmutableAddress } from '@jamashita/publikum-collection';
-import { TestTreeObject } from '../../../TestHelper/TestTreeObject';
-import { TestVO } from '../../../TestHelper/TestVO';
+import { TestTreeObject } from '../../../../TestHelper/TestTreeObject';
+import { TestVO } from '../../../../TestHelper/TestVO';
 import { MockTreeNode } from '../Mock/MockTreeNode';
 
 describe('ATreeNode', () => {

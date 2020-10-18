@@ -1,6 +1,6 @@
 import { ImmutableAddress, MockAddress, MutableAddress } from '@jamashita/publikum-collection';
-import { TestTreeObject } from '../../../TestHelper/TestTreeObject';
-import { TestVO } from '../../../TestHelper/TestVO';
+import { TestTreeObject } from '../../../../TestHelper/TestTreeObject';
+import { TestVO } from '../../../../TestHelper/TestVO';
 import { StructurableTreeNode } from '../StructurableTreeNode';
 
 describe('StructurableTreeNode', () => {

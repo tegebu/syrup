@@ -1,7 +1,7 @@
 import { Nominative } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Tree } from './Tree';
-import { TreeNode } from './TreeNode';
+import { TreeNode } from './TreeNode/TreeNode';
 
 export abstract class ATree<V extends Nominative, T extends TreeNode<V>, N extends string> extends ValueObject<N> implements Tree<V, N> {
   public readonly noun: N;
