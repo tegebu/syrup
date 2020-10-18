@@ -11,11 +11,11 @@ describe('StructurableTree', () => {
       expect.assertions(1);
 
       const spy: SinonSpy = sinon.spy();
-      const root: StructurableTreeNode<TestTreeObject> = StructurableTreeNode.of<TestTreeObject>(new TestTreeObject(new TestVO('mock')), ImmutableAddress.empty<StructurableTreeNode<TestTreeObject>>());
+      const root: StructurableTreeNode<TestVO, TestTreeObject<TestVO>> = StructurableTreeNode.of<TestVO, TestTreeObject<TestVO>>(new TestTreeObject<TestVO>(new TestVO('mock')), ImmutableAddress.empty<StructurableTreeNode<TestVO, TestTreeObject<TestVO>>>());
 
       root.getTreeID = spy;
 
-      const tree: StructurableTree<TestTreeObject> = StructurableTree.of<TestTreeObject>(root);
+      const tree: StructurableTree<TestVO, TestTreeObject<TestVO>> = StructurableTree.of<TestVO, TestTreeObject<TestVO>>(root);
 
       tree.getTreeID();
 

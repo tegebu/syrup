@@ -8,7 +8,7 @@ type TestTreeObjectJSON = Readonly<{
   id: Primitive;
 }>;
 
-export class TestTreeObject<K extends TreeID> extends ValueObject<'TestTreeObject'> implements IDTreeObject<K, 'TestTreeObject'>, JSONable<TestTreeObjectJSON> {
+export class TestTreeObject<K extends TreeID = TreeID> extends ValueObject<'TestTreeObject'> implements IDTreeObject<K, 'TestTreeObject'>, JSONable<TestTreeObjectJSON> {
   public readonly noun: 'TestTreeObject' = 'TestTreeObject';
   private readonly id: K;
 
