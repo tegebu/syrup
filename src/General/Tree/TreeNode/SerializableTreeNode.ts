@@ -1,7 +1,7 @@
 import { ImmutableAddress, ReadonlyAddress } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { ObjectLiteral } from '@jamashita/publikum-type';
-import { JSONTreeObject } from '../Interface/JSONTreeObject';
+import { SerializableTreeObject } from '../Interface/SerializableTreeObject';
 import { ATreeNode } from './ATreeNode';
 
 export type TreeNodeJSON = Readonly<{
@@ -9,8 +9,8 @@ export type TreeNodeJSON = Readonly<{
   children: ReadonlyArray<ObjectLiteral>;
 }>;
 
-export class SerializableTreeNode<V extends JSONTreeObject> extends ATreeNode<V, SerializableTreeNode<V>, 'SerializableTreeNode'> implements JSONable<TreeNodeJSON> {
-  public static of<VT extends JSONTreeObject>(value: VT, children: ReadonlyAddress<SerializableTreeNode<VT>>): SerializableTreeNode<VT> {
+export class SerializableTreeNode<V extends SerializableTreeObject> extends ATreeNode<V, SerializableTreeNode<V>, 'SerializableTreeNode'> implements JSONable<TreeNodeJSON> {
+  public static of<VT extends SerializableTreeObject>(value: VT, children: ReadonlyAddress<SerializableTreeNode<VT>>): SerializableTreeNode<VT> {
     if (children.isEmpty()) {
       return new SerializableTreeNode<VT>(value, ImmutableAddress.empty<SerializableTreeNode<VT>>());
     }
