@@ -101,7 +101,7 @@ describe('ATree', () => {
     });
   });
 
-  describe('getRote', () => {
+  describe('getRoot', () => {
     it('returns root', () => {
       expect.assertions(1);
 
@@ -112,7 +112,7 @@ describe('ATree', () => {
 
       const tree: MockTree<TestVO, TestTreeObject<TestVO>> = new MockTree<TestVO, TestTreeObject<TestVO>>(root);
 
-      expect(tree.getRote()).toBe(root);
+      expect(tree.getRoot()).toBe(root);
     });
   });
 });

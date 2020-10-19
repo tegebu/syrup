@@ -1,58 +1,41 @@
-import {
-  CancellableEnumerator,
-  ImmutableProject,
-  Pair,
-  Quantity,
-  ReadonlyProject
-} from '@jamashita/publikum-collection';
+import { ReadonlyProject } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Kind, Nullable } from '@jamashita/publikum-type';
+import { ValueObject } from '@jamashita/publikum-object';
+import { ClosureTable } from '../../General/ClosureTable/ClosureTable';
+import { ClosureTableHierarchy } from '../../General/ClosureTable/ClosureTableHierarchy';
+import { ClosureTableTreeFactory } from '../../General/ClosureTable/ClosureTableTreeFactory';
+import { TreeError } from '../../General/Tree/Error/TreeError';
+import { StructurableTree } from '../../General/Tree/StructurableTree';
+import { StructurableTreeNode } from '../../General/Tree/TreeNode/StructurableTreeNode';
+import { TegeError } from './Error/TegeError';
 import { Tege, TegeJSON } from './Tege';
 import { TegeID } from './TegeID';
 
-export class Teges extends Quantity<TegeID, Tege, 'Teges'> implements JSONable<ReadonlyArray<TegeJSON>> {
+export class Teges extends ValueObject<'Teges'> implements JSONable<ReadonlyArray<TegeJSON>> {
   public readonly noun: 'Teges' = 'Teges';
-  private readonly teges: ImmutableProject<TegeID, Tege>;
+  private readonly teges: StructurableTree<TegeID, Tege>;
 
-  public static readonly EMPTY: Teges = new Teges(ImmutableProject.empty<TegeID, Tege>());
+  public static of(teges: ReadonlyProject<TegeID, Tege>, hierarchies: ReadonlyArray<ClosureTableHierarchy<TegeID>>): Teges {
+    try {
+      const table: ClosureTable<TegeID> = ClosureTable.of<TegeID>(hierarchies);
+      const factory: ClosureTableTreeFactory<TegeID, Tege> = ClosureTableTreeFactory.of<TegeID, Tege>(table);
 
-  public static of(teges: ReadonlyProject<TegeID, Tege>): Teges {
-    return Teges.ofMap(teges.toMap());
-  }
+      const tree: StructurableTree<TegeID, Tege> = factory.forge(teges);
 
-  public static ofMap(teges: ReadonlyMap<TegeID, Tege>): Teges {
-    if (teges.size === 0) {
-      return Teges.EMPTY;
+      return new Teges(tree);
     }
+    catch (err: unknown) {
+      if (err instanceof TreeError) {
+        throw new TegeError(err.message, err);
+      }
 
-    return new Teges(ImmutableProject.ofMap<TegeID, Tege>(teges));
-  }
-
-  public static empty(): Teges {
-    return Teges.EMPTY;
-  }
-
-  public static validate(n: unknown): n is ReadonlyArray<TegeJSON> {
-    if (!Kind.isArray(n)) {
-      return false;
+      throw err;
     }
-
-    return n.every((o: unknown) => {
-      return Tege.validate(o);
-    });
   }
 
-  protected constructor(teges: ImmutableProject<TegeID, Tege>) {
+  protected constructor(teges: StructurableTree<TegeID, Tege>) {
     super();
     this.teges = teges;
-  }
-
-  public [Symbol.iterator](): Iterator<Pair<TegeID, Tege>> {
-    return this.teges[Symbol.iterator]();
-  }
-
-  public contains(value: Tege): boolean {
-    return this.teges.contains(value);
   }
 
   public equals(other: unknown): boolean {
@@ -66,41 +49,31 @@ export class Teges extends Quantity<TegeID, Tege, 'Teges'> implements JSONable<R
     return this.teges.equals(other.teges);
   }
 
-  public every(predicate: BinaryPredicate<Tege, TegeID>): boolean {
-    return this.teges.every(predicate);
-  }
-
-  public forEach(iteration: CancellableEnumerator<TegeID, Tege>): void {
-    this.teges.forEach(iteration);
-  }
-
-  public get(key: TegeID): Nullable<Tege> {
-    return this.teges.get(key);
-  }
-
-  public isEmpty(): boolean {
-    return this.teges.isEmpty();
-  }
-
   public serialize(): string {
     return this.teges.toString();
   }
 
-  public size(): number {
-    return this.teges.size();
-  }
-
-  public some(predicate: BinaryPredicate<Tege, TegeID>): boolean {
-    return this.teges.some(predicate);
-  }
-
-  public values(): Iterable<Tege> {
-    return this.teges.values();
-  }
-
   public toJSON(): ReadonlyArray<TegeJSON> {
-    return [...this.teges.values()].map<TegeJSON>((tege: Tege) => {
-      return tege.toJSON();
+    const json: Array<TegeJSON> = [];
+
+    this.retrieve(this.teges.getRoot(), json);
+
+    return json;
+  }
+
+  public getTree(): StructurableTree<TegeID, Tege> {
+    return this.teges;
+  }
+
+  private retrieve(node: StructurableTreeNode<TegeID, Tege>, json: Array<TegeJSON>): void {
+    json.push(node.getValue().toJSON());
+
+    if (node.isLeaf()) {
+      return;
+    }
+
+    node.getChildren().forEach((child: StructurableTreeNode<TegeID, Tege>) => {
+      this.retrieve(child, json);
     });
   }
 }
