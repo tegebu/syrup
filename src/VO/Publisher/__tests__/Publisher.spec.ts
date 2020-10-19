@@ -234,8 +234,8 @@ describe('Publisher', () => {
 
       const publisher1: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name1), new MockPublisherURL(url1));
       const publisher2: Publisher = Publisher.of(new MockPublisherID(uuid2), new MockPublisherName(name1), new MockPublisherURL(url1));
-      const publisher3: Publisher = Publisher.of(new MockPublisherID(uuid2), new MockPublisherName(name2), new MockPublisherURL(url1));
-      const publisher4: Publisher = Publisher.of(new MockPublisherID(uuid2), new MockPublisherName(name1), new MockPublisherURL(url2));
+      const publisher3: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name2), new MockPublisherURL(url1));
+      const publisher4: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name1), new MockPublisherURL(url2));
       const publisher5: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name1), new MockPublisherURL(url1));
 
       expect(publisher1.equals(publisher2)).toBe(false);
