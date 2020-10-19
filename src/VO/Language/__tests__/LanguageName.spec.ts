@@ -52,6 +52,18 @@ describe('LanguageName', () => {
     });
   });
 
+  describe('display', () => {
+    it('returns its retaining string', () => {
+      expect.assertions(1);
+
+      const str: string = 'souffrir';
+
+      const name: LanguageName = LanguageName.of(str);
+
+      expect(name.display()).toBe(str);
+    });
+  });
+
   describe('toString', () => {
     it('returns its retaining string', () => {
       expect.assertions(1);

@@ -12,7 +12,6 @@ import { TegeName } from '../TegeName';
 import { TegePlayers } from '../TegePlayers';
 import { TegePlayingTime } from '../TegePlayingTime';
 import { Teges } from '../Teges';
-import { TegeSeries } from '../TegeSeries';
 
 describe('Teges', () => {
   describe('empty', () => {
@@ -121,7 +120,6 @@ describe('Teges', () => {
       const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
       const imagePath: TegeImagePath = TegeImagePath.of('/');
       const expansion: TegeExpansion = TegeExpansion.of(false);
-      const series: TegeSeries = TegeSeries.empty();
       const tege1: Tege = Tege.of(
         id,
         name,
@@ -129,8 +127,7 @@ describe('Teges', () => {
         players,
         minAge,
         imagePath,
-        expansion,
-        series
+        expansion
       );
       const tege2: Tege = Tege.of(
         id,
@@ -139,8 +136,7 @@ describe('Teges', () => {
         players,
         minAge,
         imagePath,
-        expansion,
-        series
+        expansion
       );
 
       const teges: Teges = Teges.ofMap(new Map<TegeID, Tege>([[tege1.getID(), tege1], [tege2.getID(), tege2]]));
@@ -158,7 +154,6 @@ describe('Teges', () => {
       const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
       const imagePath: TegeImagePath = TegeImagePath.of('/');
       const expansion: TegeExpansion = TegeExpansion.of(false);
-      const series: TegeSeries = TegeSeries.empty();
       const tege: Tege = Tege.of(
         id,
         name,
@@ -166,8 +161,7 @@ describe('Teges', () => {
         players,
         minAge,
         imagePath,
-        expansion,
-        series
+        expansion
       );
 
       const teges: Teges = Teges.ofMap(new Map<TegeID, Tege>([[tege.getID(), tege]]));
@@ -393,8 +387,6 @@ describe('Teges', () => {
       const imagePath2: TegeImagePath = TegeImagePath.of('/p2');
       const expansion1: TegeExpansion = TegeExpansion.of(false);
       const expansion2: TegeExpansion = TegeExpansion.of(true);
-      const series1: TegeSeries = TegeSeries.empty();
-      const series2: TegeSeries = TegeSeries.empty();
       const tege1: Tege = Tege.of(
         id1,
         name1,
@@ -402,8 +394,7 @@ describe('Teges', () => {
         players1,
         minAge1,
         imagePath1,
-        expansion1,
-        series1
+        expansion1
       );
       const tege2: Tege = Tege.of(
         id2,
@@ -412,8 +403,7 @@ describe('Teges', () => {
         players2,
         minAge2,
         imagePath2,
-        expansion2,
-        series2
+        expansion2
       );
 
       const teges: Teges = Teges.ofMap(new Map<TegeID, Tege>([[tege1.getID(), tege1], [tege2.getID(), tege2]]));
@@ -429,8 +419,7 @@ describe('Teges', () => {
           },
           minAge: 8,
           imagePath: '/p1',
-          expansion: false,
-          series: []
+          expansion: false
         },
         {
           id: '0d683348-0e24-4a47-ae23-aad7ec3a491e',
@@ -443,8 +432,7 @@ describe('Teges', () => {
           },
           minAge: 16,
           imagePath: '/p2',
-          expansion: true,
-          series: []
+          expansion: true
         }
       ]);
     });

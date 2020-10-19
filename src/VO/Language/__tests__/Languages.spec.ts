@@ -64,6 +64,14 @@ describe('Languages', () => {
     });
   });
 
+  describe('all', () => {
+    it('\' size is 3', () => {
+      expect.assertions(1);
+
+      expect(Languages.all().size()).toBe(3);
+    });
+  });
+
   describe('iterator', () => {
     it('returns Pair<LanguageID, Language>', () => {
       expect.assertions(3);

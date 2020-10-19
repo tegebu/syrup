@@ -9,4 +9,3 @@ export * from './TegeName';
 export * from './TegePlayers';
 export * from './TegePlayingTime';
 export * from './Teges';
-export * from './TegeSeries';

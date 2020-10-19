@@ -2,8 +2,8 @@ import { ImmutableProject, Pair, Project, ReadonlyAddress } from '@jamashita/pub
 import { TestTreeObject } from '../../../TestHelper/TestTreeObject';
 import { TestVO } from '../../../TestHelper/TestVO';
 import { TreeError } from '../../Tree/Error/TreeError';
-import { Tree } from '../../Tree/Tree';
-import { TreeNode } from '../../Tree/TreeNode/TreeNode';
+import { Tree } from '../../Tree/Interface/Tree';
+import { TreeNode } from '../../Tree/TreeNode/Interface/TreeNode';
 import { ClosureTable } from '../ClosureTable';
 import { ClosureTableTreeFactory } from '../ClosureTableTreeFactory';
 import { MockClosureTable } from '../Mock/MockClosureTable';

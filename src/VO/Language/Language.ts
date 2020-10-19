@@ -1,6 +1,7 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
+import { Displayable } from '../../General/ValueRange/Displayable';
 import { LanguageID } from './LanguageID';
 import { LanguageName } from './LanguageName';
 
@@ -10,8 +11,7 @@ export type LanguageJSON = Readonly<{
   name: string;
 }>;
 
-// validate()
-export class Language extends ValueObject<'Language'> implements JSONable<LanguageJSON> {
+export class Language extends ValueObject<'Language'> implements Displayable, JSONable<LanguageJSON> {
   public readonly noun: 'Language' = 'Language';
   private readonly id: LanguageID;
   private readonly name: LanguageName;
@@ -62,6 +62,10 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
     }
 
     return true;
+  }
+
+  public display(): string {
+    return this.name.display();
   }
 
   public serialize(): string {

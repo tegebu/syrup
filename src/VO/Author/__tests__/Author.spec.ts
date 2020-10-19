@@ -183,6 +183,18 @@ describe('Author', () => {
     });
   });
 
+  describe('display', () => {
+    it('invokes AuthorName.display()', () => {
+      expect.assertions(1);
+
+      const name: string = 'fb30d6be-db12-413f-862d-b4e5ce4daa77';
+
+      const author: Author = Author.of(new MockAuthorID(), new MockAuthorName(name));
+
+      expect(author.display()).toBe(name);
+    });
+  });
+
   describe('toString', () => {
     it('returns joined string', () => {
       expect.assertions(1);
