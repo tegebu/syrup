@@ -18,7 +18,7 @@ export class Teges extends ValueObject<'Teges'> implements JSONable<ReadonlyArra
   public static of(teges: ReadonlyProject<TegeID, Tege>, hierarchies: ReadonlyArray<ClosureTableHierarchy<TegeID>>): Teges {
     try {
       const table: ClosureTable<TegeID> = ClosureTable.of<TegeID>(hierarchies);
-      const factory: ClosureTableTreeFactory<TegeID, Tege> = new ClosureTableTreeFactory<TegeID, Tege>(table);
+      const factory: ClosureTableTreeFactory<TegeID, Tege> = ClosureTableTreeFactory.of<TegeID, Tege>(table);
 
       const tree: StructurableTree<TegeID, Tege> = factory.forge(teges);
 

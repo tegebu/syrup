@@ -11,13 +11,21 @@ import { ClosureTableOffsprings } from './ClosureTableOffsprings';
 export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTreeObject<K>> {
   private readonly table: ClosureTable<K>;
 
-  public constructor(table: ClosureTable<K>) {
+  public static of<KT extends TreeID, VT extends StructurableTreeObject<KT>>(table: ClosureTable<KT>): ClosureTableTreeFactory<KT, VT> {
+    if (table.isEmpty()) {
+      throw new TreeError('THIS CLOSURE TABLE IS EMPTY');
+    }
+
+    return new ClosureTableTreeFactory<KT, VT>(table);
+  }
+
+  protected constructor(table: ClosureTable<K>) {
     this.table = table;
   }
 
   public forge(values: ReadonlyProject<K, V>): StructurableTree<K, V> {
-    if (this.table.isEmpty()) {
-      throw new TreeError('THIS CLOSURE TABLE IS EMPTY');
+    if (values.isEmpty()) {
+      throw new TreeError('VALUES ARE EMPTY');
     }
 
     const pool: MutableProject<K, StructurableTreeNode<K, V>> = MutableProject.empty<K, StructurableTreeNode<K, V>>();
@@ -25,6 +33,10 @@ export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTre
     const array: ReadonlyArray<Nullable<StructurableTreeNode<K, V>>> = this.table.sort().toArray().map<Nullable<StructurableTreeNode<K, V>>>((key: K) => {
       return this.forgeInternal(key, values, pool, used);
     });
+
+    if (array.length === 0) {
+      throw new TreeError('NO TREE BUILT');
+    }
 
     return StructurableTree.of<K, V>(array[array.length - 1] as unknown as StructurableTreeNode<K, V>);
   }
