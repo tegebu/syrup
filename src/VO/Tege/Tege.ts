@@ -115,6 +115,32 @@ export class Tege extends ValueObject<'Tege'> implements StructurableTreeObject<
     return true;
   }
 
+  public static validateInput(n: unknown): n is TegeInputJSON {
+    if (!Kind.isObject<TegeInputJSON>(n)) {
+      return false;
+    }
+    if (!TegeName.validate(n.name)) {
+      return false;
+    }
+    if (!TegePlayingTime.validate(n.playingTime)) {
+      return false;
+    }
+    if (!TegePlayers.validate(n.players)) {
+      return false;
+    }
+    if (!TegeMinAge.validate(n.minAge)) {
+      return false;
+    }
+    if (!TegeImagePath.validate(n.imagePath)) {
+      return false;
+    }
+    if (!TegeExpansion.validate(n.expansion)) {
+      return false;
+    }
+
+    return true;
+  }
+
   protected constructor(
     id: TegeID,
     name: TegeName,
