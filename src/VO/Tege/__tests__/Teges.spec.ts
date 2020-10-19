@@ -1,7 +1,6 @@
 import { ImmutableAddress, ImmutableProject } from '@jamashita/publikum-collection';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
-import { ClosureTable } from '../../../General/ClosureTable/ClosureTable';
 import { ClosureTableHierarchy } from '../../../General/ClosureTable/ClosureTableHierarchy';
 import { MockClosureTableHierarchy } from '../../../General/ClosureTable/Mock/MockClosureTableHierarchy';
 import { StructurableTree } from '../../../General/Tree/StructurableTree';
@@ -541,102 +540,6 @@ describe('Teges', () => {
           expansion: false
         }
       ]);
-    });
-  });
-
-  describe('toHierarchies', () => {
-    it('delegates ClosureTable.toHierarchies()', () => {
-      expect.assertions(1);
-
-      const id1: MockTegeID = new MockTegeID();
-      const id2: MockTegeID = new MockTegeID();
-      const id3: MockTegeID = new MockTegeID();
-      const id4: MockTegeID = new MockTegeID();
-      const id5: MockTegeID = new MockTegeID();
-
-      const teges: Teges = Teges.of(ImmutableProject.ofMap<TegeID, Tege>(
-        new Map<TegeID, Tege>([
-          [
-            id1,
-            Tege.of(
-              id1,
-              new MockTegeName('mock 1'),
-              new MockTegePlayingTime(10),
-              new MockTegePlayers(5),
-              new MockTegeMinAge(20),
-              new MockTegeImagePath('/1'),
-              new MockTegeExpansion()
-            )
-          ],
-          [
-            id2,
-            Tege.of(
-              id2,
-              new MockTegeName('mock 2'),
-              new MockTegePlayingTime(11),
-              new MockTegePlayers(6),
-              new MockTegeMinAge(21),
-              new MockTegeImagePath('/2'),
-              new MockTegeExpansion()
-            )
-          ],
-          [
-            id3,
-            Tege.of(
-              id3,
-              new MockTegeName('mock 3'),
-              new MockTegePlayingTime(12),
-              new MockTegePlayers(7),
-              new MockTegeMinAge(22),
-              new MockTegeImagePath('/3'),
-              new MockTegeExpansion()
-            )
-          ],
-          [
-            id4,
-            Tege.of(
-              id4,
-              new MockTegeName('mock 4'),
-              new MockTegePlayingTime(13),
-              new MockTegePlayers(8),
-              new MockTegeMinAge(23),
-              new MockTegeImagePath('/4'),
-              new MockTegeExpansion()
-            )
-          ],
-          [
-            id5,
-            Tege.of(
-              id5,
-              new MockTegeName('mock 5'),
-              new MockTegePlayingTime(14),
-              new MockTegePlayers(9),
-              new MockTegeMinAge(24),
-              new MockTegeImagePath('/5'),
-              new MockTegeExpansion()
-            )
-          ]
-        ])
-      ), [
-        new MockClosureTableHierarchy<TegeID>(id1, id1),
-        new MockClosureTableHierarchy<TegeID>(id1, id2),
-        new MockClosureTableHierarchy<TegeID>(id1, id3),
-        new MockClosureTableHierarchy<TegeID>(id1, id4),
-        new MockClosureTableHierarchy<TegeID>(id1, id5),
-        new MockClosureTableHierarchy<TegeID>(id2, id2),
-        new MockClosureTableHierarchy<TegeID>(id2, id3),
-        new MockClosureTableHierarchy<TegeID>(id2, id4),
-        new MockClosureTableHierarchy<TegeID>(id3, id3),
-        new MockClosureTableHierarchy<TegeID>(id4, id4),
-        new MockClosureTableHierarchy<TegeID>(id5, id5)
-      ]);
-
-      const spy: SinonSpy = sinon.spy();
-      ClosureTable.toHierarchies = spy;
-
-      teges.toHierarchies();
-
-      expect(spy.called).toBe(true);
     });
   });
 });

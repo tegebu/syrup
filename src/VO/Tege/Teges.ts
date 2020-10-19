@@ -2,7 +2,6 @@ import { ReadonlyProject } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { ClosureTable } from '../../General/ClosureTable/ClosureTable';
-import { ClosureTableHierarchies } from '../../General/ClosureTable/ClosureTableHierarchies';
 import { ClosureTableHierarchy } from '../../General/ClosureTable/ClosureTableHierarchy';
 import { ClosureTableTreeFactory } from '../../General/ClosureTable/ClosureTableTreeFactory';
 import { TreeError } from '../../General/Tree/Error/TreeError';
@@ -76,9 +75,5 @@ export class Teges extends ValueObject<'Teges'> implements JSONable<ReadonlyArra
     node.getChildren().forEach((child: StructurableTreeNode<TegeID, Tege>) => {
       this.retrieve(child, json);
     });
-  }
-
-  public toHierarchies(): ClosureTableHierarchies<TegeID> {
-    return ClosureTable.toHierarchies<TegeID, Tege>(this.teges);
   }
 }
