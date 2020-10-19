@@ -28,7 +28,7 @@ export abstract class ATree<V extends Nominative, T extends TreeNode<V>, N exten
     return this.root.toString();
   }
 
-  public getRote(): T {
+  public getRoot(): T {
     return this.root;
   }
 }

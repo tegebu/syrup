@@ -1,111 +1,196 @@
-import { ImmutableProject, MockProject, Project } from '@jamashita/publikum-collection';
+import { ImmutableAddress, ImmutableProject } from '@jamashita/publikum-collection';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
+import { ClosureTableHierarchy } from '../../../General/ClosureTable/ClosureTableHierarchy';
+import { MockClosureTableHierarchy } from '../../../General/ClosureTable/Mock/MockClosureTableHierarchy';
+import { StructurableTree } from '../../../General/Tree/StructurableTree';
+import { StructurableTreeNode } from '../../../General/Tree/TreeNode/StructurableTreeNode';
+import { TegeError } from '../Error/TegeError';
 import { MockTege } from '../Mock/MockTege';
+import { MockTegeExpansion } from '../Mock/MockTegeExpansion';
 import { MockTegeID } from '../Mock/MockTegeID';
+import { MockTegeImagePath } from '../Mock/MockTegeImagePath';
+import { MockTegeMinAge } from '../Mock/MockTegeMinAge';
+import { MockTegeName } from '../Mock/MockTegeName';
+import { MockTegePlayers } from '../Mock/MockTegePlayers';
+import { MockTegePlayingTime } from '../Mock/MockTegePlayingTime';
 import { Tege } from '../Tege';
-import { TegeExpansion } from '../TegeExpansion';
 import { TegeID } from '../TegeID';
-import { TegeImagePath } from '../TegeImagePath';
-import { TegeMinAge } from '../TegeMinAge';
-import { TegeName } from '../TegeName';
-import { TegePlayers } from '../TegePlayers';
-import { TegePlayingTime } from '../TegePlayingTime';
 import { Teges } from '../Teges';
 
 describe('Teges', () => {
-  describe('empty', () => {
-    it('returns singleton instance', () => {
+  describe('of', () => {
+    it('throws TegeError when teges are empty', () => {
       expect.assertions(1);
 
-      expect(Teges.empty()).toBe(Teges.empty());
-    });
+      const id1: MockTegeID = new MockTegeID();
+      const id2: MockTegeID = new MockTegeID();
 
-    it('\'s size is 0', () => {
-      expect.assertions(1);
-
-      expect(Teges.empty().size()).toBe(0);
-    });
-  });
-
-  describe('ofMap', () => {
-    it('returns singleton if 0 size map given', () => {
-      expect.assertions(1);
-
-      expect(Teges.ofMap(new Map<TegeID, Tege>())).toBe(Teges.empty());
-    });
-  });
-
-  describe('validate', () => {
-    it('returns true', () => {
-      expect.assertions(1);
-
-      const n: unknown = [
-        {
-          id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
-          name: 'te1',
-          playingTime: 20,
-          players: {
-            type: 'unique',
-            value: 30
-          },
-          minAge: 8,
-          imagePath: '/p1',
-          expansion: true,
-          series: [
-            'aa620de8-833a-422b-a484-31001bfc5714'
-          ]
-        },
-        {
-          id: '9fc75748-af19-412e-97d2-af40ff8983ef',
-          name: 'te2',
-          playingTime: 40,
-          players: {
-            type: 'range',
-            min: 40,
-            max: 60
-          },
-          minAge: 9,
-          imagePath: '/p2',
-          expansion: false,
-          series: [
-            '9fefbd2b-66c0-4e54-bfec-d401edffbcd5'
-          ]
-        }
+      const teges: ImmutableProject<TegeID, Tege> = ImmutableProject.empty<TegeID, Tege>();
+      const hierarchies: Array<ClosureTableHierarchy<TegeID>> = [
+        new MockClosureTableHierarchy<TegeID>(id1, id1),
+        new MockClosureTableHierarchy<TegeID>(id1, id2),
+        new MockClosureTableHierarchy<TegeID>(id2, id2)
       ];
 
-      expect(Teges.validate(n)).toBe(true);
+      expect(() => {
+        Teges.of(teges, hierarchies);
+      }).toThrow(TegeError);
     });
 
-    it('returns false when non-object given', () => {
+    it('throws TegeError when hierarchies are empty', () => {
       expect.assertions(1);
 
-      expect(Teges.validate('toi')).toBe(false);
+      const id1: MockTegeID = new MockTegeID();
+
+      const teges: ImmutableProject<TegeID, Tege> = ImmutableProject.ofMap<TegeID, Tege>(
+        new Map<TegeID, Tege>([
+          [
+            id1,
+            Tege.of(
+              id1,
+              new MockTegeName('mock 1'),
+              new MockTegePlayingTime(10),
+              new MockTegePlayers(5),
+              new MockTegeMinAge(20),
+              new MockTegeImagePath('/1'),
+              new MockTegeExpansion()
+            )
+          ]
+        ])
+      );
+      const hierarchies: Array<ClosureTableHierarchy<TegeID>> = [];
+
+      expect(() => {
+        Teges.of(teges, hierarchies);
+      }).toThrow(TegeError);
     });
 
-    it('returns false when non-array given', () => {
+    it('throws TegeError when no tree is going to be built', () => {
       expect.assertions(1);
 
-      expect(Teges.validate({})).toBe(false);
+      const id1: MockTegeID = new MockTegeID();
+      const id2: MockTegeID = new MockTegeID();
+
+      const teges: ImmutableProject<TegeID, Tege> = ImmutableProject.ofMap<TegeID, Tege>(
+        new Map<TegeID, Tege>([
+          [
+            id1,
+            Tege.of(
+              id1,
+              new MockTegeName('mock 1'),
+              new MockTegePlayingTime(10),
+              new MockTegePlayers(5),
+              new MockTegeMinAge(20),
+              new MockTegeImagePath('/1'),
+              new MockTegeExpansion()
+            )
+          ]
+        ])
+      );
+      const hierarchies: Array<ClosureTableHierarchy<TegeID>> = [
+        new MockClosureTableHierarchy<TegeID>(id2, id2)
+      ];
+
+      expect(() => {
+        Teges.of(teges, hierarchies);
+      }).toThrow(TegeError);
     });
-  });
 
-  describe('contains', () => {
-    it('delegates its inner collection object', () => {
-      expect.assertions(1);
+    it('returns structured tree', () => {
+      expect.assertions(10);
 
-      const spy: SinonSpy = sinon.spy();
-      const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
+      const id1: MockTegeID = new MockTegeID();
+      const id2: MockTegeID = new MockTegeID();
+      const id3: MockTegeID = new MockTegeID();
+      const id4: MockTegeID = new MockTegeID();
+      const id5: MockTegeID = new MockTegeID();
 
-      project.contains = spy;
+      const tege1: Tege = Tege.of(
+        id1,
+        new MockTegeName('mock 1'),
+        new MockTegePlayingTime(10),
+        new MockTegePlayers(5),
+        new MockTegeMinAge(20),
+        new MockTegeImagePath('/1'),
+        new MockTegeExpansion()
+      );
+      const tege2: Tege = Tege.of(
+        id2,
+        new MockTegeName('mock 2'),
+        new MockTegePlayingTime(11),
+        new MockTegePlayers(6),
+        new MockTegeMinAge(21),
+        new MockTegeImagePath('/2'),
+        new MockTegeExpansion()
+      );
+      const tege3: Tege = Tege.of(
+        id3,
+        new MockTegeName('mock 3'),
+        new MockTegePlayingTime(12),
+        new MockTegePlayers(7),
+        new MockTegeMinAge(22),
+        new MockTegeImagePath('/3'),
+        new MockTegeExpansion()
+      );
+      const tege4: Tege = Tege.of(
+        id4,
+        new MockTegeName('mock 4'),
+        new MockTegePlayingTime(13),
+        new MockTegePlayers(8),
+        new MockTegeMinAge(23),
+        new MockTegeImagePath('/4'),
+        new MockTegeExpansion()
+      );
+      const tege5: Tege = Tege.of(
+        id5,
+        new MockTegeName('mock 5'),
+        new MockTegePlayingTime(14),
+        new MockTegePlayers(9),
+        new MockTegeMinAge(24),
+        new MockTegeImagePath('/5'),
+        new MockTegeExpansion()
+      );
 
-      const teges: Teges = Teges.empty();
-      // @ts-expect-error
-      teges.teges = project;
+      const teges: Teges = Teges.of(ImmutableProject.ofMap<TegeID, Tege>(
+        new Map<TegeID, Tege>([
+          [id1, tege1],
+          [id2, tege2],
+          [id3, tege3],
+          [id4, tege4],
+          [id5, tege5]
+        ])
+      ), [
+        new MockClosureTableHierarchy<TegeID>(id1, id1),
+        new MockClosureTableHierarchy<TegeID>(id1, id2),
+        new MockClosureTableHierarchy<TegeID>(id1, id3),
+        new MockClosureTableHierarchy<TegeID>(id1, id4),
+        new MockClosureTableHierarchy<TegeID>(id1, id5),
+        new MockClosureTableHierarchy<TegeID>(id2, id2),
+        new MockClosureTableHierarchy<TegeID>(id2, id3),
+        new MockClosureTableHierarchy<TegeID>(id2, id4),
+        new MockClosureTableHierarchy<TegeID>(id3, id3),
+        new MockClosureTableHierarchy<TegeID>(id4, id4),
+        new MockClosureTableHierarchy<TegeID>(id5, id5)
+      ]);
 
-      teges.contains(new MockTege());
+      expect(teges.getTree().getRoot().getValue()).toBe(tege1);
 
-      expect(spy.called).toBe(true);
+      const children1: Array<StructurableTreeNode<TegeID, Tege>> = [...teges.getTree().getRoot().getChildren().values()];
+
+      expect(children1).toHaveLength(2);
+      expect(children1[0].getValue()).toBe(tege2);
+
+      const children2: Array<StructurableTreeNode<TegeID, Tege>> = [...children1[0].getChildren().values()];
+
+      expect(children2).toHaveLength(2);
+      expect(children2[0].getValue()).toBe(tege3);
+      expect(children2[0].isLeaf()).toBe(true);
+      expect(children2[1].getValue()).toBe(tege4);
+      expect(children2[1].isLeaf()).toBe(true);
+
+      expect(children1[1].getValue()).toBe(tege5);
+      expect(children1[1].isLeaf()).toBe(true);
     });
   });
 
@@ -113,33 +198,26 @@ describe('Teges', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);
 
-      const id: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
-      const name: TegeName = TegeName.of('te');
-      const time: TegePlayingTime = TegePlayingTime.ofNumber(20);
-      const players: TegePlayers = TegePlayers.ofUnique(30);
-      const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
-      const imagePath: TegeImagePath = TegeImagePath.of('/');
-      const expansion: TegeExpansion = TegeExpansion.of(false);
-      const tege1: Tege = Tege.of(
-        id,
-        name,
-        time,
-        players,
-        minAge,
-        imagePath,
-        expansion
-      );
-      const tege2: Tege = Tege.of(
-        id,
-        name,
-        time,
-        players,
-        minAge,
-        imagePath,
-        expansion
-      );
+      const id1: MockTegeID = new MockTegeID();
 
-      const teges: Teges = Teges.ofMap(new Map<TegeID, Tege>([[tege1.getID(), tege1], [tege2.getID(), tege2]]));
+      const teges: Teges = Teges.of(ImmutableProject.ofMap<TegeID, Tege>(
+        new Map<TegeID, Tege>([
+          [
+            id1,
+            Tege.of(
+              id1,
+              new MockTegeName('mock 1'),
+              new MockTegePlayingTime(10),
+              new MockTegePlayers(5),
+              new MockTegeMinAge(20),
+              new MockTegeImagePath('/1'),
+              new MockTegeExpansion()
+            )
+          ]
+        ])
+      ), [
+        new MockClosureTableHierarchy<TegeID>(id1, id1)
+      ]);
 
       expect(teges.equals(teges)).toBe(true);
     });
@@ -147,140 +225,165 @@ describe('Teges', () => {
     it('return false when the different class instance given', () => {
       expect.assertions(1);
 
-      const id: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
-      const name: TegeName = TegeName.of('te');
-      const time: TegePlayingTime = TegePlayingTime.ofNumber(20);
-      const players: TegePlayers = TegePlayers.ofUnique(30);
-      const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
-      const imagePath: TegeImagePath = TegeImagePath.of('/');
-      const expansion: TegeExpansion = TegeExpansion.of(false);
-      const tege: Tege = Tege.of(
-        id,
-        name,
-        time,
-        players,
-        minAge,
-        imagePath,
-        expansion
-      );
+      const id1: MockTegeID = new MockTegeID();
 
-      const teges: Teges = Teges.ofMap(new Map<TegeID, Tege>([[tege.getID(), tege]]));
+      const teges: Teges = Teges.of(ImmutableProject.ofMap<TegeID, Tege>(
+        new Map<TegeID, Tege>([
+          [
+            id1,
+            Tege.of(
+              id1,
+              new MockTegeName('mock 1'),
+              new MockTegePlayingTime(10),
+              new MockTegePlayers(5),
+              new MockTegeMinAge(20),
+              new MockTegeImagePath('/1'),
+              new MockTegeExpansion()
+            )
+          ]
+        ])
+      ), [
+        new MockClosureTableHierarchy<TegeID>(id1, id1)
+      ]);
 
       expect(teges.equals(new MockValueObject('mock'))).toBe(false);
     });
 
-    it('delegates its inner collection object', () => {
+    it('delegates its inner tree object', () => {
       expect.assertions(1);
 
       const spy: SinonSpy = sinon.spy();
-      const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
+      const tree: StructurableTree<TegeID, Tege> = StructurableTree.of<TegeID, Tege>(
+        StructurableTreeNode.of<TegeID, Tege>(
+          new MockTege(),
+          ImmutableAddress.empty<StructurableTreeNode<TegeID, Tege>>()
+        )
+      );
 
-      project.equals = spy;
+      tree.equals = spy;
 
-      const teges: Teges = Teges.empty();
+      const id1: MockTegeID = new MockTegeID();
+
+      const teges: Teges = Teges.of(ImmutableProject.ofMap<TegeID, Tege>(
+        new Map<TegeID, Tege>([
+          [
+            id1,
+            Tege.of(
+              id1,
+              new MockTegeName('mock 1'),
+              new MockTegePlayingTime(10),
+              new MockTegePlayers(5),
+              new MockTegeMinAge(20),
+              new MockTegeImagePath('/1'),
+              new MockTegeExpansion()
+            )
+          ]
+        ])
+      ), [
+        new MockClosureTableHierarchy<TegeID>(id1, id1)
+      ]);
       // @ts-expect-error
-      teges.teges = project;
+      teges.teges = tree;
 
-      teges.equals(Teges.of(ImmutableProject.ofMap<TegeID, Tege>(new Map<TegeID, Tege>([
-        [new MockTegeID(), new MockTege()]
-      ]))));
+      const id2: MockTegeID = new MockTegeID();
+
+      teges.equals(Teges.of(ImmutableProject.ofMap<TegeID, Tege>(
+        new Map<TegeID, Tege>([
+          [
+            id2,
+            Tege.of(
+              id2,
+              new MockTegeName('mock 1'),
+              new MockTegePlayingTime(10),
+              new MockTegePlayers(5),
+              new MockTegeMinAge(20),
+              new MockTegeImagePath('/2'),
+              new MockTegeExpansion()
+            )
+          ]
+        ])
+      ), [
+        new MockClosureTableHierarchy<TegeID>(id2, id2)
+      ]));
 
       expect(spy.called).toBe(true);
     });
   });
 
-  describe('every', () => {
-    it('delegates its inner collection object', () => {
+  describe('getTree', () => {
+    it('delegates inner tree object', () => {
       expect.assertions(1);
 
-      const spy: SinonSpy = sinon.spy();
-      const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
+      const tree: StructurableTree<TegeID, Tege> = StructurableTree.of<TegeID, Tege>(
+        StructurableTreeNode.of<TegeID, Tege>(
+          new MockTege(),
+          ImmutableAddress.empty<StructurableTreeNode<TegeID, Tege>>()
+        )
+      );
 
-      project.every = spy;
+      const id1: MockTegeID = new MockTegeID();
 
-      const teges: Teges = Teges.empty();
+      const teges: Teges = Teges.of(ImmutableProject.ofMap<TegeID, Tege>(
+        new Map<TegeID, Tege>([
+          [
+            id1,
+            Tege.of(
+              id1,
+              new MockTegeName('mock 1'),
+              new MockTegePlayingTime(10),
+              new MockTegePlayers(5),
+              new MockTegeMinAge(20),
+              new MockTegeImagePath('/1'),
+              new MockTegeExpansion()
+            )
+          ]
+        ])
+      ), [
+        new MockClosureTableHierarchy<TegeID>(id1, id1)
+      ]);
       // @ts-expect-error
-      teges.teges = project;
+      teges.teges = tree;
 
-      teges.every(() => {
-        return true;
-      });
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('forEach', () => {
-    it('delegates its inner collection object', () => {
-      expect.assertions(1);
-
-      const spy: SinonSpy = sinon.spy();
-      const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
-
-      project.forEach = spy;
-
-      const teges: Teges = Teges.empty();
-      // @ts-expect-error
-      teges.teges = project;
-
-      teges.forEach(() => {
-        // NOOP
-      });
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('get', () => {
-    it('delegates its inner collection object', () => {
-      expect.assertions(1);
-
-      const spy: SinonSpy = sinon.spy();
-      const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
-
-      project.get = spy;
-
-      const teges: Teges = Teges.empty();
-      // @ts-expect-error
-      teges.teges = project;
-
-      teges.get(new MockTegeID());
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('isEmpty', () => {
-    it('delegates its inner collection object', () => {
-      expect.assertions(1);
-
-      const spy: SinonSpy = sinon.spy();
-      const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
-
-      project.isEmpty = spy;
-
-      const teges: Teges = Teges.empty();
-      // @ts-expect-error
-      teges.teges = project;
-
-      teges.isEmpty();
-
-      expect(spy.called).toBe(true);
+      expect(teges.getTree()).toBe(tree);
     });
   });
 
   describe('toString', () => {
-    it('delegates its inner collection object', () => {
+    it('delegates its inner tree object', () => {
       expect.assertions(1);
 
       const spy: SinonSpy = sinon.spy();
-      const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
+      const tree: StructurableTree<TegeID, Tege> = StructurableTree.of<TegeID, Tege>(
+        StructurableTreeNode.of<TegeID, Tege>(
+          new MockTege(),
+          ImmutableAddress.empty<StructurableTreeNode<TegeID, Tege>>()
+        )
+      );
 
-      project.toString = spy;
+      tree.toString = spy;
 
-      const teges: Teges = Teges.empty();
+      const id1: MockTegeID = new MockTegeID();
+
+      const teges: Teges = Teges.of(ImmutableProject.ofMap<TegeID, Tege>(
+        new Map<TegeID, Tege>([
+          [
+            id1,
+            Tege.of(
+              id1,
+              new MockTegeName('mock 1'),
+              new MockTegePlayingTime(10),
+              new MockTegePlayers(5),
+              new MockTegeMinAge(20),
+              new MockTegeImagePath('/1'),
+              new MockTegeExpansion()
+            )
+          ]
+        ])
+      ), [
+        new MockClosureTableHierarchy<TegeID>(id1, id1)
+      ]);
       // @ts-expect-error
-      teges.teges = project;
+      teges.teges = tree;
 
       teges.toString();
 
@@ -288,151 +391,153 @@ describe('Teges', () => {
     });
   });
 
-  describe('size', () => {
-    it('delegates its inner collection object', () => {
-      expect.assertions(1);
-
-      const spy: SinonSpy = sinon.spy();
-      const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
-
-      project.size = spy;
-
-      const teges: Teges = Teges.empty();
-      // @ts-expect-error
-      teges.teges = project;
-
-      teges.size();
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('some', () => {
-    it('delegates its inner collection object', () => {
-      expect.assertions(1);
-
-      const spy: SinonSpy = sinon.spy();
-      const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
-
-      project.some = spy;
-
-      const teges: Teges = Teges.empty();
-      // @ts-expect-error
-      teges.teges = project;
-
-      teges.some(() => {
-        return true;
-      });
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
-  describe('values', () => {
-    it('delegates its inner collection object', () => {
-      expect.assertions(1);
-
-      const spy: SinonSpy = sinon.spy();
-      const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
-
-      project.values = spy;
-
-      const teges: Teges = Teges.empty();
-      // @ts-expect-error
-      teges.teges = project;
-
-      teges.values();
-
-      expect(spy.called).toBe(true);
-    });
-  });
-
-
-  describe('iterator', () => {
-    it('returns Pair<TegeID, Tege>', () => {
-      expect.assertions(6);
-
-      const array: Array<[MockTegeID, MockTege]> = [
-        [new MockTegeID(), new MockTege()],
-        [new MockTegeID(), new MockTege()],
-        [new MockTegeID(), new MockTege()]
-      ];
-
-      const teges: Teges = Teges.ofMap(new Map<MockTegeID, MockTege>(array));
-      let i: number = 0;
-
-      for (const pair of teges) {
-        expect(pair.getKey()).toBe(array[i][0]);
-        expect(pair.getValue()).toBe(array[i][1]);
-        i++;
-      }
-    });
-  });
-
   describe('toJSON', () => {
     it('returns Array<TegeJSON>', () => {
       expect.assertions(1);
 
-      const id1: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
-      const id2: TegeID = TegeID.ofString('0d683348-0e24-4a47-ae23-aad7ec3a491e');
-      const name1: TegeName = TegeName.of('te1');
-      const name2: TegeName = TegeName.of('te2');
-      const time1: TegePlayingTime = TegePlayingTime.ofNumber(20);
-      const time2: TegePlayingTime = TegePlayingTime.ofNumber(40);
-      const players1: TegePlayers = TegePlayers.ofUnique(30);
-      const players2: TegePlayers = TegePlayers.ofRange(50, 80);
-      const minAge1: TegeMinAge = TegeMinAge.ofNumber(8);
-      const minAge2: TegeMinAge = TegeMinAge.ofNumber(16);
-      const imagePath1: TegeImagePath = TegeImagePath.of('/p1');
-      const imagePath2: TegeImagePath = TegeImagePath.of('/p2');
-      const expansion1: TegeExpansion = TegeExpansion.of(false);
-      const expansion2: TegeExpansion = TegeExpansion.of(true);
-      const tege1: Tege = Tege.of(
-        id1,
-        name1,
-        time1,
-        players1,
-        minAge1,
-        imagePath1,
-        expansion1
-      );
-      const tege2: Tege = Tege.of(
-        id2,
-        name2,
-        time2,
-        players2,
-        minAge2,
-        imagePath2,
-        expansion2
-      );
+      const id1: MockTegeID = new MockTegeID();
+      const id2: MockTegeID = new MockTegeID();
+      const id3: MockTegeID = new MockTegeID();
+      const id4: MockTegeID = new MockTegeID();
+      const id5: MockTegeID = new MockTegeID();
 
-      const teges: Teges = Teges.ofMap(new Map<TegeID, Tege>([[tege1.getID(), tege1], [tege2.getID(), tege2]]));
+      const teges: Teges = Teges.of(ImmutableProject.ofMap<TegeID, Tege>(
+        new Map<TegeID, Tege>([
+          [
+            id1,
+            Tege.of(
+              id1,
+              new MockTegeName('mock 1'),
+              new MockTegePlayingTime(10),
+              new MockTegePlayers(5),
+              new MockTegeMinAge(20),
+              new MockTegeImagePath('/1'),
+              new MockTegeExpansion()
+            )
+          ],
+          [
+            id2,
+            Tege.of(
+              id2,
+              new MockTegeName('mock 2'),
+              new MockTegePlayingTime(11),
+              new MockTegePlayers(6),
+              new MockTegeMinAge(21),
+              new MockTegeImagePath('/2'),
+              new MockTegeExpansion()
+            )
+          ],
+          [
+            id3,
+            Tege.of(
+              id3,
+              new MockTegeName('mock 3'),
+              new MockTegePlayingTime(12),
+              new MockTegePlayers(7),
+              new MockTegeMinAge(22),
+              new MockTegeImagePath('/3'),
+              new MockTegeExpansion()
+            )
+          ],
+          [
+            id4,
+            Tege.of(
+              id4,
+              new MockTegeName('mock 4'),
+              new MockTegePlayingTime(13),
+              new MockTegePlayers(8),
+              new MockTegeMinAge(23),
+              new MockTegeImagePath('/4'),
+              new MockTegeExpansion()
+            )
+          ],
+          [
+            id5,
+            Tege.of(
+              id5,
+              new MockTegeName('mock 5'),
+              new MockTegePlayingTime(14),
+              new MockTegePlayers(9),
+              new MockTegeMinAge(24),
+              new MockTegeImagePath('/5'),
+              new MockTegeExpansion()
+            )
+          ]
+        ])
+      ), [
+        new MockClosureTableHierarchy<TegeID>(id1, id1),
+        new MockClosureTableHierarchy<TegeID>(id1, id2),
+        new MockClosureTableHierarchy<TegeID>(id1, id3),
+        new MockClosureTableHierarchy<TegeID>(id1, id4),
+        new MockClosureTableHierarchy<TegeID>(id1, id5),
+        new MockClosureTableHierarchy<TegeID>(id2, id2),
+        new MockClosureTableHierarchy<TegeID>(id2, id3),
+        new MockClosureTableHierarchy<TegeID>(id2, id4),
+        new MockClosureTableHierarchy<TegeID>(id3, id3),
+        new MockClosureTableHierarchy<TegeID>(id4, id4),
+        new MockClosureTableHierarchy<TegeID>(id5, id5)
+      ]);
 
       expect(teges.toJSON()).toStrictEqual([
         {
-          id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
-          name: 'te1',
-          playingTime: 20,
+          id: id1.toString(),
+          name: 'mock 1',
+          playingTime: 10,
           players: {
             type: 'unique',
-            value: 30
+            value: 5
           },
-          minAge: 8,
-          imagePath: '/p1',
+          minAge: 20,
+          imagePath: '/1',
           expansion: false
         },
         {
-          id: '0d683348-0e24-4a47-ae23-aad7ec3a491e',
-          name: 'te2',
-          playingTime: 40,
+          id: id2.toString(),
+          name: 'mock 2',
+          playingTime: 11,
           players: {
-            type: 'range',
-            min: 50,
-            max: 80
+            type: 'unique',
+            value: 6
           },
-          minAge: 16,
-          imagePath: '/p2',
-          expansion: true
+          minAge: 21,
+          imagePath: '/2',
+          expansion: false
+        },
+        {
+          id: id3.toString(),
+          name: 'mock 3',
+          playingTime: 12,
+          players: {
+            type: 'unique',
+            value: 7
+          },
+          minAge: 22,
+          imagePath: '/3',
+          expansion: false
+        },
+        {
+          id: id4.toString(),
+          name: 'mock 4',
+          playingTime: 13,
+          players: {
+            type: 'unique',
+            value: 8
+          },
+          minAge: 23,
+          imagePath: '/4',
+          expansion: false
+        },
+        {
+          id: id5.toString(),
+          name: 'mock 5',
+          playingTime: 14,
+          players: {
+            type: 'unique',
+            value: 9
+          },
+          minAge: 24,
+          imagePath: '/5',
+          expansion: false
         }
       ]);
     });
