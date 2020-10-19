@@ -8,4 +8,4 @@ export * from './TegeMinAge';
 export * from './TegeName';
 export * from './TegePlayers';
 export * from './TegePlayingTime';
-export * from './TegeSeries';
+export * from './Teges';

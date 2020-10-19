@@ -7,7 +7,7 @@ import { MockAuthorName } from '../Mock/MockAuthorName';
 
 describe('Author', () => {
   describe('ofJSON', () => {
-    it('forges the instance', () => {
+    it('returns the instance', () => {
       expect.assertions(2);
 
       const json: AuthorJSON = {
@@ -17,8 +17,8 @@ describe('Author', () => {
 
       const author: Author = Author.ofJSON(json);
 
-      expect(author.getAuthorID().get().get()).toBe(json.id);
-      expect(author.getAuthorName().get()).toBe(json.name);
+      expect(author.getID().get().get()).toBe(json.id);
+      expect(author.getName().get()).toBe(json.name);
     });
 
     it('throws AuthorError when incorrect uuid format id given', () => {
@@ -49,14 +49,14 @@ describe('Author', () => {
   });
 
   describe('generate', () => {
-    it('forges the instance', () => {
+    it('returns the instance', () => {
       expect.assertions(1);
 
       const name: string = 'author name';
 
       const author: Author = Author.generate(name);
 
-      expect(author.getAuthorName().get()).toBe(name);
+      expect(author.getName().get()).toBe(name);
     });
 
     it('throws AuthorError when empty name given', () => {
@@ -180,6 +180,18 @@ describe('Author', () => {
       expect(author1.equals(author2)).toBe(false);
       expect(author1.equals(author3)).toBe(false);
       expect(author1.equals(author4)).toBe(true);
+    });
+  });
+
+  describe('display', () => {
+    it('invokes AuthorName.display()', () => {
+      expect.assertions(1);
+
+      const name: string = 'fb30d6be-db12-413f-862d-b4e5ce4daa77';
+
+      const author: Author = Author.of(new MockAuthorID(), new MockAuthorName(name));
+
+      expect(author.display()).toBe(name);
     });
   });
 

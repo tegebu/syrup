@@ -6,4 +6,4 @@ export * from './MockTegeMinAge';
 export * from './MockTegeName';
 export * from './MockTegePlayers';
 export * from './MockTegePlayingTime';
-export * from './MockTegeSeries';
+export * from './MockTeges';

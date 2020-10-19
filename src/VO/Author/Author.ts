@@ -1,6 +1,7 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
+import { Displayable } from '../../General/ValueRange/Displayable';
 import { AuthorID } from './AuthorID';
 import { AuthorName } from './AuthorName';
 
@@ -9,7 +10,7 @@ export type AuthorJSON = Readonly<{
   name: string;
 }>;
 
-export class Author extends ValueObject<'Author'> implements JSONable<AuthorJSON> {
+export class Author extends ValueObject<'Author'> implements Displayable, JSONable<AuthorJSON> {
   public readonly noun: 'Author' = 'Author';
   private readonly id: AuthorID;
   private readonly name: AuthorName;
@@ -69,6 +70,10 @@ export class Author extends ValueObject<'Author'> implements JSONable<AuthorJSON
     return true;
   }
 
+  public display(): string {
+    return this.name.display();
+  }
+
   public serialize(): string {
     const properties: Array<string> = [];
 
@@ -85,11 +90,11 @@ export class Author extends ValueObject<'Author'> implements JSONable<AuthorJSON
     };
   }
 
-  public getAuthorID(): AuthorID {
+  public getID(): AuthorID {
     return this.id;
   }
 
-  public getAuthorName(): AuthorName {
+  public getName(): AuthorName {
     return this.name;
   }
 }

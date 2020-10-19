@@ -1,14 +1,18 @@
 import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
+import { Kind, Nullable } from '@jamashita/publikum-type';
+import { Displayable } from '../../General/ValueRange/Displayable';
 import { Whitespace } from '../../General/Whitespace/Whitespace';
 import { PublisherError } from './Error/PublisherError';
 
-// TODO Nullable?
-export class PublisherURL extends ValueObject<'PublisherURL'> {
+export class PublisherURL extends ValueObject<'PublisherURL'> implements Displayable {
   public readonly noun: 'PublisherURL' = 'PublisherURL';
-  private readonly url: string;
+  private readonly url: Nullable<string>;
 
-  public static of(url: string): PublisherURL {
+  public static of(url: Nullable<string>): PublisherURL {
+    if (Kind.isNull(url)) {
+      return new PublisherURL(null);
+    }
+
     const trimmed: string = Whitespace.replace(url).trim();
 
     if (trimmed.includes(' ')) {
@@ -19,6 +23,9 @@ export class PublisherURL extends ValueObject<'PublisherURL'> {
   }
 
   public static validate(n: unknown): n is string {
+    if (Kind.isNull(n)) {
+      return true;
+    }
     if (!Kind.isString(n)) {
       return false;
     }
@@ -26,7 +33,7 @@ export class PublisherURL extends ValueObject<'PublisherURL'> {
     return !Whitespace.replace(n).includes(' ');
   }
 
-  protected constructor(url: string) {
+  protected constructor(url: Nullable<string>) {
     super();
     this.url = url;
   }
@@ -45,11 +52,27 @@ export class PublisherURL extends ValueObject<'PublisherURL'> {
     return false;
   }
 
-  public serialize(): string {
+  public display(): string {
+    if (Kind.isNull(this.url)) {
+      return '-';
+    }
+
     return this.url;
   }
 
-  public get(): string {
+  public serialize(): string {
+    if (Kind.isNull(this.url)) {
+      return '';
+    }
+
     return this.url;
+  }
+
+  public get(): Nullable<string> {
+    return this.url;
+  }
+
+  public hasValue(): boolean {
+    return !Kind.isNull(this.url);
   }
 }

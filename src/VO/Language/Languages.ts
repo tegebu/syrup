@@ -1,28 +1,62 @@
-import { CancellableEnumerator, MutableProject, Pair, Quantity, ReadonlyProject } from '@jamashita/publikum-collection';
+import {
+  CancellableEnumerator,
+  ImmutableProject,
+  MutableProject,
+  Pair,
+  Quantity,
+  ReadonlyProject
+} from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 import { Language, LanguageJSON } from './Language';
 import { LanguageID } from './LanguageID';
 
+const ALL: ReadonlyArray<LanguageJSON> = [
+  {
+    id: 'f6408347-54a3-4b60-88b1-76b7d949530d',
+    name: '日本語'
+  },
+  {
+    id: 'd4423bb9-603b-4223-b386-56d53367b802',
+    name: 'English'
+  },
+  {
+    id: '56014e04-14f9-4d42-b54c-a57d028af15d',
+    name: 'Deutsch'
+  }
+];
+
 export class Languages extends Quantity<LanguageID, Language, 'Languages'> implements JSONable<ReadonlyArray<LanguageJSON>> {
   public readonly noun: 'Languages' = 'Languages';
-  private readonly languages: ReadonlyProject<LanguageID, Language>;
+  private readonly languages: ImmutableProject<LanguageID, Language>;
 
   public static of(languages: ReadonlyProject<LanguageID, Language>): Languages {
-    return new Languages(languages);
+    return new Languages(ImmutableProject.of<LanguageID, Language>(languages));
+  }
+
+  public static ofJSON(json: ReadonlyArray<LanguageJSON>): Languages {
+    const langueages: Array<Language> = json.map<Language>((j: LanguageJSON) => {
+      return Language.ofJSON(j);
+    });
+
+    return Languages.ofArray(langueages);
   }
 
   public static ofArray(languages: ReadonlyArray<Language>): Languages {
     const project: MutableProject<LanguageID, Language> = MutableProject.empty<LanguageID, Language>();
 
     languages.forEach((l: Language) => {
-      project.set(l.getLanguageID(), l);
+      project.set(l.getID(), l);
     });
 
     return Languages.of(project);
   }
 
-  protected constructor(languages: ReadonlyProject<LanguageID, Language>) {
+  public static all(): Languages {
+    return Languages.ofJSON(ALL);
+  }
+
+  protected constructor(languages: ImmutableProject<LanguageID, Language>) {
     super();
     this.languages = languages;
   }

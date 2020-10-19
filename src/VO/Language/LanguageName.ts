@@ -1,11 +1,17 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
+import { Displayable } from '../../General/ValueRange/Displayable';
 
-export class LanguageName extends ValueObject<'LanguageName'> {
+export class LanguageName extends ValueObject<'LanguageName'> implements Displayable {
   public readonly noun: 'LanguageName' = 'LanguageName';
   private readonly name: string;
 
   public static of(name: string): LanguageName {
     return new LanguageName(name);
+  }
+
+  public static validate(n: unknown): n is string {
+    return Kind.isString(n);
   }
 
   protected constructor(name: string) {
@@ -25,6 +31,10 @@ export class LanguageName extends ValueObject<'LanguageName'> {
     }
 
     return false;
+  }
+
+  public display(): string {
+    return this.name;
   }
 
   public serialize(): string {
