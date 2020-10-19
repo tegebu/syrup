@@ -84,7 +84,7 @@ describe('Language', () => {
       expect.assertions(1);
 
       const n: unknown = {
-        id: 'incorrect'
+        id: 'feeabfe2-0646-425e-ad8f-a17f3048e840'
       };
 
       expect(Language.validate(n)).toBe(false);
@@ -94,7 +94,7 @@ describe('Language', () => {
       expect.assertions(1);
 
       const n: unknown = {
-        id: 'incorrect',
+        id: 'feeabfe2-0646-425e-ad8f-a17f3048e840',
         name: null
       };
 
