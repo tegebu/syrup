@@ -1,6 +1,7 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind, Nullable } from '@jamashita/publikum-type';
+import { Displayable } from '../../General/ValueRange/Displayable';
 import { PublisherID } from './PublisherID';
 import { PublisherName } from './PublisherName';
 import { PublisherURL } from './PublisherURL';
@@ -11,7 +12,7 @@ export type PublisherJSON = Readonly<{
   url: Nullable<string>;
 }>;
 
-export class Publisher extends ValueObject<'Publisher'> implements JSONable<PublisherJSON> {
+export class Publisher extends ValueObject<'Publisher'> implements Displayable, JSONable<PublisherJSON> {
   public readonly noun: 'Publisher' = 'Publisher';
   private readonly id: PublisherID;
   private readonly name: PublisherName;
@@ -79,6 +80,10 @@ export class Publisher extends ValueObject<'Publisher'> implements JSONable<Publ
     }
 
     return true;
+  }
+
+  public display(): string {
+    return this.name.display();
   }
 
   public serialize(): string {

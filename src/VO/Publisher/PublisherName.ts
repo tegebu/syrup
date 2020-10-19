@@ -1,9 +1,10 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
+import { Displayable } from '../../General/ValueRange/Displayable';
 import { Whitespace } from '../../General/Whitespace/Whitespace';
 import { PublisherError } from './Error/PublisherError';
 
-export class PublisherName extends ValueObject<'PublisherName'> {
+export class PublisherName extends ValueObject<'PublisherName'> implements Displayable {
   public readonly noun: 'PublisherName' = 'PublisherName';
   private readonly name: string;
 
@@ -38,6 +39,10 @@ export class PublisherName extends ValueObject<'PublisherName'> {
     }
 
     return false;
+  }
+
+  public display(): string {
+    return this.name;
   }
 
   public serialize(): string {

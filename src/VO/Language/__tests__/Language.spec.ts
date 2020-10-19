@@ -3,6 +3,8 @@ import { UUID } from '@jamashita/publikum-uuid';
 import { Language, LanguageJSON } from '../Language';
 import { LanguageID } from '../LanguageID';
 import { LanguageName } from '../LanguageName';
+import { MockLanguageID } from '../Mock/MockLanguageID';
+import { MockLanguageName } from '../Mock/MockLanguageName';
 
 describe('Language', () => {
   describe('ofJSON', () => {
@@ -150,6 +152,34 @@ describe('Language', () => {
       expect(language1.equals(language3)).toBe(false);
       expect(language1.equals(language4)).toBe(false);
       expect(language1.equals(language5)).toBe(true);
+    });
+  });
+
+  describe('display', () => {
+    it('invokes LanguageName.display()', () => {
+      expect.assertions(1);
+
+      const name: string = 'language name';
+
+      const language: Language = Language.of(new MockLanguageID(), new MockLanguageName(name));
+
+      expect(language.display()).toBe(name);
+    });
+  });
+
+  describe('toString', () => {
+    it('returns joined string', () => {
+      expect.assertions(1);
+
+      const id: string = '578891b1-63db-4a91-a7ce-8a030b12191c';
+      const name: string = 'language name';
+
+      const languageID: LanguageID = LanguageID.of(UUID.of(id));
+      const languageName: LanguageName = LanguageName.of(name);
+
+      const language: Language = Language.of(languageID, languageName);
+
+      expect(language.toString()).toBe(`${id}, ${name}`);
     });
   });
 

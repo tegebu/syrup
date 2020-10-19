@@ -259,6 +259,18 @@ describe('Publisher', () => {
     });
   });
 
+  describe('display', () => {
+    it('invokes PublisherName.display()', () => {
+      expect.assertions(1);
+
+      const name: string = 'fb30d6be-db12-413f-862d-b4e5ce4daa77';
+
+      const publisher: Publisher = Publisher.of(new MockPublisherID(), new MockPublisherName(name), new MockPublisherURL());
+
+      expect(publisher.display()).toBe(name);
+    });
+  });
+
   describe('toJSON', () => {
     it('returns PublisherJSON', () => {
       expect.assertions(1);

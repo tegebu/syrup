@@ -1,9 +1,10 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind, Nullable } from '@jamashita/publikum-type';
+import { Displayable } from '../../General/ValueRange/Displayable';
 import { Whitespace } from '../../General/Whitespace/Whitespace';
 import { PublisherError } from './Error/PublisherError';
 
-export class PublisherURL extends ValueObject<'PublisherURL'> {
+export class PublisherURL extends ValueObject<'PublisherURL'> implements Displayable {
   public readonly noun: 'PublisherURL' = 'PublisherURL';
   private readonly url: Nullable<string>;
 
@@ -51,9 +52,17 @@ export class PublisherURL extends ValueObject<'PublisherURL'> {
     return false;
   }
 
-  public serialize(): string {
+  public display(): string {
     if (Kind.isNull(this.url)) {
       return '-';
+    }
+
+    return this.url;
+  }
+
+  public serialize(): string {
+    if (Kind.isNull(this.url)) {
+      return '';
     }
 
     return this.url;

@@ -96,11 +96,29 @@ describe('PublisherURL', () => {
     });
   });
 
-  describe('toString', () => {
+  describe('display', () => {
     it('returns - when instance retains null', () => {
       expect.assertions(1);
 
-      expect(PublisherURL.of(null).toString()).toBe('-');
+      expect(PublisherURL.of(null).display()).toBe('-');
+    });
+
+    it('returns its retaining string', () => {
+      expect.assertions(1);
+
+      const str: string = 'souffrir';
+
+      const name: PublisherURL = PublisherURL.of(str);
+
+      expect(name.display()).toBe(str);
+    });
+  });
+
+  describe('toString', () => {
+    it('returns empty string when instance retains null', () => {
+      expect.assertions(1);
+
+      expect(PublisherURL.of(null).toString()).toBe('');
     });
 
     it('returns its retaining string', () => {
