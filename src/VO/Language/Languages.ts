@@ -4,6 +4,21 @@ import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 import { Language, LanguageJSON } from './Language';
 import { LanguageID } from './LanguageID';
 
+const ALL: ReadonlyArray<LanguageJSON> = [
+  {
+    id: 'f6408347-54a3-4b60-88b1-76b7d949530d',
+    name: '日本語'
+  },
+  {
+    id: 'd4423bb9-603b-4223-b386-56d53367b802',
+    name: 'English'
+  },
+  {
+    id: '56014e04-14f9-4d42-b54c-a57d028af15d',
+    name: 'Deutsch'
+  }
+];
+
 export class Languages extends Quantity<LanguageID, Language, 'Languages'> implements JSONable<ReadonlyArray<LanguageJSON>> {
   public readonly noun: 'Languages' = 'Languages';
   private readonly languages: ReadonlyProject<LanguageID, Language>;
@@ -28,6 +43,10 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     });
 
     return Languages.of(project);
+  }
+
+  public static all(): Languages {
+    return Languages.ofJSON(ALL);
   }
 
   protected constructor(languages: ReadonlyProject<LanguageID, Language>) {
