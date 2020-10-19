@@ -78,12 +78,7 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
 
   private static retrieveChildren<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, children: ReadonlyAddress<StructurableTreeNode<KT, VT>>, hierarchies: MutableProject<KT, MutableAddress<KT>>): void {
     children.forEach((child: StructurableTreeNode<KT, VT>) => {
-      let offsprings: Nullable<MutableAddress<KT>> = hierarchies.get(node.getTreeID());
-
-      if (Kind.isNull(offsprings)) {
-        offsprings = MutableAddress.empty<KT>();
-        hierarchies.set(node.getTreeID(), offsprings);
-      }
+      const offsprings: MutableAddress<KT> = hierarchies.get(node.getTreeID()) as MutableAddress<KT>;
 
       offsprings.add(child.getTreeID());
       ClosureTable.retrieve<KT, VT>(child, hierarchies);

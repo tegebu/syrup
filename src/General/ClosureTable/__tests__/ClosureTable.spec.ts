@@ -13,6 +13,7 @@ import { StructurableTreeNode } from '../../Tree/TreeNode/StructurableTreeNode';
 import { ClosureTable } from '../ClosureTable';
 import { ClosureTableHierarchies } from '../ClosureTableHierarchies';
 import { ClosureTableHierarchy } from '../ClosureTableHierarchy';
+import { MockClosureTable } from '../Mock/MockClosureTable';
 import { MockClosureTableHierarchy } from '../Mock/MockClosureTableHierarchy';
 import { MockClosureTableOffsprings } from '../Mock/MockClosureTableOffsprings';
 
@@ -262,13 +263,13 @@ describe('ClosureTable', () => {
       const spy: SinonSpy = sinon.spy();
       const project: Project<TestVO, ReadonlyAddress<TestVO>> = new MockProject<TestVO, ReadonlyAddress<TestVO>>(new Map<TestVO, ReadonlyAddress<TestVO>>());
 
-      project.contains = spy;
+      project.equals = spy;
 
       const table: ClosureTable<TestVO> = ClosureTable.empty<TestVO>();
       // @ts-expect-error
       table.table = project;
 
-      table.contains(new MockClosureTableOffsprings<TestVO>(new TestVO('mock')));
+      table.equals(new MockClosureTable<TestVO>());
 
       expect(spy.called).toBe(true);
     });
