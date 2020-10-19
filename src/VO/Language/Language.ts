@@ -1,5 +1,6 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 import { LanguageID } from './LanguageID';
 import { LanguageName } from './LanguageName';
 
@@ -24,6 +25,20 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
       LanguageID.ofString(json.id),
       LanguageName.of(json.name)
     );
+  }
+
+  public static validate(n: unknown): n is LanguageJSON {
+    if (!Kind.isObject<LanguageJSON>(n)) {
+      return false;
+    }
+    if (!LanguageID.validate(n.id)) {
+      return false;
+    }
+    if (!LanguageName.validate(n.name)) {
+      return false;
+    }
+
+    return true;
   }
 
   protected constructor(id: LanguageID, name: LanguageName) {

@@ -21,6 +21,85 @@ describe('Language', () => {
     });
   });
 
+  describe('validate', () => {
+    it('returns true', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: 'feeabfe2-0646-425e-ad8f-a17f3048e840',
+        name: 'souvenir'
+      };
+
+      expect(Language.validate(n)).toBe(true);
+    });
+
+    it('returns false when non-object given', () => {
+      expect.assertions(8);
+
+      expect(Language.validate(undefined)).toBe(false);
+      expect(Language.validate(null)).toBe(false);
+      expect(Language.validate(true)).toBe(false);
+      expect(Language.validate(102)).toBe(false);
+      expect(Language.validate('')).toBe(false);
+      expect(Language.validate(Symbol())).toBe(false);
+      expect(Language.validate(102n)).toBe(false);
+      expect(Language.validate([])).toBe(false);
+    });
+
+    it('returns false when incorrect uuid format id given', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: 'incorrect',
+        name: 'souvenir'
+      };
+
+      expect(Language.validate(n)).toBe(false);
+    });
+
+    it('returns false when id is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        name: 'souvenir'
+      };
+
+      expect(Language.validate(n)).toBe(false);
+    });
+
+    it('returns false when id is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: false,
+        name: 'souvenir'
+      };
+
+      expect(Language.validate(n)).toBe(false);
+    });
+
+    it('returns false when name is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: 'incorrect'
+      };
+
+      expect(Language.validate(n)).toBe(false);
+    });
+
+    it('returns false when name is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: 'incorrect',
+        name: null
+      };
+
+      expect(Language.validate(n)).toBe(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);

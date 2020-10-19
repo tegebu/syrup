@@ -1,4 +1,5 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 import { UUID, UUIDError } from '@jamashita/publikum-uuid';
 import { LanguageError } from './Error/LanguageError';
 
@@ -21,6 +22,17 @@ export class LanguageID extends ValueObject<'LanguageID'> {
 
       throw err;
     }
+  }
+
+  public static validate(n: unknown): n is string {
+    if (!Kind.isString(n)) {
+      return false;
+    }
+    if (!UUID.isAcceptable(n)) {
+      return false;
+    }
+
+    return true;
   }
 
   protected constructor(id: UUID) {
