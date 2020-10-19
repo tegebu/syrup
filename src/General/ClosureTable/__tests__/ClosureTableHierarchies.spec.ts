@@ -49,7 +49,7 @@ describe('ClosureTableHierarchies', () => {
   });
 
   describe('ofArray', () => {
-    it('when 0-length array given, returns ClosureTableHierarchies.empty()', () => {
+    it('returns ClosureTableHierarchies.empty() when 0-length array given', () => {
       expect.assertions(1);
 
       expect(ClosureTableHierarchies.ofArray<TestVO>([])).toBe(ClosureTableHierarchies.empty<TestVO>());
@@ -91,13 +91,13 @@ describe('ClosureTableHierarchies', () => {
   });
 
   describe('empty', () => {
-    it('\'s length is 0', () => {
+    it('\'s size is 0', () => {
       expect.assertions(1);
 
       expect(ClosureTableHierarchies.empty<TestVO>().size()).toBe(0);
     });
 
-    it('returns singleton', () => {
+    it('returns singleton instance', () => {
       expect.assertions(1);
 
       expect(ClosureTableHierarchies.empty<TestVO>()).toBe(ClosureTableHierarchies.empty<TestVO>());

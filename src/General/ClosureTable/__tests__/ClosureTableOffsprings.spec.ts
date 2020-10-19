@@ -27,6 +27,12 @@ describe('ClosureTableOffsprings', () => {
 
       expect(ClosureTableOffsprings.empty<Nominative>()).toBe(ClosureTableOffsprings.empty<Nominative>());
     });
+
+    it('\'s size is 0', () => {
+      expect.assertions(1);
+
+      expect(ClosureTableOffsprings.empty<Nominative>().size()).toBe(0);
+    });
   });
 
   describe('equals', () => {

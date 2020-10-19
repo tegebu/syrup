@@ -16,10 +16,16 @@ import { TegeSeries } from '../TegeSeries';
 
 describe('Teges', () => {
   describe('empty', () => {
-    it('returns singleton', () => {
+    it('returns singleton instance', () => {
       expect.assertions(1);
 
       expect(Teges.empty()).toBe(Teges.empty());
+    });
+
+    it('\'s size is 0', () => {
+      expect.assertions(1);
+
+      expect(Teges.empty().size()).toBe(0);
     });
   });
 
