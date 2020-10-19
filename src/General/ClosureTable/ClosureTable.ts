@@ -60,7 +60,7 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
   public static toHierarchies<KT extends TreeID, VT extends StructurableTreeObject<KT>>(tree: StructurableTree<KT, VT>): ClosureTableHierarchies<KT> {
     const hierarchies: MutableProject<KT, MutableAddress<KT>> = MutableProject.empty<KT, MutableAddress<KT>>();
 
-    ClosureTable.retrieve<KT, VT>(tree.getRote(), hierarchies);
+    ClosureTable.retrieve<KT, VT>(tree.getRoot(), hierarchies);
 
     return ClosureTableHierarchies.of<KT>(hierarchies);
   }
