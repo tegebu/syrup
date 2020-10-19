@@ -6,7 +6,6 @@ import { TegeMinAge } from '../TegeMinAge';
 import { TegeName } from '../TegeName';
 import { TegePlayers } from '../TegePlayers';
 import { TegePlayingTime } from '../TegePlayingTime';
-import { TegeSeries } from '../TegeSeries';
 import { MockTegeExpansion } from './MockTegeExpansion';
 import { MockTegeID } from './MockTegeID';
 import { MockTegeImagePath } from './MockTegeImagePath';
@@ -14,7 +13,6 @@ import { MockTegeMinAge } from './MockTegeMinAge';
 import { MockTegeName } from './MockTegeName';
 import { MockTegePlayers } from './MockTegePlayers';
 import { MockTegePlayingTime } from './MockTegePlayingTime';
-import { MockTegeSeries } from './MockTegeSeries';
 
 type TegeArgs = Partial<Readonly<{
   id: TegeID;
@@ -24,7 +22,6 @@ type TegeArgs = Partial<Readonly<{
   minAge: TegeMinAge;
   imagePath: TegeImagePath;
   expansion: TegeExpansion;
-  series: TegeSeries;
 }>>;
 
 export class MockTege extends Tege {
@@ -35,9 +32,8 @@ export class MockTege extends Tege {
     players = new MockTegePlayers(),
     minAge = new MockTegeMinAge(),
     imagePath = new MockTegeImagePath(),
-    expansion = new MockTegeExpansion(),
-    series = new MockTegeSeries()
+    expansion = new MockTegeExpansion()
   }: TegeArgs = {}) {
-    super(id, name, time, players, minAge, imagePath, expansion, series);
+    super(id, name, time, players, minAge, imagePath, expansion);
   }
 }
