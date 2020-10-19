@@ -1,4 +1,4 @@
-import { ImmutableAddress, MockAddress } from '@jamashita/publikum-collection';
+import { ImmutableAddress, ImmutableProject, MockAddress } from '@jamashita/publikum-collection';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy, SinonStub } from 'sinon';
 import { TestVO } from '../../../TestHelper/TestVO';
@@ -8,6 +8,46 @@ import { ClosureTableHierarchy, ClosureTableJSON } from '../ClosureTableHierarch
 import { MockClosureTableHierarchy } from '../Mock/MockClosureTableHierarchy';
 
 describe('ClosureTableHierarchies', () => {
+  describe('of', () => {
+    it('returns flattened ClosureTableHierarchies', () => {
+      expect.assertions(23);
+
+      const project: ImmutableProject<TestVO, ImmutableAddress<TestVO>> = ImmutableProject.ofMap<TestVO, ImmutableAddress<TestVO>>(new Map<TestVO, ImmutableAddress<TestVO>>([
+        [new TestVO('mock 1'), ImmutableAddress.ofSet<TestVO>(new Set<TestVO>([new TestVO('mock 1'), new TestVO('mock 2'), new TestVO('mock 3'), new TestVO('mock 4'), new TestVO('mock 5')]))],
+        [new TestVO('mock 2'), ImmutableAddress.ofSet<TestVO>(new Set<TestVO>([new TestVO('mock 2'), new TestVO('mock 4'), new TestVO('mock 5')]))],
+        [new TestVO('mock 3'), ImmutableAddress.ofSet<TestVO>(new Set<TestVO>([new TestVO('mock 3')]))],
+        [new TestVO('mock 4'), ImmutableAddress.ofSet<TestVO>(new Set<TestVO>([new TestVO('mock 4')]))],
+        [new TestVO('mock 5'), ImmutableAddress.ofSet<TestVO>(new Set<TestVO>([new TestVO('mock 5')]))]
+      ]));
+
+      const hierarchies: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.of<TestVO>(project);
+
+      expect(hierarchies.size()).toBe(11);
+      expect(hierarchies.get(0)?.getAncestor().get()).toBe('mock 1');
+      expect(hierarchies.get(0)?.getOffspring().get()).toBe('mock 1');
+      expect(hierarchies.get(1)?.getAncestor().get()).toBe('mock 1');
+      expect(hierarchies.get(1)?.getOffspring().get()).toBe('mock 2');
+      expect(hierarchies.get(2)?.getAncestor().get()).toBe('mock 1');
+      expect(hierarchies.get(2)?.getOffspring().get()).toBe('mock 3');
+      expect(hierarchies.get(3)?.getAncestor().get()).toBe('mock 1');
+      expect(hierarchies.get(3)?.getOffspring().get()).toBe('mock 4');
+      expect(hierarchies.get(4)?.getAncestor().get()).toBe('mock 1');
+      expect(hierarchies.get(4)?.getOffspring().get()).toBe('mock 5');
+      expect(hierarchies.get(5)?.getAncestor().get()).toBe('mock 2');
+      expect(hierarchies.get(5)?.getOffspring().get()).toBe('mock 2');
+      expect(hierarchies.get(6)?.getAncestor().get()).toBe('mock 2');
+      expect(hierarchies.get(6)?.getOffspring().get()).toBe('mock 4');
+      expect(hierarchies.get(7)?.getAncestor().get()).toBe('mock 2');
+      expect(hierarchies.get(7)?.getOffspring().get()).toBe('mock 5');
+      expect(hierarchies.get(8)?.getAncestor().get()).toBe('mock 3');
+      expect(hierarchies.get(8)?.getOffspring().get()).toBe('mock 3');
+      expect(hierarchies.get(9)?.getAncestor().get()).toBe('mock 4');
+      expect(hierarchies.get(9)?.getOffspring().get()).toBe('mock 4');
+      expect(hierarchies.get(10)?.getAncestor().get()).toBe('mock 5');
+      expect(hierarchies.get(10)?.getOffspring().get()).toBe('mock 5');
+    });
+  });
+
   describe('ofArray', () => {
     it('when 0-length array given, returns ClosureTableHierarchies.empty()', () => {
       expect.assertions(1);
@@ -50,6 +90,20 @@ describe('ClosureTableHierarchies', () => {
     });
   });
 
+  describe('empty', () => {
+    it('\'s length is 0', () => {
+      expect.assertions(1);
+
+      expect(ClosureTableHierarchies.empty<TestVO>().size()).toBe(0);
+    });
+
+    it('returns singleton', () => {
+      expect.assertions(1);
+
+      expect(ClosureTableHierarchies.empty<TestVO>()).toBe(ClosureTableHierarchies.empty<TestVO>());
+    });
+  });
+
   describe('iterator', () => {
     it('returns Pair<void, ClosureTableHierarchy>', () => {
       expect.assertions(3);
@@ -60,7 +114,7 @@ describe('ClosureTableHierarchies', () => {
         new MockClosureTableHierarchy<TestVO>(new TestVO('mock 5'), new TestVO('mock 6'))
       ];
 
-      const hierarchies: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.of<TestVO>(ImmutableAddress.ofSet<MockClosureTableHierarchy<TestVO>>(new Set<MockClosureTableHierarchy<TestVO>>(array)));
+      const hierarchies: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.ofArray<TestVO>(array);
       let i: number = 0;
 
       for (const pair of hierarchies) {
@@ -99,7 +153,7 @@ describe('ClosureTableHierarchies', () => {
         new MockClosureTableHierarchy<TestVO>(new TestVO('mock 5'), new TestVO('mock 6'))
       ];
 
-      const hierarchies: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.of<TestVO>(ImmutableAddress.ofSet<MockClosureTableHierarchy<TestVO>>(new Set<MockClosureTableHierarchy<TestVO>>(array)));
+      const hierarchies: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.ofArray<TestVO>(array);
 
       expect(hierarchies.equals(hierarchies)).toBe(true);
     });
@@ -113,7 +167,7 @@ describe('ClosureTableHierarchies', () => {
         new MockClosureTableHierarchy<TestVO>(new TestVO('mock 5'), new TestVO('mock 6'))
       ];
 
-      const hierarchies: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.of<TestVO>(ImmutableAddress.ofSet<MockClosureTableHierarchy<TestVO>>(new Set<MockClosureTableHierarchy<TestVO>>(array)));
+      const hierarchies: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.ofArray<TestVO>(array);
 
       expect(hierarchies.equals(new MockValueObject('mock'))).toBe(false);
     });
@@ -133,7 +187,7 @@ describe('ClosureTableHierarchies', () => {
         new MockClosureTableHierarchy<TestVO>(new TestVO('mock 5'), new TestVO('mock 6'))
       ];
 
-      const hierarchies: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.of<TestVO>(ImmutableAddress.ofSet<MockClosureTableHierarchy<TestVO>>(new Set<MockClosureTableHierarchy<TestVO>>(array)));
+      const hierarchies: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.ofArray<TestVO>(array);
       // @ts-expect-error
       hierarchies.hierarchies = address;
 
@@ -311,7 +365,7 @@ describe('ClosureTableHierarchies', () => {
         new MockClosureTableHierarchy<TestVO>(new TestVO('mock 5'), new TestVO('mock 6'))
       ];
 
-      const hierarchy: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.of<TestVO>(ImmutableAddress.ofSet<MockClosureTableHierarchy<TestVO>>(new Set<MockClosureTableHierarchy<TestVO>>(array)));
+      const hierarchy: ClosureTableHierarchies<TestVO> = ClosureTableHierarchies.ofArray<TestVO>(array);
 
       expect(hierarchy.toJSON()).toStrictEqual([
         {

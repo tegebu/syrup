@@ -18,11 +18,18 @@ export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, 
 
   private static readonly EMPTY: ClosureTableHierarchies<TreeID> = new ClosureTableHierarchies<TreeID>(ImmutableSequence.empty<ClosureTableHierarchy<TreeID>>());
 
-  public static of<KT extends TreeID>(hierarchies: ReadonlyAddress<ClosureTableHierarchy<KT>>): ClosureTableHierarchies<KT> {
-    return ClosureTableHierarchies.ofArray<KT>([...hierarchies.values()]);
+  public static of<KT extends TreeID>(hierarchies: ReadonlyProject<KT, ReadonlyAddress<KT>>): ClosureTableHierarchies<KT> {
+    const array: Array<ClosureTableHierarchy<KT>> = [];
+
+    hierarchies.forEach((offsprings: ReadonlyAddress<KT>, ancestor: KT) => {
+      offsprings.forEach((offspring: KT) => {
+        array.push(ClosureTableHierarchy.of<KT>(ancestor, offspring));
+      });
+    });
+
+    return ClosureTableHierarchies.ofArray<KT>(array);
   }
 
-  // TODO TEST UNDONE
   public static ofArray<KT extends TreeID>(hierarchies: ReadonlyArray<ClosureTableHierarchy<KT>>): ClosureTableHierarchies<KT> {
     if (hierarchies.length === 0) {
       return ClosureTableHierarchies.empty<KT>();
@@ -37,19 +44,6 @@ export class ClosureTableHierarchies<K extends TreeID> extends Quantity<number, 
     });
 
     return ClosureTableHierarchies.ofArray<KT>(hierarchies);
-  }
-
-  // TODO TEST UNDONE
-  public static oooo<KT extends TreeID>(hierarchies: ReadonlyProject<KT, ReadonlyAddress<KT>>): ClosureTableHierarchies<KT> {
-    const array: Array<ClosureTableHierarchy<KT>> = [];
-
-    hierarchies.forEach((offsprings: ReadonlyAddress<KT>, ancestor: KT) => {
-      offsprings.forEach((offspring: KT) => {
-        array.push(ClosureTableHierarchy.of<KT>(ancestor, offspring));
-      });
-    });
-
-    return ClosureTableHierarchies.ofArray<KT>(array);
   }
 
   public static empty<KT extends TreeID>(): ClosureTableHierarchies<KT> {
