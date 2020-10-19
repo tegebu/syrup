@@ -1,4 +1,4 @@
-import { MockProject, Project } from '@jamashita/publikum-collection';
+import { ImmutableProject, MockProject, Project } from '@jamashita/publikum-collection';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { MockTege } from '../Mock/MockTege';
@@ -16,10 +16,16 @@ import { TegeSeries } from '../TegeSeries';
 
 describe('Teges', () => {
   describe('empty', () => {
-    it('returns singleton', () => {
+    it('returns singleton instance', () => {
       expect.assertions(1);
 
       expect(Teges.empty()).toBe(Teges.empty());
+    });
+
+    it('\'s size is 0', () => {
+      expect.assertions(1);
+
+      expect(Teges.empty().size()).toBe(0);
     });
   });
 
@@ -28,6 +34,60 @@ describe('Teges', () => {
       expect.assertions(1);
 
       expect(Teges.ofMap(new Map<TegeID, Tege>())).toBe(Teges.empty());
+    });
+  });
+
+  describe('validate', () => {
+    it('returns true', () => {
+      expect.assertions(1);
+
+      const n: unknown = [
+        {
+          id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+          name: 'te1',
+          playingTime: 20,
+          players: {
+            type: 'unique',
+            value: 30
+          },
+          minAge: 8,
+          imagePath: '/p1',
+          expansion: true,
+          series: [
+            'aa620de8-833a-422b-a484-31001bfc5714'
+          ]
+        },
+        {
+          id: '9fc75748-af19-412e-97d2-af40ff8983ef',
+          name: 'te2',
+          playingTime: 40,
+          players: {
+            type: 'range',
+            min: 40,
+            max: 60
+          },
+          minAge: 9,
+          imagePath: '/p2',
+          expansion: false,
+          series: [
+            '9fefbd2b-66c0-4e54-bfec-d401edffbcd5'
+          ]
+        }
+      ];
+
+      expect(Teges.validate(n)).toBe(true);
+    });
+
+    it('returns false when non-object given', () => {
+      expect.assertions(1);
+
+      expect(Teges.validate('toi')).toBe(false);
+    });
+
+    it('returns false when non-array given', () => {
+      expect.assertions(1);
+
+      expect(Teges.validate({})).toBe(false);
     });
   });
 
@@ -40,11 +100,11 @@ describe('Teges', () => {
 
       project.contains = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.contains(new MockTege());
+      teges.contains(new MockTege());
 
       expect(spy.called).toBe(true);
     });
@@ -121,13 +181,15 @@ describe('Teges', () => {
       const spy: SinonSpy = sinon.spy();
       const project: Project<TegeID, Tege> = new MockProject<TegeID, Tege>(new Map<TegeID, Tege>());
 
-      project.contains = spy;
+      project.equals = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.contains(new MockTege());
+      teges.equals(Teges.of(ImmutableProject.ofMap<TegeID, Tege>(new Map<TegeID, Tege>([
+        [new MockTegeID(), new MockTege()]
+      ]))));
 
       expect(spy.called).toBe(true);
     });
@@ -142,11 +204,11 @@ describe('Teges', () => {
 
       project.every = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.every(() => {
+      teges.every(() => {
         return true;
       });
 
@@ -163,11 +225,11 @@ describe('Teges', () => {
 
       project.forEach = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.forEach(() => {
+      teges.forEach(() => {
         // NOOP
       });
 
@@ -184,11 +246,11 @@ describe('Teges', () => {
 
       project.get = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.get(new MockTegeID());
+      teges.get(new MockTegeID());
 
       expect(spy.called).toBe(true);
     });
@@ -203,11 +265,11 @@ describe('Teges', () => {
 
       project.isEmpty = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.isEmpty();
+      teges.isEmpty();
 
       expect(spy.called).toBe(true);
     });
@@ -222,11 +284,11 @@ describe('Teges', () => {
 
       project.toString = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.toString();
+      teges.toString();
 
       expect(spy.called).toBe(true);
     });
@@ -241,11 +303,11 @@ describe('Teges', () => {
 
       project.size = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.size();
+      teges.size();
 
       expect(spy.called).toBe(true);
     });
@@ -260,11 +322,11 @@ describe('Teges', () => {
 
       project.some = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.some(() => {
+      teges.some(() => {
         return true;
       });
 
@@ -281,13 +343,110 @@ describe('Teges', () => {
 
       project.values = spy;
 
-      const expansions: Teges = Teges.empty();
+      const teges: Teges = Teges.empty();
       // @ts-expect-error
-      expansions.teges = project;
+      teges.teges = project;
 
-      expansions.values();
+      teges.values();
 
       expect(spy.called).toBe(true);
+    });
+  });
+
+
+  describe('iterator', () => {
+    it('returns Pair<TegeID, Tege>', () => {
+      expect.assertions(6);
+
+      const array: Array<[MockTegeID, MockTege]> = [
+        [new MockTegeID(), new MockTege()],
+        [new MockTegeID(), new MockTege()],
+        [new MockTegeID(), new MockTege()]
+      ];
+
+      const teges: Teges = Teges.ofMap(new Map<MockTegeID, MockTege>(array));
+      let i: number = 0;
+
+      for (const pair of teges) {
+        expect(pair.getKey()).toBe(array[i][0]);
+        expect(pair.getValue()).toBe(array[i][1]);
+        i++;
+      }
+    });
+  });
+
+  describe('toJSON', () => {
+    it('returns Array<TegeJSON>', () => {
+      expect.assertions(1);
+
+      const id1: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
+      const id2: TegeID = TegeID.ofString('0d683348-0e24-4a47-ae23-aad7ec3a491e');
+      const name1: TegeName = TegeName.of('te1');
+      const name2: TegeName = TegeName.of('te2');
+      const time1: TegePlayingTime = TegePlayingTime.ofNumber(20);
+      const time2: TegePlayingTime = TegePlayingTime.ofNumber(40);
+      const players1: TegePlayers = TegePlayers.ofUnique(30);
+      const players2: TegePlayers = TegePlayers.ofRange(50, 80);
+      const minAge1: TegeMinAge = TegeMinAge.ofNumber(8);
+      const minAge2: TegeMinAge = TegeMinAge.ofNumber(16);
+      const imagePath1: TegeImagePath = TegeImagePath.of('/p1');
+      const imagePath2: TegeImagePath = TegeImagePath.of('/p2');
+      const expansion1: TegeExpansion = TegeExpansion.of(false);
+      const expansion2: TegeExpansion = TegeExpansion.of(true);
+      const series1: TegeSeries = TegeSeries.empty();
+      const series2: TegeSeries = TegeSeries.empty();
+      const tege1: Tege = Tege.of(
+        id1,
+        name1,
+        time1,
+        players1,
+        minAge1,
+        imagePath1,
+        expansion1,
+        series1
+      );
+      const tege2: Tege = Tege.of(
+        id2,
+        name2,
+        time2,
+        players2,
+        minAge2,
+        imagePath2,
+        expansion2,
+        series2
+      );
+
+      const teges: Teges = Teges.ofMap(new Map<TegeID, Tege>([[tege1.getID(), tege1], [tege2.getID(), tege2]]));
+
+      expect(teges.toJSON()).toStrictEqual([
+        {
+          id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+          name: 'te1',
+          playingTime: 20,
+          players: {
+            type: 'unique',
+            value: 30
+          },
+          minAge: 8,
+          imagePath: '/p1',
+          expansion: false,
+          series: []
+        },
+        {
+          id: '0d683348-0e24-4a47-ae23-aad7ec3a491e',
+          name: 'te2',
+          playingTime: 40,
+          players: {
+            type: 'range',
+            min: 50,
+            max: 80
+          },
+          minAge: 16,
+          imagePath: '/p2',
+          expansion: true,
+          series: []
+        }
+      ]);
     });
   });
 });

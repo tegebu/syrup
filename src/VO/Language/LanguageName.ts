@@ -1,4 +1,5 @@
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 
 export class LanguageName extends ValueObject<'LanguageName'> {
   public readonly noun: 'LanguageName' = 'LanguageName';
@@ -6,6 +7,10 @@ export class LanguageName extends ValueObject<'LanguageName'> {
 
   public static of(name: string): LanguageName {
     return new LanguageName(name);
+  }
+
+  public static validate(n: unknown): n is string {
+    return Kind.isString(n);
   }
 
   protected constructor(name: string) {

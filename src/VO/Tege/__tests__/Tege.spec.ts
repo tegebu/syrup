@@ -1,6 +1,8 @@
 import { MockValueObject } from '@jamashita/publikum-object';
 import { MockTege } from '../Mock/MockTege';
-import { Tege } from '../Tege';
+import { MockTegeID } from '../Mock/MockTegeID';
+import { MockTegeSeries } from '../Mock/MockTegeSeries';
+import { Tege, TegeInputJSON, TegeJSON } from '../Tege';
 import { TegeExpansion } from '../TegeExpansion';
 import { TegeID } from '../TegeID';
 import { TegeImagePath } from '../TegeImagePath';
@@ -11,6 +13,64 @@ import { TegePlayingTime } from '../TegePlayingTime';
 import { TegeSeries } from '../TegeSeries';
 
 describe('Tege', () => {
+  describe('ofJSON', () => {
+    it('returns its instance', () => {
+      expect.assertions(7);
+
+      const json: TegeJSON = {
+        id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true,
+        series: []
+      };
+      const series: TegeSeries = new MockTegeSeries();
+
+      const tege: Tege = Tege.ofJSON(json, series);
+
+      expect(tege.getID().get()).toBe(json.id);
+      expect(tege.getName().get()).toBe(json.name);
+      expect(tege.getTime().get()).toBe(json.playingTime);
+      expect(tege.getMinAge().get()).toBe(json.minAge);
+      expect(tege.getImagePath().get()).toBe(json.imagePath);
+      expect(tege.isExpansion()).toBe(json.expansion);
+      expect(tege.getSeries()).toBe(series);
+    });
+  });
+
+  describe('ofInputJSON', () => {
+    it('returns its instance', () => {
+      expect.assertions(6);
+
+      const json: TegeInputJSON = {
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true
+      };
+
+      const tege: Tege = Tege.ofInputJSON(json);
+
+      expect(tege.getName().get()).toBe(json.name);
+      expect(tege.getTime().get()).toBe(json.playingTime);
+      expect(tege.getMinAge().get()).toBe(json.minAge);
+      expect(tege.getImagePath().get()).toBe(json.imagePath);
+      expect(tege.isExpansion()).toBe(json.expansion);
+      expect(tege.getSeries()).toBe(TegeSeries.empty());
+    });
+  });
+
   describe('validate', () => {
     it('returns true', () => {
       expect.assertions(1);
@@ -26,7 +86,9 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(true);
@@ -57,7 +119,9 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -77,13 +141,15 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
     });
 
-    it('returns false when is is not string', () => {
+    it('returns false when id is not string', () => {
       expect.assertions(1);
 
       const n: unknown = {
@@ -97,7 +163,9 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -116,7 +184,9 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -136,7 +206,9 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -155,7 +227,9 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -175,7 +249,9 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -191,7 +267,9 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -208,7 +286,9 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -227,7 +307,9 @@ describe('Tege', () => {
         },
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -247,7 +329,9 @@ describe('Tege', () => {
         minAge: false,
         imagePath: '/',
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -266,7 +350,9 @@ describe('Tege', () => {
         },
         minAge: 8,
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -286,7 +372,9 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: 9,
         expansion: true,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -305,7 +393,9 @@ describe('Tege', () => {
         },
         minAge: 8,
         imagePath: '/',
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -325,7 +415,94 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: null,
-        series: []
+        series: [
+          'aa620de8-833a-422b-a484-31001bfc5714'
+        ]
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when series is missing', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when series element is not string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true,
+        series: [
+          false
+        ]
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when series element is not uuid format string', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true,
+        series: [
+          'dragon'
+        ]
+      };
+
+      expect(Tege.validate(n)).toBe(false);
+    });
+
+    it('returns false when series is not array', () => {
+      expect.assertions(1);
+
+      const n: unknown = {
+        id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
+        name: 'te',
+        playingTime: 20,
+        players: {
+          type: 'unique',
+          value: 30
+        },
+        minAge: 8,
+        imagePath: '/',
+        expansion: true,
+        series: {
+          0: 'aa620de8-833a-422b-a484-31001bfc5714'
+        }
       };
 
       expect(Tege.validate(n)).toBe(false);
@@ -460,6 +637,10 @@ describe('Tege', () => {
     it('returns TegeJSON', () => {
       expect.assertions(1);
 
+      const id1: TegeID = new MockTegeID();
+      const id2: TegeID = new MockTegeID();
+      const id3: TegeID = new MockTegeID();
+
       const id: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
       const name: TegeName = TegeName.of('te');
       const time: TegePlayingTime = TegePlayingTime.ofNumber(20);
@@ -467,7 +648,17 @@ describe('Tege', () => {
       const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
       const imagePath: TegeImagePath = TegeImagePath.of('/');
       const expansion: TegeExpansion = TegeExpansion.of(false);
-      const series: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.ofArray([
+        new MockTege({
+          id: id1
+        }),
+        new MockTege({
+          id: id2
+        }),
+        new MockTege({
+          id: id3
+        })
+      ]);
 
       const tege: Tege = Tege.of(
         id,
@@ -491,7 +682,11 @@ describe('Tege', () => {
         minAge: 8,
         imagePath: '/',
         expansion: false,
-        series: []
+        series: [
+          id1.toString(),
+          id2.toString(),
+          id3.toString()
+        ]
       });
     });
   });

@@ -12,11 +12,19 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return new Languages(languages);
   }
 
+  public static ofJSON(json: ReadonlyArray<LanguageJSON>): Languages {
+    const langueages: Array<Language> = json.map<Language>((j: LanguageJSON) => {
+      return Language.ofJSON(j);
+    });
+
+    return Languages.ofArray(langueages);
+  }
+
   public static ofArray(languages: ReadonlyArray<Language>): Languages {
     const project: MutableProject<LanguageID, Language> = MutableProject.empty<LanguageID, Language>();
 
     languages.forEach((l: Language) => {
-      project.set(l.getLanguageID(), l);
+      project.set(l.getID(), l);
     });
 
     return Languages.of(project);

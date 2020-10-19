@@ -1,8 +1,56 @@
 import { MockValueObject } from '@jamashita/publikum-object';
 import { UUID } from '@jamashita/publikum-uuid';
+import { LanguageError } from '../Error/LanguageError';
 import { LanguageID } from '../LanguageID';
 
 describe('LanguageID', () => {
+  describe('ofString', () => {
+    it('returns instance if correct uuid format string given', () => {
+      expect.assertions(1);
+
+      expect(LanguageID.ofString('97d6205e-5774-4f5b-987a-6ca8b5a2fe73').get().get()).toBe('97d6205e-5774-4f5b-987a-6ca8b5a2fe73');
+    });
+
+    it('throws LanguageError when incorrect uuid format string given', () => {
+      expect.assertions(1);
+
+      expect(() => {
+        LanguageID.ofString('un pas');
+      }).toThrow(LanguageError);
+    });
+  });
+
+  describe('validate', () => {
+    it('returns true when the correct UUID format string given', () => {
+      expect.assertions(1);
+
+      const id: string = '818cdc3c-abfe-4185-acd4-3838152876d2';
+
+      expect(LanguageID.validate(id)).toBe(true);
+    });
+
+    it('returns false when incorrect string given', () => {
+      expect.assertions(1);
+
+      const id: string = 'souffrir';
+
+      expect(LanguageID.validate(id)).toBe(false);
+    });
+
+    it('returns false when others given', () => {
+      expect.assertions(8);
+
+      expect(LanguageID.validate(undefined)).toBe(false);
+      expect(LanguageID.validate(null)).toBe(false);
+      expect(LanguageID.validate(true)).toBe(false);
+      expect(LanguageID.validate(102)).toBe(false);
+      expect(LanguageID.validate(Symbol())).toBe(false);
+      expect(LanguageID.validate(102n)).toBe(false);
+      expect(LanguageID.validate({})).toBe(false);
+      expect(LanguageID.validate([])).toBe(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);

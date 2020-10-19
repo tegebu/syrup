@@ -2,6 +2,27 @@ import { MockValueObject } from '@jamashita/publikum-object';
 import { LanguageName } from '../LanguageName';
 
 describe('LanguageName', () => {
+  describe('validate', () => {
+    it('returns true when string given', () => {
+      expect.assertions(1);
+
+      expect(LanguageName.validate('')).toBe(true);
+    });
+
+    it('returns false when others given', () => {
+      expect.assertions(8);
+
+      expect(LanguageName.validate(undefined)).toBe(false);
+      expect(LanguageName.validate(null)).toBe(false);
+      expect(LanguageName.validate(true)).toBe(false);
+      expect(LanguageName.validate(102)).toBe(false);
+      expect(LanguageName.validate(Symbol())).toBe(false);
+      expect(LanguageName.validate(102n)).toBe(false);
+      expect(LanguageName.validate({})).toBe(false);
+      expect(LanguageName.validate([])).toBe(false);
+    });
+  });
+
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);

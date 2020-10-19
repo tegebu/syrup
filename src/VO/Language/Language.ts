@@ -1,5 +1,6 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { Kind } from '@jamashita/publikum-type';
 import { LanguageID } from './LanguageID';
 import { LanguageName } from './LanguageName';
 
@@ -9,6 +10,7 @@ export type LanguageJSON = Readonly<{
   name: string;
 }>;
 
+// validate()
 export class Language extends ValueObject<'Language'> implements JSONable<LanguageJSON> {
   public readonly noun: 'Language' = 'Language';
   private readonly id: LanguageID;
@@ -16,6 +18,27 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
 
   public static of(id: LanguageID, name: LanguageName): Language {
     return new Language(id, name);
+  }
+
+  public static ofJSON(json: LanguageJSON): Language {
+    return Language.of(
+      LanguageID.ofString(json.id),
+      LanguageName.of(json.name)
+    );
+  }
+
+  public static validate(n: unknown): n is LanguageJSON {
+    if (!Kind.isObject<LanguageJSON>(n)) {
+      return false;
+    }
+    if (!LanguageID.validate(n.id)) {
+      return false;
+    }
+    if (!LanguageName.validate(n.name)) {
+      return false;
+    }
+
+    return true;
   }
 
   protected constructor(id: LanguageID, name: LanguageName) {
@@ -57,11 +80,11 @@ export class Language extends ValueObject<'Language'> implements JSONable<Langua
     };
   }
 
-  public getLanguageID(): LanguageID {
+  public getID(): LanguageID {
     return this.id;
   }
 
-  public getLanguageName(): LanguageName {
+  public getName(): LanguageName {
     return this.name;
   }
 }

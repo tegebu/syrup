@@ -8,7 +8,7 @@ import { Publisher, PublisherJSON } from '../Publisher';
 
 describe('Publisher', () => {
   describe('ofJSON', () => {
-    it('forges its instance', () => {
+    it('returns its instance', () => {
       expect.assertions(3);
 
       const json: PublisherJSON = {
@@ -19,9 +19,9 @@ describe('Publisher', () => {
 
       const publisher: Publisher = Publisher.ofJSON(json);
 
-      expect(publisher.getPublisherID().get().get()).toBe(json.id);
-      expect(publisher.getPublisherName().get()).toBe(json.name);
-      expect(publisher.getPublisherURL().get()).toBe(json.url);
+      expect(publisher.getID().get().get()).toBe(json.id);
+      expect(publisher.getName().get()).toBe(json.name);
+      expect(publisher.getURL().get()).toBe(json.url);
     });
 
     it('throws PublisherError when incorrect uuid format id given', () => {
@@ -68,7 +68,7 @@ describe('Publisher', () => {
   });
 
   describe('generate', () => {
-    it('forges its instance', () => {
+    it('returns its instance', () => {
       expect.assertions(2);
 
       const name: string = 'publisher name';
@@ -76,8 +76,8 @@ describe('Publisher', () => {
 
       const publisher: Publisher = Publisher.generate(name, url);
 
-      expect(publisher.getPublisherName().get()).toBe(name);
-      expect(publisher.getPublisherURL().get()).toBe(url);
+      expect(publisher.getName().get()).toBe(name);
+      expect(publisher.getURL().get()).toBe(url);
     });
 
     it('throws PublisherError when empty name given', () => {
@@ -234,8 +234,8 @@ describe('Publisher', () => {
 
       const publisher1: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name1), new MockPublisherURL(url1));
       const publisher2: Publisher = Publisher.of(new MockPublisherID(uuid2), new MockPublisherName(name1), new MockPublisherURL(url1));
-      const publisher3: Publisher = Publisher.of(new MockPublisherID(uuid2), new MockPublisherName(name2), new MockPublisherURL(url1));
-      const publisher4: Publisher = Publisher.of(new MockPublisherID(uuid2), new MockPublisherName(name1), new MockPublisherURL(url2));
+      const publisher3: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name2), new MockPublisherURL(url1));
+      const publisher4: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name1), new MockPublisherURL(url2));
       const publisher5: Publisher = Publisher.of(new MockPublisherID(uuid1), new MockPublisherName(name1), new MockPublisherURL(url1));
 
       expect(publisher1.equals(publisher2)).toBe(false);
