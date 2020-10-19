@@ -23,22 +23,30 @@ export class ClosureTableTreeFactory<K extends TreeID, V extends StructurableTre
     this.table = table;
   }
 
-  public forge(values: ReadonlyProject<K, V>): StructurableTree<K, V> {
+  public forge(values: ReadonlyProject<K, V>): MutableProject<K, StructurableTree<K, V>> {
     if (values.isEmpty()) {
       throw new TreeError('VALUES ARE EMPTY');
     }
 
     const pool: MutableProject<K, StructurableTreeNode<K, V>> = MutableProject.empty<K, StructurableTreeNode<K, V>>();
     const used: MutableAddress<K> = MutableAddress.empty<K>();
-    const array: ReadonlyArray<Nullable<StructurableTreeNode<K, V>>> = this.table.sort().toArray().map<Nullable<StructurableTreeNode<K, V>>>((key: K) => {
+    const array: ReadonlyArray<StructurableTreeNode<K, V>> = this.table.sort().toArray().map<Nullable<StructurableTreeNode<K, V>>>((key: K) => {
       return this.forgeInternal(key, values, pool, used);
+    }).filter<StructurableTreeNode<K, V>>((node: Nullable<StructurableTreeNode<K, V>>): node is StructurableTreeNode<K, V> => {
+      return !Kind.isNull(node);
     });
 
     if (array.length === 0) {
       throw new TreeError('NO TREE BUILT');
     }
 
-    return StructurableTree.of<K, V>(array[array.length - 1] as unknown as StructurableTreeNode<K, V>);
+    const project: MutableProject<K, StructurableTree<K, V>> = MutableProject.empty<K, StructurableTree<K, V>>();
+
+    array.forEach((node: StructurableTreeNode<K, V>) => {
+      project.set(node.getTreeID(), StructurableTree.of<K, V>(node));
+    });
+
+    return project;
   }
 
   private forgeInternal(key: K, values: ReadonlyProject<K, V>, pool: MutableProject<K, StructurableTreeNode<K, V>>, used: MutableAddress<K>): Nullable<StructurableTreeNode<K, V>> {

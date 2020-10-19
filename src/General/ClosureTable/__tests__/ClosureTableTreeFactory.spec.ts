@@ -1,8 +1,9 @@
-import { ImmutableProject, Pair, Project, ReadonlyAddress } from '@jamashita/publikum-collection';
+import { ImmutableProject, MutableProject, Pair, Project, ReadonlyAddress } from '@jamashita/publikum-collection';
+import { Nullable } from '@jamashita/publikum-type';
 import { TestTreeObject } from '../../../TestHelper/TestTreeObject';
 import { TestVO } from '../../../TestHelper/TestVO';
 import { TreeError } from '../../Tree/Error/TreeError';
-import { Tree } from '../../Tree/Interface/Tree';
+import { StructurableTree } from '../../Tree/StructurableTree';
 import { TreeNode } from '../../Tree/TreeNode/Interface/TreeNode';
 import { ClosureTable } from '../ClosureTable';
 import { ClosureTableTreeFactory } from '../ClosureTableTreeFactory';
@@ -51,21 +52,22 @@ describe('ClosureTableTreeFactory', () => {
     });
 
     it('returns simplest tree', () => {
-      expect.assertions(2);
+      expect.assertions(3);
 
       const table: MockClosureTable<TestVO> = new MockClosureTable<TestVO>(
         new MockClosureTableHierarchy<TestVO>(new TestVO('A'), new TestVO('A'))
       );
 
       const factory: ClosureTableTreeFactory<TestVO, TestTreeObject<TestVO>> = ClosureTableTreeFactory.of<TestVO, TestTreeObject<TestVO>>(table);
-      const project: Project<TestVO, TestTreeObject<TestVO>> = ImmutableProject.ofMap<TestVO, TestTreeObject<TestVO>>(new Map<TestVO, TestTreeObject<TestVO>>([
+      const project: ImmutableProject<TestVO, TestTreeObject<TestVO>> = ImmutableProject.ofMap<TestVO, TestTreeObject<TestVO>>(new Map<TestVO, TestTreeObject<TestVO>>([
         [new TestVO('A'), new TestTreeObject(new TestVO('mock 1'))]
       ]));
 
-      const tree: Tree<TestTreeObject<TestVO>> = factory.forge(project);
+      const trees: MutableProject<TestVO, StructurableTree<TestVO, TestTreeObject<TestVO>>> = factory.forge(project);
 
-      expect(tree.getRoot().isLeaf()).toBe(true);
-      expect(tree.getRoot().getValue().toString()).toBe('mock 1');
+      expect(trees.size()).toBe(1);
+      expect(trees.get(new TestVO('mock 1'))?.getRoot().isLeaf()).toBe(true);
+      expect(trees.get(new TestVO('mock 1'))?.getRoot().getValue().toString()).toBe('mock 1');
     });
 
     it('returns complex tree', () => {
@@ -95,7 +97,13 @@ describe('ClosureTableTreeFactory', () => {
         [new TestVO('F'), new TestTreeObject(new TestVO('mock 6'))]
       ]));
 
-      const tree: Tree<TestTreeObject<TestVO>> = factory.forge(project);
+      const trees: MutableProject<TestVO, StructurableTree<TestVO, TestTreeObject<TestVO>>> = factory.forge(project);
+      const tree: Nullable<StructurableTree<TestVO, TestTreeObject<TestVO>>> = trees.get(new TestVO('mock 1'));
+
+      if (tree === null) {
+        fail();
+        return;
+      }
 
       expect(tree.getRoot().isLeaf()).toBe(false);
       expect(tree.getRoot().getValue().toString()).toBe('mock 1');
