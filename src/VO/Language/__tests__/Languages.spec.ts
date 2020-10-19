@@ -2,15 +2,50 @@ import { MockSequence } from '@jamashita/publikum-collection';
 import { MockValueObject } from '@jamashita/publikum-object';
 import { UUID } from '@jamashita/publikum-uuid';
 import sinon, { SinonSpy } from 'sinon';
-import { Language } from '../Language';
+import { Language, LanguageJSON } from '../Language';
 import { Languages } from '../Languages';
 import { MockLanguage } from '../Mock/MockLanguage';
 import { MockLanguageID } from '../Mock/MockLanguageID';
 import { MockLanguageName } from '../Mock/MockLanguageName';
 
 describe('Languages', () => {
+  describe('ofJSON', () => {
+    it('returns its instance', () => {
+      expect.assertions(9);
+
+      const json: Array<LanguageJSON> = [
+        {
+          id: '84cd4034-4ec9-47f9-a184-b2dc62b31020',
+          name: 'metro'
+        },
+        {
+          id: 'f173f843-e328-463e-9db3-d4887d1907f6',
+          name: 'puente'
+        },
+        {
+          id: '32557370-8006-4328-a765-d2d88475e982',
+          name: 'libero'
+        },
+        {
+          id: '9d263f1b-ea5c-460e-b377-294dcba53ba8',
+          name: 'guapa'
+        }
+      ];
+
+      const languages: Languages = Languages.ofJSON(json);
+      let i: number = 0;
+
+      expect(languages.size()).toBe(json.length);
+      languages.forEach((l: Language) => {
+        expect(l.getID().get().get()).toBe(json[i].id);
+        expect(l.getName().get()).toBe(json[i].name);
+        i++;
+      });
+    });
+  });
+
   describe('ofArray', () => {
-    it('forges its instance', () => {
+    it('returns its instance', () => {
       expect.assertions(5);
 
       const array: Array<Language> = [
@@ -24,13 +59,13 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(array.length);
       array.forEach((l: Language) => {
-        expect(languages.get(l.getLanguageID())).toBe(l);
+        expect(languages.get(l.getID())).toBe(l);
       });
     });
   });
 
   describe('iterator', () => {
-    it('normal case', () => {
+    it('returns Pair<LanguageID, Language>', () => {
       expect.assertions(3);
 
       const array: Array<MockLanguage> = [

@@ -85,11 +85,11 @@ export class Author extends ValueObject<'Author'> implements JSONable<AuthorJSON
     };
   }
 
-  public getAuthorID(): AuthorID {
+  public getID(): AuthorID {
     return this.id;
   }
 
-  public getAuthorName(): AuthorName {
+  public getName(): AuthorName {
     return this.name;
   }
 }

@@ -2,6 +2,7 @@ import { MockSequence, Sequence } from '@jamashita/publikum-collection';
 import { MockValueObject } from '@jamashita/publikum-object';
 import sinon, { SinonSpy } from 'sinon';
 import { MockTege } from '../Mock/MockTege';
+import { MockTegeID } from '../Mock/MockTegeID';
 import { Tege } from '../Tege';
 import { TegeExpansion } from '../TegeExpansion';
 import { TegeID } from '../TegeID';
@@ -14,10 +15,16 @@ import { TegeSeries } from '../TegeSeries';
 
 describe('TegeSeries', () => {
   describe('empty', () => {
-    it('returns singleton', () => {
+    it('returns singleton instance', () => {
       expect.assertions(1);
 
       expect(TegeSeries.empty()).toBe(TegeSeries.empty());
+    });
+
+    it('\'s size is 0', () => {
+      expect.assertions(1);
+
+      expect(TegeSeries.empty().size()).toBe(0);
     });
   });
 
@@ -25,7 +32,7 @@ describe('TegeSeries', () => {
     it('returns singleton if 0 length array given', () => {
       expect.assertions(1);
 
-      expect(TegeSeries.empty()).toBe(TegeSeries.empty());
+      expect(TegeSeries.ofArray([])).toBe(TegeSeries.empty());
     });
   });
 
@@ -79,6 +86,26 @@ describe('TegeSeries', () => {
     });
   });
 
+  describe('iterator', () => {
+    it('returns Pair<>', () => {
+      expect.assertions(3);
+
+      const array: Array<MockTege> = [
+        new MockTege(),
+        new MockTege(),
+        new MockTege()
+      ];
+
+      const series: TegeSeries = TegeSeries.ofArray(array);
+      let i: number = 0;
+
+      for (const pair of series) {
+        expect(pair.getValue()).toBe(array[i]);
+        i++;
+      }
+    });
+  });
+
   describe('contains', () => {
     it('delegates its inner collection object', () => {
       expect.assertions(1);
@@ -88,11 +115,11 @@ describe('TegeSeries', () => {
 
       sequence.contains = spy;
 
-      const expansions: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
-      expansions.teges = sequence;
+      series.teges = sequence;
 
-      expansions.contains(new MockTege());
+      series.contains(new MockTege());
 
       expect(spy.called).toBe(true);
     });
@@ -161,11 +188,11 @@ describe('TegeSeries', () => {
 
       sequence.contains = spy;
 
-      const expansions: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
-      expansions.teges = sequence;
+      series.teges = sequence;
 
-      expansions.contains(new MockTege());
+      series.contains(new MockTege());
 
       expect(spy.called).toBe(true);
     });
@@ -180,11 +207,11 @@ describe('TegeSeries', () => {
 
       sequence.every = spy;
 
-      const expansions: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
-      expansions.teges = sequence;
+      series.teges = sequence;
 
-      expansions.every(() => {
+      series.every(() => {
         return true;
       });
 
@@ -201,11 +228,11 @@ describe('TegeSeries', () => {
 
       sequence.forEach = spy;
 
-      const expansions: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
-      expansions.teges = sequence;
+      series.teges = sequence;
 
-      expansions.forEach(() => {
+      series.forEach(() => {
         // NOOP
       });
 
@@ -222,11 +249,11 @@ describe('TegeSeries', () => {
 
       sequence.get = spy;
 
-      const expansions: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
-      expansions.teges = sequence;
+      series.teges = sequence;
 
-      expansions.get(1);
+      series.get(1);
 
       expect(spy.called).toBe(true);
     });
@@ -241,11 +268,11 @@ describe('TegeSeries', () => {
 
       sequence.isEmpty = spy;
 
-      const expansions: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
-      expansions.teges = sequence;
+      series.teges = sequence;
 
-      expansions.isEmpty();
+      series.isEmpty();
 
       expect(spy.called).toBe(true);
     });
@@ -260,11 +287,11 @@ describe('TegeSeries', () => {
 
       sequence.toString = spy;
 
-      const expansions: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
-      expansions.teges = sequence;
+      series.teges = sequence;
 
-      expansions.toString();
+      series.toString();
 
       expect(spy.called).toBe(true);
     });
@@ -279,11 +306,11 @@ describe('TegeSeries', () => {
 
       sequence.size = spy;
 
-      const expansions: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
-      expansions.teges = sequence;
+      series.teges = sequence;
 
-      expansions.size();
+      series.size();
 
       expect(spy.called).toBe(true);
     });
@@ -298,11 +325,11 @@ describe('TegeSeries', () => {
 
       sequence.some = spy;
 
-      const expansions: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
-      expansions.teges = sequence;
+      series.teges = sequence;
 
-      expansions.some(() => {
+      series.some(() => {
         return true;
       });
 
@@ -319,70 +346,42 @@ describe('TegeSeries', () => {
 
       sequence.values = spy;
 
-      const expansions: TegeSeries = TegeSeries.empty();
+      const series: TegeSeries = TegeSeries.empty();
       // @ts-expect-error
-      expansions.teges = sequence;
+      series.teges = sequence;
 
-      expansions.values();
+      series.values();
 
       expect(spy.called).toBe(true);
     });
   });
 
-  describe('toJSON', () => {
-    it('returns ReadonlyArray<TegeJSON>', () => {
-      expect.assertions(1);
+  describe('ids', () => {
+    it('returns its ids', () => {
+      expect.assertions(4);
 
-      const id1: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
-      const id2: TegeID = TegeID.ofString('f8b1852c-9f7a-4435-9f42-33367debe504');
-      const name1: TegeName = TegeName.of('te1');
-      const name2: TegeName = TegeName.of('te2');
-      const time1: TegePlayingTime = TegePlayingTime.ofNumber(20);
-      const time2: TegePlayingTime = TegePlayingTime.ofNumber(30);
-      const players1: TegePlayers = TegePlayers.ofUnique(30);
-      const players2: TegePlayers = TegePlayers.ofUnique(40);
-      const minAge1: TegeMinAge = TegeMinAge.ofNumber(8);
-      const minAge2: TegeMinAge = TegeMinAge.ofNumber(9);
-      const imagePath1: TegeImagePath = TegeImagePath.of('/1');
-      const imagePath2: TegeImagePath = TegeImagePath.of('/2');
-      const expansion1: TegeExpansion = TegeExpansion.of(false);
-      const expansion2: TegeExpansion = TegeExpansion.of(true);
-      const series1: TegeSeries = TegeSeries.empty();
-      const series2: TegeSeries = TegeSeries.empty();
+      const id1: TegeID = new MockTegeID();
+      const id2: TegeID = new MockTegeID();
+      const id3: TegeID = new MockTegeID();
 
-      const tege01: Tege = Tege.of(id1, name1, time1, players1, minAge1, imagePath1, expansion1, series1);
-      const tege02: Tege = Tege.of(id2, name2, time2, players2, minAge2, imagePath2, expansion2, series2);
-
-      const expansions: TegeSeries = TegeSeries.ofArray([tege01, tege02]);
-
-      expect(expansions.toJSON()).toStrictEqual([
-        {
-          id: '5e799ca4-0f26-4760-ab26-83a59624fc82',
-          name: 'te1',
-          playingTime: 20,
-          players: {
-            type: 'unique',
-            value: 30
-          },
-          minAge: 8,
-          imagePath: '/1',
-          expansion: false,
-          series: []
-        },
-        {
-          id: 'f8b1852c-9f7a-4435-9f42-33367debe504',
-          name: 'te2',
-          playingTime: 30,
-          players: {
-            type: 'unique',
-            value: 40
-          },
-          minAge: 9,
-          imagePath: '/2',
-          expansion: true,
-          series: []
-        }
+      const series: TegeSeries = TegeSeries.ofArray([
+        new MockTege({
+          id: id1
+        }),
+        new MockTege({
+          id: id2
+        }),
+        new MockTege({
+          id: id3
+        })
       ]);
+
+      const ids: Array<TegeID> = series.ids();
+
+      expect(ids).toHaveLength(3);
+      expect(ids[0]).toBe(id1);
+      expect(ids[1]).toBe(id2);
+      expect(ids[2]).toBe(id3);
     });
   });
 });

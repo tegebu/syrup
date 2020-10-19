@@ -1,5 +1,7 @@
 import { ValueObject } from '@jamashita/publikum-object';
-import { UUID } from '@jamashita/publikum-uuid';
+import { Kind } from '@jamashita/publikum-type';
+import { UUID, UUIDError } from '@jamashita/publikum-uuid';
+import { LanguageError } from './Error/LanguageError';
 
 export class LanguageID extends ValueObject<'LanguageID'> {
   public readonly noun: 'LanguageID' = 'LanguageID';
@@ -7,6 +9,30 @@ export class LanguageID extends ValueObject<'LanguageID'> {
 
   public static of(id: UUID): LanguageID {
     return new LanguageID(id);
+  }
+
+  public static ofString(id: string): LanguageID {
+    try {
+      return LanguageID.of(UUID.of(id));
+    }
+    catch (err: unknown) {
+      if (err instanceof UUIDError) {
+        throw new LanguageError(err.message, err);
+      }
+
+      throw err;
+    }
+  }
+
+  public static validate(n: unknown): n is string {
+    if (!Kind.isString(n)) {
+      return false;
+    }
+    if (!UUID.isAcceptable(n)) {
+      return false;
+    }
+
+    return true;
   }
 
   protected constructor(id: UUID) {

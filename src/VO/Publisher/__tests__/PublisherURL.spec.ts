@@ -4,6 +4,14 @@ import { PublisherURL } from '../PublisherURL';
 
 describe('PublisherURL', () => {
   describe('of', () => {
+    it('returns empty URL when null given', () => {
+      expect.assertions(1);
+
+      const url: PublisherURL = PublisherURL.of(null);
+
+      expect(url.get()).toBeNull();
+    });
+
     it('returns trimmed string', () => {
       expect.assertions(1);
 
@@ -24,6 +32,12 @@ describe('PublisherURL', () => {
   });
 
   describe('validate', () => {
+    it('returns true when null given', () => {
+      expect.assertions(1);
+
+      expect(PublisherURL.validate(null)).toBe(true);
+    });
+
     it('returns true when string given', () => {
       expect.assertions(1);
 
@@ -37,10 +51,9 @@ describe('PublisherURL', () => {
     });
 
     it('returns false when others given', () => {
-      expect.assertions(8);
+      expect.assertions(7);
 
       expect(PublisherURL.validate(undefined)).toBe(false);
-      expect(PublisherURL.validate(null)).toBe(false);
       expect(PublisherURL.validate(true)).toBe(false);
       expect(PublisherURL.validate(102)).toBe(false);
       expect(PublisherURL.validate(Symbol())).toBe(false);
@@ -68,18 +81,28 @@ describe('PublisherURL', () => {
     });
 
     it('returns true if all the properties are the same', () => {
-      expect.assertions(2);
+      expect.assertions(4);
 
       const name1: PublisherURL = PublisherURL.of('souffrir1');
       const name2: PublisherURL = PublisherURL.of('souffrir2');
       const name3: PublisherURL = PublisherURL.of('souffrir1');
+      const name4: PublisherURL = PublisherURL.of(null);
+      const name5: PublisherURL = PublisherURL.of(null);
 
       expect(name1.equals(name2)).toBe(false);
       expect(name1.equals(name3)).toBe(true);
+      expect(name1.equals(name4)).toBe(false);
+      expect(name4.equals(name5)).toBe(true);
     });
   });
 
   describe('toString', () => {
+    it('returns - when instance retains null', () => {
+      expect.assertions(1);
+
+      expect(PublisherURL.of(null).toString()).toBe('-');
+    });
+
     it('returns its retaining string', () => {
       expect.assertions(1);
 
@@ -88,6 +111,20 @@ describe('PublisherURL', () => {
       const name: PublisherURL = PublisherURL.of(str);
 
       expect(name.toString()).toBe(str);
+    });
+  });
+
+  describe('hasValue', () => {
+    it('returns true when instance retains string', () => {
+      expect.assertions(1);
+
+      expect(PublisherURL.of('').hasValue()).toBe(true);
+    });
+
+    it('returns false when instance retains null', () => {
+      expect.assertions(1);
+
+      expect(PublisherURL.of(null).hasValue()).toBe(false);
     });
   });
 });
