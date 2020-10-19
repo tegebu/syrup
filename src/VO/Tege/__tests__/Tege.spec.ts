@@ -509,6 +509,34 @@ describe('Tege', () => {
     });
   });
 
+  describe('getTreeID', () => {
+    it('returns TegeID', () => {
+      expect.assertions(1);
+
+      const id: TegeID = TegeID.ofString('5e799ca4-0f26-4760-ab26-83a59624fc82');
+      const name: TegeName = TegeName.of('te');
+      const time: TegePlayingTime = TegePlayingTime.ofNumber(20);
+      const players: TegePlayers = TegePlayers.ofUnique(30);
+      const minAge: TegeMinAge = TegeMinAge.ofNumber(8);
+      const imagePath: TegeImagePath = TegeImagePath.of('/');
+      const expansion: TegeExpansion = TegeExpansion.of(false);
+      const series: TegeSeries = TegeSeries.empty();
+
+      const tege: Tege = Tege.of(
+        id,
+        name,
+        time,
+        players,
+        minAge,
+        imagePath,
+        expansion,
+        series
+      );
+
+      expect(tege.getTreeID()).toBe(id);
+    });
+  });
+
   describe('equals', () => {
     it('returns true when the same instance given', () => {
       expect.assertions(1);

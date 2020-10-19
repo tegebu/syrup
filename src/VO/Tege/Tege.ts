@@ -1,6 +1,7 @@
 import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
+import { StructurableTreeObject } from '../../General/Tree/Interface/StructurableTreeObject';
 import { TegeExpansion } from './TegeExpansion';
 import { TegeID } from './TegeID';
 import { TegeImagePath } from './TegeImagePath';
@@ -33,7 +34,7 @@ export type TegeInputJSON = Readonly<{
   expansion: boolean;
 }>;
 
-export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
+export class Tege extends ValueObject<'Tege'> implements StructurableTreeObject<TegeID>, JSONable<TegeJSON> {
   public readonly noun: 'Tege' = 'Tege';
   private readonly id: TegeID;
   private readonly name: TegeName;
@@ -145,6 +146,10 @@ export class Tege extends ValueObject<'Tege'> implements JSONable<TegeJSON> {
     this.imagePath = imagePath;
     this.expansion = expansion;
     this.series = series;
+  }
+
+  public getTreeID(): TegeID {
+    return this.id;
   }
 
   public equals(other: unknown): boolean {

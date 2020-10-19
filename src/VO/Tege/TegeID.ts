@@ -1,9 +1,10 @@
 import { ValueObject } from '@jamashita/publikum-object';
 import { Kind } from '@jamashita/publikum-type';
 import { UUID, UUIDError } from '@jamashita/publikum-uuid';
+import { TreeID } from '../../General/Tree/Interface/TreeID';
 import { TegeError } from './Error/TegeError';
 
-export class TegeID extends ValueObject<'TegeID'> {
+export class TegeID extends ValueObject<'TegeID'> implements TreeID {
   public readonly noun: 'TegeID' = 'TegeID';
   private readonly id: UUID;
 
