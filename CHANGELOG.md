@@ -1,3 +1,17 @@
+# [1.3.0](https://github.com/tegebu/syrup/compare/v1.2.0...v1.3.0) (2020-10-19)
+
+
+### Bug Fixes
+
+* 🐛 typo ([da35aff](https://github.com/tegebu/syrup/commit/da35affa08909b08ebbea68240f53607b41b3c93))
+
+
+### Features
+
+* 🎸 done away with "new" ([293bdde](https://github.com/tegebu/syrup/commit/293bdde2a18494429f240a6b6a7740f21a2c805c))
+* 🎸 getRoot() -> getTree() ([d1a3282](https://github.com/tegebu/syrup/commit/d1a3282c54f7c4e48ceb71852d20ae7c5ef399c2))
+* 🎸 removed toHierarchies() ([b3514ff](https://github.com/tegebu/syrup/commit/b3514fff4f4cd636736a3e83e4e583188c7fa79f))
+
 # [1.2.0](https://github.com/tegebu/syrup/compare/v1.1.0...v1.2.0) (2020-10-19)
 
 
