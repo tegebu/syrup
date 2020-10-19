@@ -58,25 +58,36 @@ export class ClosureTable<K extends TreeID> extends Quantity<K, ClosureTableOffs
   }
 
   public static toHierarchies<KT extends TreeID, VT extends StructurableTreeObject<KT>>(tree: StructurableTree<KT, VT>): ClosureTableHierarchies<KT> {
-    const hierarchies: MutableAddress<ClosureTableHierarchy<KT>> = MutableAddress.empty<ClosureTableHierarchy<KT>>();
+    const hierarchies: MutableProject<KT, MutableAddress<KT>> = MutableProject.empty<KT, MutableAddress<KT>>();
 
     ClosureTable.retrieve<KT, VT>(tree.getRote(), hierarchies);
 
     return ClosureTableHierarchies.of<KT>(hierarchies);
   }
 
-  private static retrieve<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, hierarchies: MutableAddress<ClosureTableHierarchy<KT>>): void {
-    hierarchies.add(ClosureTableHierarchy.of<KT>(node.getTreeID(), node.getTreeID()));
+  private static retrieve<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, hierarchies: MutableProject<KT, MutableAddress<KT>>): void {
+    const offsprings: MutableAddress<KT> = MutableAddress.empty<KT>();
+
+    hierarchies.set(node.getTreeID(), offsprings);
+    offsprings.add(node.getTreeID());
 
     if (!node.isLeaf()) {
       ClosureTable.retrieveChildren<KT, VT>(node, node.getChildren(), hierarchies);
     }
   }
 
-  private static retrieveChildren<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, children: ReadonlyAddress<StructurableTreeNode<KT, VT>>, hierarchies: MutableAddress<ClosureTableHierarchy<KT>>): void {
+  private static retrieveChildren<KT extends TreeID, VT extends StructurableTreeObject<KT>>(node: StructurableTreeNode<KT, VT>, children: ReadonlyAddress<StructurableTreeNode<KT, VT>>, hierarchies: MutableProject<KT, MutableAddress<KT>>): void {
     children.forEach((child: StructurableTreeNode<KT, VT>) => {
-      hierarchies.add(ClosureTableHierarchy.of<KT>(node.getTreeID(), child.getTreeID()));
+      let offsprings: Nullable<MutableAddress<KT>> = hierarchies.get(node.getTreeID());
+
+      if (Kind.isNull(offsprings)) {
+        offsprings = MutableAddress.empty<KT>();
+        hierarchies.set(node.getTreeID(), offsprings);
+      }
+
+      offsprings.add(child.getTreeID());
       ClosureTable.retrieve<KT, VT>(child, hierarchies);
+
       if (!child.isLeaf()) {
         ClosureTable.retrieveChildren<KT, VT>(node, child.getChildren(), hierarchies);
       }
