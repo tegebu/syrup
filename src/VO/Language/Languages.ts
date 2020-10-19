@@ -1,4 +1,11 @@
-import { CancellableEnumerator, MutableProject, Pair, Quantity, ReadonlyProject } from '@jamashita/publikum-collection';
+import {
+  CancellableEnumerator,
+  ImmutableProject,
+  MutableProject,
+  Pair,
+  Quantity,
+  ReadonlyProject
+} from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
 import { Language, LanguageJSON } from './Language';
@@ -21,10 +28,10 @@ const ALL: ReadonlyArray<LanguageJSON> = [
 
 export class Languages extends Quantity<LanguageID, Language, 'Languages'> implements JSONable<ReadonlyArray<LanguageJSON>> {
   public readonly noun: 'Languages' = 'Languages';
-  private readonly languages: ReadonlyProject<LanguageID, Language>;
+  private readonly languages: ImmutableProject<LanguageID, Language>;
 
   public static of(languages: ReadonlyProject<LanguageID, Language>): Languages {
-    return new Languages(languages);
+    return new Languages(ImmutableProject.of<LanguageID, Language>(languages));
   }
 
   public static ofJSON(json: ReadonlyArray<LanguageJSON>): Languages {
@@ -49,7 +56,7 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return Languages.ofJSON(ALL);
   }
 
-  protected constructor(languages: ReadonlyProject<LanguageID, Language>) {
+  protected constructor(languages: ImmutableProject<LanguageID, Language>) {
     super();
     this.languages = languages;
   }
