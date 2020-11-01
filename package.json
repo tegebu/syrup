@@ -36,6 +36,7 @@
     "@jamashita/publikum-interface": "2.33.0",
     "@jamashita/publikum-json": "2.33.0",
     "@jamashita/publikum-object": "2.33.0",
+    "@jamashita/publikum-tree": "2.33.0",
     "@jamashita/publikum-type": "2.33.0",
     "@jamashita/publikum-uuid": "2.33.0",
     "@jamashita/publikum-validation": "2.33.0",
