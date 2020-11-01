@@ -38,6 +38,7 @@
     "@jamashita/publikum-object": "2.33.0",
     "@jamashita/publikum-type": "2.33.0",
     "@jamashita/publikum-uuid": "2.33.0",
+    "@jamashita/publikum-validation": "2.33.0",
     "@jamashita/publikum-zeit": "2.33.0"
   },
   "devDependencies": {

@@ -520,7 +520,7 @@
     reflect-metadata "0.1.13"
     uuid "8.3.1"
 
-"@jamashita/publikum-validation@^2.33.0":
+"@jamashita/publikum-validation@2.33.0", "@jamashita/publikum-validation@^2.33.0":
   version "2.33.0"
   resolved "https://registry.yarnpkg.com/@jamashita/publikum-validation/-/publikum-validation-2.33.0.tgz#a55020c81479d575da1adba4475e792d22d2cc08"
   integrity sha512-Ck+bvFHE3Ne4V+L/yGJdyd79tl7fmscY7tTGLSHpb3kq9CFf3n0tmyen+t39PY7ZUGtyyDRAlp5xLp+OE2XJXQ==
