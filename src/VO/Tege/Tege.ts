@@ -1,7 +1,6 @@
-import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { SerializableTreeObject, StructurableTreeObject } from '@jamashita/publikum-tree';
 import { Kind } from '@jamashita/publikum-type';
-import { StructurableTreeObject } from '../../General/Tree/Interface/StructurableTreeObject';
 import { TegeExpansion } from './TegeExpansion';
 import { TegeID } from './TegeID';
 import { TegeImagePath } from './TegeImagePath';
@@ -32,7 +31,7 @@ export type TegeInputJSON = Readonly<{
   expansion: boolean;
 }>;
 
-export class Tege extends ValueObject<'Tege'> implements StructurableTreeObject<TegeID>, JSONable<TegeJSON> {
+export class Tege extends ValueObject<'Tege'> implements StructurableTreeObject<TegeID, 'Tege'>, SerializableTreeObject<'Tege'> {
   public readonly noun: 'Tege' = 'Tege';
   private readonly id: TegeID;
   private readonly name: TegeName;
@@ -160,10 +159,6 @@ export class Tege extends ValueObject<'Tege'> implements StructurableTreeObject<
     this.expansion = expansion;
   }
 
-  public getTreeID(): TegeID {
-    return this.id;
-  }
-
   public equals(other: unknown): boolean {
     if (this === other) {
       return true;
@@ -220,6 +215,10 @@ export class Tege extends ValueObject<'Tege'> implements StructurableTreeObject<
       imagePath: this.imagePath.get(),
       expansion: this.expansion.get()
     };
+  }
+
+  public getTreeID(): TegeID {
+    return this.id;
   }
 
   public getID(): TegeID {
