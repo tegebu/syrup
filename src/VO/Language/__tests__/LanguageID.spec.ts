@@ -8,7 +8,9 @@ describe('LanguageID', () => {
     it('returns instance if correct uuid format string given', () => {
       expect.assertions(1);
 
-      expect(LanguageID.ofString('97d6205e-5774-4f5b-987a-6ca8b5a2fe73').get().get()).toBe('97d6205e-5774-4f5b-987a-6ca8b5a2fe73');
+      const id: string = '97d6205e-5774-4f5b-987a-6ca8b5a2fe73';
+
+      expect(LanguageID.ofString(id).get().get()).toBe(id);
     });
 
     it('throws LanguageError when incorrect uuid format string given', () => {

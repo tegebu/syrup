@@ -1,7 +1,7 @@
 import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
-import { UUID, UUIDError } from '@jamashita/publikum-uuid';
-import { TreeID } from '../../General/Tree/Interface/TreeID';
+import { TreeID } from '@jamashita/publikum-tree';
+import { UUID, UUIDValidation } from '@jamashita/publikum-uuid';
+import { Validate, ValidationError } from '@jamashita/publikum-validation';
 import { TegeError } from './Error/TegeError';
 
 export class TegeID extends ValueObject<'TegeID'> implements TreeID {
@@ -14,10 +14,12 @@ export class TegeID extends ValueObject<'TegeID'> implements TreeID {
 
   public static ofString(id: string): TegeID {
     try {
+      TegeID.validateInternal(id);
+
       return TegeID.of(UUID.of(id));
     }
     catch (err: unknown) {
-      if (err instanceof UUIDError) {
+      if (err instanceof ValidationError) {
         throw new TegeError(err.message, err);
       }
 
@@ -30,19 +32,27 @@ export class TegeID extends ValueObject<'TegeID'> implements TreeID {
   }
 
   public static validate(n: unknown): n is string {
-    if (!Kind.isString(n)) {
+    try {
+      return TegeID.validateInternal(n);
+    }
+    catch {
       return false;
     }
-    if (!UUID.isAcceptable(n)) {
-      return false;
-    }
+  }
 
+  @Validate()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static validateInternal(@UUIDValidation() _n: unknown): true {
     return true;
   }
 
   protected constructor(id: UUID) {
     super();
     this.id = id;
+  }
+
+  public get(): string {
+    return this.id.toString();
   }
 
   public equals(other: unknown): boolean {
@@ -57,10 +67,6 @@ export class TegeID extends ValueObject<'TegeID'> implements TreeID {
   }
 
   public serialize(): string {
-    return this.id.toString();
-  }
-
-  public get(): string {
     return this.id.toString();
   }
 }
