@@ -165,7 +165,7 @@ describe('Author', () => {
     });
 
     it('returns true if all the properties are the same', () => {
-      expect.assertions(3);
+      expect.assertions(4);
 
       const uuid1: UUID = UUID.v4();
       const uuid2: UUID = UUID.v4();
@@ -173,13 +173,15 @@ describe('Author', () => {
       const name2: string = 'author name 2';
 
       const author1: Author = Author.of(new MockAuthorID(uuid1), new MockAuthorName(name1));
-      const author2: Author = Author.of(new MockAuthorID(uuid2), new MockAuthorName(name1));
-      const author3: Author = Author.of(new MockAuthorID(uuid2), new MockAuthorName(name2));
-      const author4: Author = Author.of(new MockAuthorID(uuid1), new MockAuthorName(name1));
+      const author2: Author = Author.of(new MockAuthorID(uuid1), new MockAuthorName(name2));
+      const author3: Author = Author.of(new MockAuthorID(uuid2), new MockAuthorName(name1));
+      const author4: Author = Author.of(new MockAuthorID(uuid2), new MockAuthorName(name2));
+      const author5: Author = Author.of(new MockAuthorID(uuid1), new MockAuthorName(name1));
 
       expect(author1.equals(author2)).toBe(false);
       expect(author1.equals(author3)).toBe(false);
-      expect(author1.equals(author4)).toBe(true);
+      expect(author1.equals(author4)).toBe(false);
+      expect(author1.equals(author5)).toBe(true);
     });
   });
 

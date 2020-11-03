@@ -323,6 +323,68 @@ describe('Languages', () => {
     });
   });
 
+  describe('filter', () => {
+    it('deletes its retaining sequence', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const sequence: MockSequence<Language> = new MockSequence<Language>([]);
+
+      sequence.filter = spy;
+
+      const languages: Languages = Languages.ofArray([]);
+      // @ts-expect-error
+      languages.languages = sequence;
+
+      languages.filter(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+  describe('find', () => {
+    it('deletes its retaining sequence', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const sequence: MockSequence<Language> = new MockSequence<Language>([]);
+
+      sequence.find = spy;
+
+      const languages: Languages = Languages.ofArray([]);
+      // @ts-expect-error
+      languages.languages = sequence;
+
+      languages.find(() => {
+        return true;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
+  describe('map', () => {
+    it('deletes its retaining sequence', () => {
+      expect.assertions(1);
+
+      const spy: SinonSpy = sinon.spy();
+      const sequence: MockSequence<Language> = new MockSequence<Language>([]);
+
+      sequence.map = spy;
+
+      const languages: Languages = Languages.ofArray([]);
+      // @ts-expect-error
+      languages.languages = sequence;
+
+      languages.map((l: Language) => {
+        return l;
+      });
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('toJSON', () => {
     it('returns original JSON when it is forged by JSON', () => {
       expect.assertions(1);

@@ -1,13 +1,13 @@
 import {
-  CancellableEnumerator,
+  Collection,
   ImmutableProject,
   MutableProject,
   Pair,
   Quantity,
   ReadonlyProject
 } from '@jamashita/publikum-collection';
-import { JSONable } from '@jamashita/publikum-interface';
-import { BinaryPredicate, Nullable } from '@jamashita/publikum-type';
+import { JSONable, Nominative } from '@jamashita/publikum-interface';
+import { BinaryPredicate, Enumerator, Mapper, Nullable } from '@jamashita/publikum-type';
 import { Language, LanguageJSON } from './Language';
 import { LanguageID } from './LanguageID';
 
@@ -61,8 +61,8 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     this.languages = languages;
   }
 
-  public [Symbol.iterator](): Iterator<Pair<LanguageID, Language>> {
-    return this.languages[Symbol.iterator]();
+  public iterator(): Iterator<Pair<LanguageID, Language>> {
+    return this.languages.iterator();
   }
 
   public contains(value: Language): boolean {
@@ -84,7 +84,7 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
     return this.languages.every(predicate);
   }
 
-  public forEach(iteration: CancellableEnumerator<LanguageID, Language>): void {
+  public forEach(iteration: Enumerator<LanguageID, Language>): void {
     this.languages.forEach(iteration);
   }
 
@@ -110,6 +110,18 @@ export class Languages extends Quantity<LanguageID, Language, 'Languages'> imple
 
   public values(): Iterable<Language> {
     return this.languages.values();
+  }
+
+  public filter(predicate: BinaryPredicate<Language, LanguageID>): Collection<LanguageID, Language> {
+    return this.languages.filter(predicate);
+  }
+
+  public find(predicate: BinaryPredicate<Language, LanguageID>): Nullable<Language> {
+    return this.languages.find(predicate);
+  }
+
+  public map<W extends Nominative>(mapper: Mapper<Language, W>): Collection<LanguageID, W> {
+    return this.languages.map<W>(mapper);
   }
 
   public toJSON(): ReadonlyArray<LanguageJSON> {
