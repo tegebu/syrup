@@ -1,39 +1,28 @@
-import { ReadonlyProject } from '@jamashita/publikum-collection';
+import { ReadonlyProject, ReadonlySequence } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
-import { ValueObject } from '@jamashita/publikum-object';
-import { ClosureTable } from '../../General/ClosureTable/ClosureTable';
-import { ClosureTableHierarchy } from '../../General/ClosureTable/ClosureTableHierarchy';
-import { ClosureTableTreeFactory } from '../../General/ClosureTable/ClosureTableTreeFactory';
-import { TreeError } from '../../General/Tree/Error/TreeError';
-import { StructurableTree } from '../../General/Tree/StructurableTree';
-import { StructurableTreeNode } from '../../General/Tree/TreeNode/StructurableTreeNode';
-import { TegeError } from './Error/TegeError';
+import { Objet } from '@jamashita/publikum-object';
+import { ClosureTable, ClosureTableHierarchies, StructurableTree, StructurableTrees } from '@jamashita/publikum-tree';
+import { Nullable } from '@jamashita/publikum-type';
 import { Tege, TegeJSON } from './Tege';
 import { TegeID } from './TegeID';
 
-export class Teges extends ValueObject<'Teges'> implements JSONable<ReadonlyArray<TegeJSON>> {
+export class Teges extends Objet<'Teges'> implements JSONable<ReadonlyArray<TegeJSON>> {
   public readonly noun: 'Teges' = 'Teges';
-  private readonly teges: StructurableTree<TegeID, Tege>;
+  private readonly teges: StructurableTrees<TegeID, Tege>;
 
-  public static of(teges: ReadonlyProject<TegeID, Tege>, hierarchies: ReadonlyArray<ClosureTableHierarchy<TegeID>>): Teges {
-    try {
-      const table: ClosureTable<TegeID> = ClosureTable.of<TegeID>(hierarchies);
-      const factory: ClosureTableTreeFactory<TegeID, Tege> = ClosureTableTreeFactory.of<TegeID, Tege>(table);
-
-      const tree: StructurableTree<TegeID, Tege> = factory.forge(teges);
-
-      return new Teges(tree);
-    }
-    catch (err: unknown) {
-      if (err instanceof TreeError) {
-        throw new TegeError(err.message, err);
-      }
-
-      throw err;
-    }
+  public static of(trees: StructurableTrees<TegeID, Tege>): Teges {
+    return new Teges(trees);
   }
 
-  protected constructor(teges: StructurableTree<TegeID, Tege>) {
+  public static ofProject(project: ReadonlyProject<TegeID, StructurableTree<TegeID, Tege>>): Teges {
+    return Teges.of(StructurableTrees.ofProject<TegeID, Tege>(project));
+  }
+
+  public static ofTable(table: ClosureTable<TegeID>, values: ReadonlySequence<Tege>): Teges {
+    return Teges.of(StructurableTrees.ofTable<TegeID, Tege>(table, values));
+  }
+
+  protected constructor(teges: StructurableTrees<TegeID, Tege>) {
     super();
     this.teges = teges;
   }
@@ -56,24 +45,22 @@ export class Teges extends ValueObject<'Teges'> implements JSONable<ReadonlyArra
   public toJSON(): ReadonlyArray<TegeJSON> {
     const json: Array<TegeJSON> = [];
 
-    this.retrieve(this.teges.getRoot(), json);
+    for (const tege of this.teges.values()) {
+      json.push(tege.toJSON());
+    }
 
     return json;
   }
 
-  public getTree(): StructurableTree<TegeID, Tege> {
-    return this.teges;
+  public get(key: TegeID): Nullable<StructurableTree<TegeID, Tege>> {
+    return this.teges.get(key);
   }
 
-  private retrieve(node: StructurableTreeNode<TegeID, Tege>, json: Array<TegeJSON>): void {
-    json.push(node.getValue().toJSON());
+  public size(): number {
+    return this.teges.size();
+  }
 
-    if (node.isLeaf()) {
-      return;
-    }
-
-    node.getChildren().forEach((child: StructurableTreeNode<TegeID, Tege>) => {
-      this.retrieve(child, json);
-    });
+  public toHierarchies(): ClosureTableHierarchies<TegeID> {
+    return this.teges.toHierarchies();
   }
 }

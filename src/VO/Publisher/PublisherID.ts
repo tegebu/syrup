@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
-import { UUID, UUIDError } from '@jamashita/publikum-uuid';
+import { UUID, UUIDValidation } from '@jamashita/publikum-uuid';
+import { Validate, ValidationError } from '@jamashita/publikum-validation';
 import { PublisherError } from './Error/PublisherError';
 
 export class PublisherID extends ValueObject<'PublisherID'> {
@@ -13,10 +13,12 @@ export class PublisherID extends ValueObject<'PublisherID'> {
 
   public static ofString(id: string): PublisherID {
     try {
+      PublisherID.validateInternal(id);
+
       return PublisherID.of(UUID.of(id));
     }
     catch (err: unknown) {
-      if (err instanceof UUIDError) {
+      if (err instanceof ValidationError) {
         throw new PublisherError(err.message, err);
       }
 
@@ -29,13 +31,17 @@ export class PublisherID extends ValueObject<'PublisherID'> {
   }
 
   public static validate(n: unknown): n is string {
-    if (!Kind.isString(n)) {
+    try {
+      return PublisherID.validateInternal(n);
+    }
+    catch {
       return false;
     }
-    if (!UUID.isAcceptable(n)) {
-      return false;
-    }
+  }
 
+  @Validate()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static validateInternal(@UUIDValidation() _n: unknown): true {
     return true;
   }
 

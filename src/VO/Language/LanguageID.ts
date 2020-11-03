@@ -1,6 +1,6 @@
 import { ValueObject } from '@jamashita/publikum-object';
-import { Kind } from '@jamashita/publikum-type';
-import { UUID, UUIDError } from '@jamashita/publikum-uuid';
+import { UUID, UUIDValidation } from '@jamashita/publikum-uuid';
+import { Validate, ValidationError } from '@jamashita/publikum-validation';
 import { LanguageError } from './Error/LanguageError';
 
 export class LanguageID extends ValueObject<'LanguageID'> {
@@ -13,10 +13,12 @@ export class LanguageID extends ValueObject<'LanguageID'> {
 
   public static ofString(id: string): LanguageID {
     try {
+      LanguageID.validateInternal(id);
+
       return LanguageID.of(UUID.of(id));
     }
     catch (err: unknown) {
-      if (err instanceof UUIDError) {
+      if (err instanceof ValidationError) {
         throw new LanguageError(err.message, err);
       }
 
@@ -25,13 +27,17 @@ export class LanguageID extends ValueObject<'LanguageID'> {
   }
 
   public static validate(n: unknown): n is string {
-    if (!Kind.isString(n)) {
+    try {
+      return LanguageID.validateInternal(n);
+    }
+    catch {
       return false;
     }
-    if (!UUID.isAcceptable(n)) {
-      return false;
-    }
+  }
 
+  @Validate()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static validateInternal(@UUIDValidation() _n: unknown): true {
     return true;
   }
 

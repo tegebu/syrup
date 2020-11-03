@@ -1,7 +1,6 @@
-import { JSONable } from '@jamashita/publikum-interface';
 import { ValueObject } from '@jamashita/publikum-object';
+import { SerializableTreeObject, StructurableTreeObject } from '@jamashita/publikum-tree';
 import { Kind } from '@jamashita/publikum-type';
-import { StructurableTreeObject } from '../../General/Tree/Interface/StructurableTreeObject';
 import { TegeExpansion } from './TegeExpansion';
 import { TegeID } from './TegeID';
 import { TegeImagePath } from './TegeImagePath';
@@ -32,7 +31,7 @@ export type TegeInputJSON = Readonly<{
   expansion: boolean;
 }>;
 
-export class Tege extends ValueObject<'Tege'> implements StructurableTreeObject<TegeID>, JSONable<TegeJSON> {
+export class Tege extends ValueObject<'Tege'> implements StructurableTreeObject<TegeID, 'Tege'>, SerializableTreeObject<'Tege'> {
   public readonly noun: 'Tege' = 'Tege';
   private readonly id: TegeID;
   private readonly name: TegeName;
@@ -115,6 +114,32 @@ export class Tege extends ValueObject<'Tege'> implements StructurableTreeObject<
     return true;
   }
 
+  public static validateInput(n: unknown): n is TegeInputJSON {
+    if (!Kind.isObject<TegeInputJSON>(n)) {
+      return false;
+    }
+    if (!TegeName.validate(n.name)) {
+      return false;
+    }
+    if (!TegePlayingTime.validate(n.playingTime)) {
+      return false;
+    }
+    if (!TegePlayers.validate(n.players)) {
+      return false;
+    }
+    if (!TegeMinAge.validate(n.minAge)) {
+      return false;
+    }
+    if (!TegeImagePath.validate(n.imagePath)) {
+      return false;
+    }
+    if (!TegeExpansion.validate(n.expansion)) {
+      return false;
+    }
+
+    return true;
+  }
+
   protected constructor(
     id: TegeID,
     name: TegeName,
@@ -132,10 +157,6 @@ export class Tege extends ValueObject<'Tege'> implements StructurableTreeObject<
     this.minAge = minAge;
     this.imagePath = imagePath;
     this.expansion = expansion;
-  }
-
-  public getTreeID(): TegeID {
-    return this.id;
   }
 
   public equals(other: unknown): boolean {
@@ -194,6 +215,10 @@ export class Tege extends ValueObject<'Tege'> implements StructurableTreeObject<
       imagePath: this.imagePath.get(),
       expansion: this.expansion.get()
     };
+  }
+
+  public getTreeID(): TegeID {
+    return this.id;
   }
 
   public getID(): TegeID {
