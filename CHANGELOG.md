@@ -1,3 +1,25 @@
+# [1.4.0](https://github.com/tegebu/syrup/compare/v1.3.0...v1.4.0) (2020-11-03)
+
+
+### Features
+
+* 🎸 applied new collection methods ([12b14c6](https://github.com/tegebu/syrup/commit/12b14c6bc85cf592ada6dc740a1fc20b1bd3695f))
+* 🎸 applied TreeObject ([c4bc80f](https://github.com/tegebu/syrup/commit/c4bc80f6a598ce01c7b383538cf9bca705b827ca))
+* 🎸 changed to use decorators ([1fb0d16](https://github.com/tegebu/syrup/commit/1fb0d162b235ddba957d1eb4f52e054d03998de1))
+* 🎸 forge() update ([7c2bf98](https://github.com/tegebu/syrup/commit/7c2bf98a161fe567bb7dd13f227c2d6b6404083e))
+* 🎸 incorrect export path fixed ([367b708](https://github.com/tegebu/syrup/commit/367b70818484f6f1f9a0a47c680d1ccd9d4ee395))
+* 🎸 removed closuretable because it is adoted in publikum ([8eb0e17](https://github.com/tegebu/syrup/commit/8eb0e17747e0f65c0dbb1662c0e00473641527f4))
+* 🎸 removed unnecessary helpers ([901e5a7](https://github.com/tegebu/syrup/commit/901e5a7088d0f1285fbfaf0743696124d496bc58))
+* 🎸 toHierarchies() done ([28aa483](https://github.com/tegebu/syrup/commit/28aa4832cd7f8deea040c2413c550c6831c09be0))
+* 🎸 tree ([8205f5a](https://github.com/tegebu/syrup/commit/8205f5a508d0d0340ec176124c42007d27d9c06b))
+* 🎸 udpate ([050da2d](https://github.com/tegebu/syrup/commit/050da2d1a650dcbb0ecc4ad86a6bc4f401472b5a))
+* 🎸 update ([9c48682](https://github.com/tegebu/syrup/commit/9c486824db618d12d479739d00a4b85a5f5e9999))
+* 🎸 update ([2f56a97](https://github.com/tegebu/syrup/commit/2f56a97b9d8e6a700860109dd4ce139400e00ab9))
+* 🎸 update ([052aa10](https://github.com/tegebu/syrup/commit/052aa100c241364ff0e6ee86738a902ee48150b5))
+* 🎸 update ([7eb41b0](https://github.com/tegebu/syrup/commit/7eb41b025df6deead302f92e420dc7804be4e186))
+* 🎸 validateInput() ([9488165](https://github.com/tegebu/syrup/commit/948816503ab9ee31898ca03785aaf74f16b54366))
+* 🎸 validation ([4e7f31c](https://github.com/tegebu/syrup/commit/4e7f31c75a211e713455590e75b31ff4217a1793))
+
 # [1.3.0](https://github.com/tegebu/syrup/compare/v1.2.0...v1.3.0) (2020-10-19)
 
 
