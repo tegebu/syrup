@@ -31,16 +31,16 @@
     "update:upgrade": "ncu --upgrade"
   },
   "dependencies": {
-    "@jamashita/publikum-collection": "3.0.0",
-    "@jamashita/publikum-error": "3.0.0",
-    "@jamashita/publikum-interface": "3.0.0",
-    "@jamashita/publikum-json": "3.0.0",
-    "@jamashita/publikum-object": "3.0.0",
-    "@jamashita/publikum-tree": "3.0.0",
-    "@jamashita/publikum-type": "3.0.0",
-    "@jamashita/publikum-uuid": "3.0.0",
-    "@jamashita/publikum-validation": "3.0.0",
-    "@jamashita/publikum-zeit": "3.0.0"
+    "@jamashita/publikum-collection": "3.1.0",
+    "@jamashita/publikum-error": "3.1.0",
+    "@jamashita/publikum-interface": "3.1.0",
+    "@jamashita/publikum-json": "3.1.0",
+    "@jamashita/publikum-object": "3.1.0",
+    "@jamashita/publikum-tree": "3.1.0",
+    "@jamashita/publikum-type": "3.1.0",
+    "@jamashita/publikum-uuid": "3.1.0",
+    "@jamashita/publikum-validation": "3.1.0",
+    "@jamashita/publikum-zeit": "3.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "11.0.0",
