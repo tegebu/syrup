@@ -491,6 +491,43 @@ describe('Teges', () => {
     });
   });
 
+  describe('has', () => {
+    it('delegates its inner tree object', () => {
+      expect.assertions(1);
+
+      const id1: MockTegeID = new MockTegeID();
+      const tege1: Tege = Tege.of(
+        id1,
+        new MockTegeName('mock 1'),
+        new MockTegePlayingTime(10),
+        new MockTegePlayers(5),
+        new MockTegeMinAge(20),
+        new MockTegeImagePath('/1'),
+        new MockTegeExpansion()
+      );
+
+      const sequence: ImmutableSequence<Tege> = ImmutableSequence.ofArray<Tege>([
+        tege1
+      ]);
+      const hierarchies: Array<ClosureTableHierarchy<TegeID>> = [
+        new MockClosureTableHierarchy<TegeID>(id1, id1)
+      ];
+      const trees: StructurableTrees<TegeID, Tege> = StructurableTrees.ofTable<TegeID, Tege>(
+        new MockClosureTable<TegeID>(...hierarchies),
+        sequence
+      );
+
+      const spy: SinonSpy = sinon.spy();
+      trees.has = spy;
+
+      const teges: Teges = Teges.of(trees);
+
+      teges.has(new MockTegeID());
+
+      expect(spy.called).toBe(true);
+    });
+  });
+
   describe('toJSON', () => {
     it('returns ReadonlyArray<TegeJSON>', () => {
       expect.assertions(1);
