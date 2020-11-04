@@ -56,6 +56,10 @@ export class Teges extends Objet<'Teges'> implements JSONable<ReadonlyArray<Tege
     return this.teges.get(key);
   }
 
+  public has(key: TegeID): boolean {
+    return this.teges.has(key);
+  }
+
   public size(): number {
     return this.teges.size();
   }
