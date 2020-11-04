@@ -1,3 +1,11 @@
+# [1.5.0](https://github.com/tegebu/syrup/compare/v1.4.0...v1.5.0) (2020-11-04)
+
+
+### Features
+
+* 🎸 has() ([547d840](https://github.com/tegebu/syrup/commit/547d8407bbcdda168d85931e8d64af60f7ca3458))
+* 🎸 udpate ([bbc38ed](https://github.com/tegebu/syrup/commit/bbc38edffd8066620dac7da863b39662c046de36))
+
 # [1.4.0](https://github.com/tegebu/syrup/compare/v1.3.0...v1.4.0) (2020-11-03)
 
 
