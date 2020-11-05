@@ -25,22 +25,22 @@
     "format": "eslint --fix 'src/**/*.{ts,tsx}'",
     "prepublish": "yarn build",
     "release": "semantic-release",
-    "test": "jest test --detectOpenHandles --coverage",
+    "test": "jest test",
     "update": "yarn update:upgrade && yarn update:install",
     "update:install": "yarn install && yarn upgrade",
     "update:upgrade": "ncu --upgrade"
   },
   "dependencies": {
-    "@jamashita/publikum-collection": "3.1.0",
-    "@jamashita/publikum-error": "3.1.0",
-    "@jamashita/publikum-interface": "3.1.0",
-    "@jamashita/publikum-json": "3.1.0",
-    "@jamashita/publikum-object": "3.1.0",
-    "@jamashita/publikum-tree": "3.1.0",
-    "@jamashita/publikum-type": "3.1.0",
-    "@jamashita/publikum-uuid": "3.1.0",
-    "@jamashita/publikum-validation": "3.1.0",
-    "@jamashita/publikum-zeit": "3.1.0"
+    "@jamashita/publikum-collection": "3.2.0",
+    "@jamashita/publikum-error": "3.2.0",
+    "@jamashita/publikum-interface": "3.2.0",
+    "@jamashita/publikum-json": "3.2.0",
+    "@jamashita/publikum-object": "3.2.0",
+    "@jamashita/publikum-tree": "3.2.0",
+    "@jamashita/publikum-type": "3.2.0",
+    "@jamashita/publikum-uuid": "3.2.0",
+    "@jamashita/publikum-validation": "3.2.0",
+    "@jamashita/publikum-zeit": "3.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "11.0.0",
