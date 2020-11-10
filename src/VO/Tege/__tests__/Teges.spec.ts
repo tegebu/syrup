@@ -11,6 +11,7 @@ import {
 } from '@jamashita/publikum-tree';
 import { Nullable } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
+import { MockTege } from '../Mock/MockTege';
 import { MockTegeExpansion } from '../Mock/MockTegeExpansion';
 import { MockTegeID } from '../Mock/MockTegeID';
 import { MockTegeImagePath } from '../Mock/MockTegeImagePath';
@@ -831,6 +832,55 @@ describe('Teges', () => {
       expect(hierarchies.get(17)?.getOffspring()).toBe(id6);
       expect(hierarchies.get(18)?.getAncestor()).toBe(id7);
       expect(hierarchies.get(18)?.getOffspring()).toBe(id7);
+    });
+  });
+
+  describe('add', () => {
+    it('returns 1-length Teges when Teges is empty', () => {
+      expect.assertions(2);
+
+      const teges: Teges = Teges.of(StructurableTrees.ofProject<TegeID, Tege>(ImmutableProject.empty<TegeID, StructurableTree<TegeID, Tege>>()));
+      const tege: MockTege = new MockTege();
+
+      teges.add(tege);
+
+      expect(teges.size()).toBe(1);
+      expect(teges.get(tege.getID())?.getRoot().getValue()).toBe(tege);
+    });
+
+    it('returns multi-length Teges', () => {
+      expect.assertions(3);
+
+      const tege1: MockTege = new MockTege();
+      const tege2: MockTege = new MockTege();
+      const tege3: MockTege = new MockTege();
+      const tege4: MockTege = new MockTege();
+      const tege5: MockTege = new MockTege();
+      const tege6: MockTege = new MockTege();
+
+      const teges: Teges = Teges.of(
+        StructurableTrees.ofProject<TegeID, Tege>(
+          ImmutableProject.ofMap<TegeID, StructurableTree<TegeID, Tege>>(
+            new Map<TegeID, StructurableTree<TegeID, Tege>>([
+              [tege1.getTreeID(), StructurableTree.of<TegeID, Tege>(StructurableTreeNode.ofValue<TegeID, Tege>(tege1))],
+              [tege2.getTreeID(), StructurableTree.of<TegeID, Tege>(StructurableTreeNode.ofValue<TegeID, Tege>(tege2))],
+              [tege3.getTreeID(), StructurableTree.of<TegeID, Tege>(StructurableTreeNode.ofValue<TegeID, Tege>(tege3))]
+            ])
+          )
+        )
+      );
+
+      teges.add(tege4);
+
+      expect(teges.size()).toBe(4);
+
+      teges.add(tege5);
+
+      expect(teges.size()).toBe(5);
+
+      teges.add(tege6);
+
+      expect(teges.size()).toBe(6);
     });
   });
 });

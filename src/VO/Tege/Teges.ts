@@ -1,7 +1,13 @@
 import { ReadonlyProject, ReadonlySequence } from '@jamashita/publikum-collection';
 import { JSONable } from '@jamashita/publikum-interface';
 import { Objet } from '@jamashita/publikum-object';
-import { ClosureTable, ClosureTableHierarchies, StructurableTree, StructurableTrees } from '@jamashita/publikum-tree';
+import {
+  ClosureTable,
+  ClosureTableHierarchies,
+  StructurableTree,
+  StructurableTreeNode,
+  StructurableTrees
+} from '@jamashita/publikum-tree';
 import { Nullable } from '@jamashita/publikum-type';
 import { Tege, TegeJSON } from './Tege';
 import { TegeID } from './TegeID';
@@ -50,6 +56,12 @@ export class Teges extends Objet<'Teges'> implements JSONable<ReadonlyArray<Tege
     }
 
     return json;
+  }
+
+  public add(tege: Tege): Teges {
+    this.teges.add(StructurableTree.of<TegeID, Tege>(StructurableTreeNode.ofValue<TegeID, Tege>(tege)));
+
+    return this;
   }
 
   public get(key: TegeID): Nullable<StructurableTree<TegeID, Tege>> {
