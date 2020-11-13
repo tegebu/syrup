@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/tegebu/syrup/compare/v1.6.0...v1.7.0) (2020-11-13)
+
+
+### Features
+
+* 🎸 update ([4460a3e](https://github.com/tegebu/syrup/commit/4460a3ef6907471b875f674a0c6a4b1ae7e03b7c))
+
 # [1.6.0](https://github.com/tegebu/syrup/compare/v1.5.0...v1.6.0) (2020-11-10)
 
 
