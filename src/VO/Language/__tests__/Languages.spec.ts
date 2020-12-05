@@ -37,8 +37,8 @@ describe('Languages', () => {
 
       expect(languages.size()).toBe(json.length);
       languages.forEach((l: Language) => {
-        expect(l.getID().get().get()).toBe(json[i].id);
-        expect(l.getName().get()).toBe(json[i].name);
+        expect(l.getID().get().get()).toBe(json[i]?.id);
+        expect(l.getName().get()).toBe(json[i]?.name);
         i++;
       });
     });
@@ -85,8 +85,8 @@ describe('Languages', () => {
       const languages: Languages = Languages.ofArray(array);
       let i: number = 0;
 
-      for (const pair of languages) {
-        expect(pair.getValue()).toBe(array[i]);
+      for (const [, v] of languages) {
+        expect(v).toBe(array[i]);
         i++;
       }
     });
