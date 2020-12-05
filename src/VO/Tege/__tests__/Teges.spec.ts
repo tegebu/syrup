@@ -9,7 +9,7 @@ import {
   StructurableTreeNode,
   StructurableTrees
 } from '@jamashita/publikum-tree';
-import { Nullable } from '@jamashita/publikum-type';
+import { Ambiguous, Nullable } from '@jamashita/publikum-type';
 import sinon, { SinonSpy } from 'sinon';
 import { MockTege } from '../Mock/MockTege';
 import { MockTegeExpansion } from '../Mock/MockTegeExpansion';
@@ -164,30 +164,51 @@ describe('Teges', () => {
       const children1: Array<StructurableTreeNode<TegeID, Tege>> = [...root1.getRoot().getChildren().values()];
 
       expect(children1).toHaveLength(2);
-      expect(children1[0].isLeaf()).toBe(false);
-      expect(children1[0].getValue()).toBe(tege2);
-      expect(children1[1].isLeaf()).toBe(false);
-      expect(children1[1].getValue()).toBe(tege3);
+      expect(children1[0]?.isLeaf()).toBe(false);
+      expect(children1[0]?.getValue()).toBe(tege2);
+      expect(children1[1]?.isLeaf()).toBe(false);
+      expect(children1[1]?.getValue()).toBe(tege3);
 
-      const children2: Array<StructurableTreeNode<TegeID, Tege>> = [...children1[0].getChildren().values()];
+      const itr1: Ambiguous<Iterable<StructurableTreeNode<TegeID, Tege>>> = children1[0]?.getChildren().values();
+
+      if (itr1 === undefined) {
+        fail();
+        return;
+      }
+
+      const children2: Array<StructurableTreeNode<TegeID, Tege>> = [...itr1];
 
       expect(children2).toHaveLength(1);
-      expect(children2[0].isLeaf()).toBe(false);
-      expect(children2[0].getValue()).toBe(tege4);
+      expect(children2[0]?.isLeaf()).toBe(false);
+      expect(children2[0]?.getValue()).toBe(tege4);
 
-      const children3: Array<StructurableTreeNode<TegeID, Tege>> = [...children2[0].getChildren().values()];
+      const itr2: Ambiguous<Iterable<StructurableTreeNode<TegeID, Tege>>> = children2[0]?.getChildren().values();
+
+      if (itr2 === undefined) {
+        fail();
+        return;
+      }
+
+      const children3: Array<StructurableTreeNode<TegeID, Tege>> = [...itr2];
 
       expect(children3).toHaveLength(1);
-      expect(children3[0].isLeaf()).toBe(true);
-      expect(children3[0].getValue()).toBe(tege5);
+      expect(children3[0]?.isLeaf()).toBe(true);
+      expect(children3[0]?.getValue()).toBe(tege5);
 
-      const children4: Array<StructurableTreeNode<TegeID, Tege>> = [...children1[1].getChildren().values()];
+      const itr3: Ambiguous<Iterable<StructurableTreeNode<TegeID, Tege>>> = children1[1]?.getChildren().values();
+
+      if (itr3 === undefined) {
+        fail();
+        return;
+      }
+
+      const children4: Array<StructurableTreeNode<TegeID, Tege>> = [...itr3];
 
       expect(children4).toHaveLength(2);
-      expect(children4[0].isLeaf()).toBe(true);
-      expect(children4[0].getValue()).toBe(tege6);
-      expect(children4[1].isLeaf()).toBe(true);
-      expect(children4[1].getValue()).toBe(tege7);
+      expect(children4[0]?.isLeaf()).toBe(true);
+      expect(children4[0]?.getValue()).toBe(tege6);
+      expect(children4[1]?.isLeaf()).toBe(true);
+      expect(children4[1]?.getValue()).toBe(tege7);
 
       if (root2 === null) {
         fail();
@@ -307,14 +328,21 @@ describe('Teges', () => {
       const children1: Array<StructurableTreeNode<TegeID, Tege>> = [...root1.getRoot().getChildren().values()];
 
       expect(children1).toHaveLength(1);
-      expect(children1[0].isLeaf()).toBe(false);
-      expect(children1[0].getValue()).toBe(tege2);
+      expect(children1[0]?.isLeaf()).toBe(false);
+      expect(children1[0]?.getValue()).toBe(tege2);
 
-      const children2: Array<StructurableTreeNode<TegeID, Tege>> = [...children1[0].getChildren().values()];
+      const itr1: Ambiguous<Iterable<StructurableTreeNode<TegeID, Tege>>> = children1[0]?.getChildren().values();
+
+      if (itr1 === undefined) {
+        fail();
+        return;
+      }
+
+      const children2: Array<StructurableTreeNode<TegeID, Tege>> = [...itr1];
 
       expect(children2).toHaveLength(1);
-      expect(children2[0].isLeaf()).toBe(true);
-      expect(children2[0].getValue()).toBe(tege3);
+      expect(children2[0]?.isLeaf()).toBe(true);
+      expect(children2[0]?.getValue()).toBe(tege3);
 
       if (root2 === null) {
         fail();
