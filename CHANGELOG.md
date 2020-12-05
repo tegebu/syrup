@@ -1,3 +1,11 @@
+# [1.8.0](https://github.com/tegebu/syrup/compare/v1.7.0...v1.8.0) (2020-12-05)
+
+
+### Features
+
+* 🎸 udate ([3050141](https://github.com/tegebu/syrup/commit/305014176532379cfba61a9308ce7ade8ca3a520))
+* 🎸 update collections for 3.4.0 ([25bb09c](https://github.com/tegebu/syrup/commit/25bb09cb70e805c64d0d5e58e292219c8ed67357))
+
 # [1.7.0](https://github.com/tegebu/syrup/compare/v1.6.0...v1.7.0) (2020-11-13)
 
 
